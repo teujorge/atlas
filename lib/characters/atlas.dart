@@ -39,7 +39,10 @@ class AtlasCharacter extends SpriteAnimationComponent
       srcSize: Vector2(48, 48),
     );
 
-    downAnimation = spriteSheet.createAnimation(
+    downAnimation = SpriteSheet(
+      image: await gameRef.images.load("mage_down.png"),
+      srcSize: Vector2(32, 32),
+    ).createAnimation(
       row: 0,
       stepTime: animationSpeed,
       to: 4,
