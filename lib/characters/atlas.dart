@@ -45,7 +45,7 @@ class AtlasCharacter extends SpriteAnimationComponent
       to: 4,
     );
     leftAnimation = SpriteSheet(
-      image: await gameRef.images.load("mage_left.png"),
+      image: await gameRef.images.load("atlas/mage_left.png"),
       srcSize: Vector2(32, 32),
     ).createAnimation(
       row: 0,
@@ -53,7 +53,7 @@ class AtlasCharacter extends SpriteAnimationComponent
       to: 4,
     );
     upAnimation = SpriteSheet(
-      image: await gameRef.images.load("mage_up.png"),
+      image: await gameRef.images.load("atlas/mage_up.png"),
       srcSize: Vector2(32, 32),
     ).createAnimation(
       row: 0,
@@ -61,7 +61,7 @@ class AtlasCharacter extends SpriteAnimationComponent
       to: 4,
     );
     rightAnimation = SpriteSheet(
-      image: await gameRef.images.load("mage_right.png"),
+      image: await gameRef.images.load("atlas/mage_right.png"),
       srcSize: Vector2(32, 32),
     ).createAnimation(
       row: 0,
@@ -69,7 +69,7 @@ class AtlasCharacter extends SpriteAnimationComponent
       to: 4,
     );
     idleAnimation = SpriteSheet(
-      image: await gameRef.images.load("mage_idle.png"),
+      image: await gameRef.images.load("atlas/mage_idle.png"),
       srcSize: Vector2(32, 32),
     ).createAnimation(
       row: 0,

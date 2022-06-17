@@ -12,8 +12,6 @@ class BakedGoodComponent extends SpriteComponent
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
-    gameRef.bakedGoodsInventory++;
     gameRef.remove(this);
-    print("baked goods inventory: ${gameRef.bakedGoodsInventory}");
   }
 }
