@@ -34,13 +34,9 @@ class AtlasCharacter extends SpriteAnimationComponent
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
-    final spriteSheet = SpriteSheet(
-      image: await gameRef.images.load("george2.png"),
-      srcSize: Vector2(48, 48),
-    );
 
     downAnimation = SpriteSheet(
-      image: await gameRef.images.load("mage_down.png"),
+      image: await gameRef.images.load("atlas/mage_down.png"),
       srcSize: Vector2(32, 32),
     ).createAnimation(
       row: 0,
