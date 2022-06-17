@@ -52,12 +52,12 @@ class AtlasGame extends FlameGame with HasCollisionDetection, HasDraggables {
 
     // create tiles/colison
     final homeMap = await TiledComponent.load(
-      "map.tmx",
-      Vector2.all(16),
+      "arena.tmx",
+      Vector2.all(10),
     );
 
-    mapWidth = homeMap.tileMap.map.width * 16.0;
-    mapHeight = homeMap.tileMap.map.height * 16.0;
+    mapWidth = homeMap.tileMap.map.width * 10.0;
+    mapHeight = homeMap.tileMap.map.height * 10.0;
 
     // joystick
     final knobPaint = BasicPalette.blue.withAlpha(200).paint();
@@ -87,9 +87,9 @@ class AtlasGame extends FlameGame with HasCollisionDetection, HasDraggables {
 
     // add components to map
     add(homeMap);
-    addBakedGoods(homeMap, this);
-    addFriends(homeMap, this);
-    addObstacles(homeMap, this);
+    // addBakedGoods(homeMap, this);
+    // addFriends(homeMap, this);
+    // addObstacles(homeMap, this);
     add(atlas);
     add(joystick);
   }
