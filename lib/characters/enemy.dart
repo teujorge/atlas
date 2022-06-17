@@ -1,5 +1,6 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+
 import 'atlas.dart';
 import '../main.dart';
 

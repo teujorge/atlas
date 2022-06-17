@@ -1,11 +1,12 @@
-import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:flame_tiled/flame_tiled.dart';
 import 'package:tiled/tiled.dart';
-import 'collectables/baked_good.dart';
+import 'package:flame/components.dart';
+import 'package:flame_tiled/flame_tiled.dart';
+
+import 'main.dart';
 import 'characters/enemy.dart';
 import 'characters/obstacle.dart';
-import 'main.dart';
+import 'collectables/baked_good.dart';
 
 void addBakedGoods(TiledComponent homeMap, AtlasGame game) async {
   final bakedGoodsGroup = homeMap.tileMap.getLayer<ObjectGroup>("BakedGoods");

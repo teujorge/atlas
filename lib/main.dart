@@ -1,18 +1,24 @@
-import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
+import 'package:flame/flame.dart';
+import 'package:flame/palette.dart';
+import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart';
 import 'package:flame/extensions.dart';
-
-import 'package:flame/input.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
-import 'characters/atlas.dart';
 import 'loaders.dart';
+import 'characters/atlas.dart';
 
 //  Load the game widgets
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]);
+
   Flame.device.fullScreen();
   runApp(
     MaterialApp(
@@ -26,16 +32,9 @@ void main() {
   );
 }
 
-enum Direction {
-  up,
-  down,
-  left,
-  right,
-  idle,
-}
-
-class AtlasGame extends FlameGame with TapDetector, HasCollisionDetection {
+class AtlasGame extends FlameGame with HasCollisionDetection, HasDraggables {
   late AtlasCharacter atlas;
+  late final JoystickComponent joystick;
 
   late double mapWidth;
   late double mapHeight;
@@ -51,27 +50,29 @@ class AtlasGame extends FlameGame with TapDetector, HasCollisionDetection {
   Future<void> onLoad() async {
     await super.onLoad();
 
-    // add tiles/colison to map
+    // create tiles/colison
     final homeMap = await TiledComponent.load(
       "map.tmx",
       Vector2.all(16),
     );
-    add(homeMap);
+
     mapWidth = homeMap.tileMap.map.width * 16.0;
     mapHeight = homeMap.tileMap.map.height * 16.0;
 
-    // include baked goods
-    addBakedGoods(homeMap, this);
-    // friend group
-    addFriends(homeMap, this);
-    //obstacles
-    addObstacles(homeMap, this);
+    // joystick
+    final knobPaint = BasicPalette.blue.withAlpha(200).paint();
+    final backgroundPaint = BasicPalette.blue.withAlpha(100).paint();
+    joystick = JoystickComponent(
+      knob: CircleComponent(radius: 25, paint: knobPaint),
+      background: CircleComponent(radius: 75, paint: backgroundPaint),
+      margin: const EdgeInsets.only(left: 40, bottom: 40),
+    );
 
-    // add atlas character to map
+    // create atlas character
     atlas = AtlasCharacter(
       position: Vector2(529, 128),
+      joystick: joystick,
     );
-    add(atlas);
 
     // flame game camera follow character
     camera.followComponent(
@@ -83,43 +84,13 @@ class AtlasGame extends FlameGame with TapDetector, HasCollisionDetection {
         mapHeight,
       ),
     );
-  }
 
-  @override
-  void render(Canvas canvas) {
-    super.render(canvas);
-  }
-
-  @override
-  void update(double dt) {
-    super.update(dt);
-  }
-
-  @override
-  void onTapUp(info) {
-    // change direction on tap
-    switch (atlas.direction) {
-      case Direction.idle:
-        atlas.direction = Direction.down;
-        break;
-
-      case Direction.down:
-        atlas.direction = Direction.left;
-        break;
-
-      case Direction.left:
-        atlas.direction = Direction.up;
-        break;
-
-      case Direction.up:
-        atlas.direction = Direction.right;
-        break;
-
-      case Direction.right:
-        atlas.direction = Direction.idle;
-        break;
-    }
-
-    print("change animation ");
+    // add components to map
+    add(homeMap);
+    addBakedGoods(homeMap, this);
+    addFriends(homeMap, this);
+    addObstacles(homeMap, this);
+    add(atlas);
+    add(joystick);
   }
 }

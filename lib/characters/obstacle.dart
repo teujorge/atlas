@@ -1,12 +1,15 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'atlas.dart';
 import '../main.dart';
 
 class Obstacle extends PositionComponent
     with CollisionCallbacks, HasGameRef<AtlasGame> {
   bool _hasCollided = false;
+  bool _verticalCollision = false;
+  bool _horizontalCollision = false;
+  List<JoystickDirection> _atlasCollisionDirections = [];
   Obstacle() {
     debugMode = true;
     add(RectangleHitbox());
@@ -14,41 +17,82 @@ class Obstacle extends PositionComponent
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    // TODO: implement onCollision
     super.onCollision(intersectionPoints, other);
     if (other is AtlasCharacter) {
+      // check for vertical collision
+      if (intersectionPoints.first.y + 2 >= intersectionPoints.last.y &&
+          intersectionPoints.first.y - 2 <= intersectionPoints.last.y) {
+        _verticalCollision = true;
+      } else {
+        _verticalCollision = false;
+      }
+      // check for horizontal collision
+      if (intersectionPoints.first.x + 2 >= intersectionPoints.last.x &&
+          intersectionPoints.first.x - 2 <= intersectionPoints.last.x) {
+        _horizontalCollision = true;
+      } else {
+        _horizontalCollision = false;
+      }
+
       if (!_hasCollided) {
-        //0 =idle, 1=down, 2=left, 3=up, 4=right
-        switch (gameRef.atlas.direction) {
-          case Direction.idle:
-            gameRef.atlas.collisionDirection = 0;
+        _atlasCollisionDirections = [];
+        switch (gameRef.atlas.joystick.direction) {
+          case JoystickDirection.idle:
+            // nothing
             break;
-          case Direction.down:
-            gameRef.atlas.collisionDirection = 1;
+          case JoystickDirection.upLeft:
+            if (_verticalCollision) {
+              _atlasCollisionDirections.add(JoystickDirection.up);
+            }
+            if (_horizontalCollision) {
+              _atlasCollisionDirections.add(JoystickDirection.left);
+            }
+
             break;
-          case Direction.left:
-            gameRef.atlas.collisionDirection = 2;
+          case JoystickDirection.upRight:
+            if (_verticalCollision) {
+              _atlasCollisionDirections.add(JoystickDirection.up);
+            }
+            if (_horizontalCollision) {
+              _atlasCollisionDirections.add(JoystickDirection.right);
+            }
             break;
-          case Direction.up:
-            gameRef.atlas.collisionDirection = 3;
+
+          case JoystickDirection.downRight:
+            if (_verticalCollision) {
+              _atlasCollisionDirections.add(JoystickDirection.down);
+            }
+            if (_horizontalCollision) {
+              _atlasCollisionDirections.add(JoystickDirection.right);
+            }
             break;
-          case Direction.right:
-            gameRef.atlas.collisionDirection = 4;
+          case JoystickDirection.downLeft:
+            if (_verticalCollision) {
+              _atlasCollisionDirections.add(JoystickDirection.down);
+            }
+            if (_horizontalCollision) {
+              _atlasCollisionDirections.add(JoystickDirection.left);
+            }
+            break;
+          default:
+            _atlasCollisionDirections.add(gameRef.atlas.joystick.direction);
             break;
         }
         _hasCollided = true;
-
-        print("collision :${gameRef.atlas.collisionDirection}");
+        gameRef.atlas.collisionDirections += _atlasCollisionDirections;
+        print("collision :${gameRef.atlas.collisionDirections}");
       }
     }
   }
 
   @override
   void onCollisionEnd(PositionComponent other) {
-    // TODO: implement onCollisionEnd
     super.onCollisionEnd(other);
     if (other is AtlasCharacter) {
-      gameRef.atlas.collisionDirection = -1;
+      for (JoystickDirection dir in _atlasCollisionDirections) {
+        gameRef.atlas.collisionDirections.remove(dir);
+      }
+      _atlasCollisionDirections = [];
       _hasCollided = false;
     }
   }
