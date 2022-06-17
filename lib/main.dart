@@ -37,7 +37,7 @@ class AtlasGame extends FlameGame with HasCollisionDetection, HasDraggables {
   late AtlasCharacter atlas;
   late final JoystickComponent joystick;
 
-  late EnemyCharacter enemy = EnemyCharacter();
+  double timeCounter = 0;
 
   late double mapWidth;
   late double mapHeight;
@@ -87,16 +87,24 @@ class AtlasGame extends FlameGame with HasCollisionDetection, HasDraggables {
       ),
     );
 
-    // add components to map
     add(homeMap);
+
     // addBakedGoods(homeMap, this);
     // addFriends(homeMap, this);
     // addObstacles(homeMap, this);
+
     add(atlas);
-
-    // create enemie(s)
-    add(enemy);
-
     add(joystick);
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+
+    timeCounter += dt;
+    if (double.parse((timeCounter % 2).toStringAsFixed(3)) == 1.0) {
+      print(timeCounter);
+      add(EnemyCharacter());
+    }
   }
 }

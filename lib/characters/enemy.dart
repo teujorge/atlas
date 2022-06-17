@@ -2,6 +2,7 @@ import 'package:flame/sprite.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
+import 'atlas.dart';
 import '../main.dart';
 
 class EnemyCharacter extends SpriteAnimationComponent
@@ -17,27 +18,29 @@ class EnemyCharacter extends SpriteAnimationComponent
   Future<void>? onLoad() async {
     await super.onLoad();
     position = Vector2(200, 200);
-    animation = SpriteSheet(
-      image: await gameRef.images.load("enemies/enemy.png"),
-      srcSize: Vector2(32, 32),
-    ).createAnimation(
-      row: 0,
-      stepTime: animationSpeed,
-      to: 4,
+    size = Vector2(50, 50);
+
+    animation = await gameRef.loadSpriteAnimation(
+      "enemies/enemy.png",
+      SpriteAnimationData.sequenced(
+        amount: 4,
+        textureSize: Vector2.all(32),
+        stepTime: 0.15,
+      ),
     );
   }
 
-  // @override
-  // void onCollisionEnd(PositionComponent other) {
-  //   super.onCollisionEnd(other);
-  //   if (other is AtlasCharacter) {
-  //     gameRef.remove(this);
-  //   }
-  // }
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    super.onCollision(intersectionPoints, other);
+    if (other is AtlasCharacter) {
+      gameRef.remove(this);
+    }
+  }
 
-  // @override
-  // void update(double dt) {
-  //   super.update(dt);
-  //   position.add(Vector2(2, 1) * dt);
-  // }
+  @override
+  void update(double dt) {
+    super.update(dt);
+    position.add(Vector2(2, 1) * 10 * dt);
+  }
 }
