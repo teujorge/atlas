@@ -3,11 +3,11 @@ import 'package:flame/game.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:tiled/tiled.dart';
 import 'collectables/baked_good.dart';
-import 'characters/friends.dart';
-import 'characters/obstacle_component.dart';
+import 'characters/enemy.dart';
+import 'characters/obstacle.dart';
 import 'main.dart';
 
-void addBakedGoods(TiledComponent homeMap, GeorgeGame game) async {
+void addBakedGoods(TiledComponent homeMap, AtlasGame game) async {
   final bakedGoodsGroup = homeMap.tileMap.getLayer<ObjectGroup>("BakedGoods");
 
   for (var bakedGood in bakedGoodsGroup!.objects) {
@@ -39,11 +39,11 @@ void addBakedGoods(TiledComponent homeMap, GeorgeGame game) async {
   }
 }
 
-void addFriends(TiledComponent homeMap, GeorgeGame game) {
+void addFriends(TiledComponent homeMap, AtlasGame game) {
   final friendGroup = homeMap.tileMap.getLayer<ObjectGroup>("Friends");
   for (var friendBox in friendGroup!.objects) {
     game.add(
-      FriendsComponent()
+      EnemyCharacter()
         ..position = Vector2(friendBox.x, friendBox.y)
         ..width = friendBox.width
         ..height = friendBox.height,
@@ -51,11 +51,11 @@ void addFriends(TiledComponent homeMap, GeorgeGame game) {
   }
 }
 
-void addObstacles(TiledComponent homeMap, GeorgeGame game) {
+void addObstacles(TiledComponent homeMap, AtlasGame game) {
   final obstacleGroup = homeMap.tileMap.getLayer<ObjectGroup>("Obstacles");
   for (var obstacleBox in obstacleGroup!.objects) {
     game.add(
-      ObstacleComponent()
+      Obstacle()
         ..position = Vector2(obstacleBox.x, obstacleBox.y)
         ..width = obstacleBox.width
         ..height = obstacleBox.height,

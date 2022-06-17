@@ -4,7 +4,7 @@ import 'package:flame/components.dart';
 import '../main.dart';
 
 class BakedGoodComponent extends SpriteComponent
-    with CollisionCallbacks, HasGameRef<GeorgeGame> {
+    with CollisionCallbacks, HasGameRef<AtlasGame> {
   BakedGoodComponent() {
     debugMode = true;
     add(RectangleHitbox());
@@ -13,7 +13,6 @@ class BakedGoodComponent extends SpriteComponent
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
     gameRef.bakedGoodsInventory++;
-    gameRef.yummy.start();
     gameRef.remove(this);
     print("baked goods inventory: ${gameRef.bakedGoodsInventory}");
   }

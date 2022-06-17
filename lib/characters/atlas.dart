@@ -3,23 +3,23 @@ import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
 import '../main.dart';
 
-class GeorgeComponent extends SpriteAnimationComponent
-    with CollisionCallbacks, HasGameRef<GeorgeGame> {
+class AtlasCharacter extends SpriteAnimationComponent
+    with CollisionCallbacks, HasGameRef<AtlasGame> {
+  //0 =idle, 1=down, 2=left, 3=up, 4=right
   Direction direction = Direction.idle;
-
   int collisionDirection = -1;
 
   final double animationSpeed = .1;
   final double characterSize = 50;
   final double characterSpeed = 80;
-  //0 =idle, 1=down, 2=left, 3=up, 4=right
+
   late SpriteAnimation downAnimation;
   late SpriteAnimation leftAnimation;
   late SpriteAnimation upAnimation;
   late SpriteAnimation rightAnimation;
   late SpriteAnimation idleAnimation;
 
-  GeorgeComponent({required position}) : super(position: position) {
+  AtlasCharacter({required position}) : super(position: position) {
     debugMode = true;
     size = Vector2.all(characterSize);
     add(

@@ -2,16 +2,12 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
-import 'dart:ui';
+import 'package:flame/extensions.dart';
 
-import 'package:flame/game.dart';
 import 'package:flame/input.dart';
-import 'package:flame_audio/audio_pool.dart';
-import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_tiled/flame_tiled.dart';
-import 'package:george/dialog/dialog_box.dart';
 
-import 'characters/george.dart';
+import 'characters/atlas.dart';
 import 'loaders.dart';
 
 //  Load the game widgets
@@ -22,7 +18,7 @@ void main() {
     MaterialApp(
       home: Scaffold(
         body: GameWidget(
-          game: GeorgeGame(),
+          game: AtlasGame(),
           overlayBuilderMap: null,
         ),
       ),
@@ -38,8 +34,8 @@ enum Direction {
   idle,
 }
 
-class GeorgeGame extends FlameGame with TapDetector, HasCollisionDetection {
-  late GeorgeComponent george;
+class AtlasGame extends FlameGame with TapDetector, HasCollisionDetection {
+  late AtlasCharacter atlas;
 
   late double mapWidth;
   late double mapHeight;
@@ -50,18 +46,6 @@ class GeorgeGame extends FlameGame with TapDetector, HasCollisionDetection {
   // point system
   int friendNumber = 0;
   int bakedGoodsInventory = 0;
-
-  // sfx
-  late AudioPool yummy;
-  late AudioPool applause;
-
-  // late DialogBox dialogBox;
-
-  bool showDialog = true;
-
-  String dialogMessage = "Hi. I am George. I have just "
-      "moved to Happy Bay VIllage. "
-      " I want to make friends.";
 
   @override
   Future<void> onLoad() async {
@@ -83,33 +67,15 @@ class GeorgeGame extends FlameGame with TapDetector, HasCollisionDetection {
     //obstacles
     addObstacles(homeMap, this);
 
-    //dialog box
-    // dialogBox = DialogBox(
-    //     text: "Hi. I am George. I have just "
-    //         "moved to Happy Bay VIllage. "
-    //         " I want to make friends.",
-    //     game: this);
-    // add(dialogBox);
-
-    // sounds
-    yummy = await AudioPool.create("yummy.mp3", maxPlayers: 1);
-    applause = await AudioPool.create("applause.mp3", maxPlayers: 1);
-
-    // THE MUSIC DOESN'T WORK ON WINDOWS
-    // add music
-    FlameAudio.bgm.initialize();
-    FlameAudio.audioCache.load("assets_audio_music.mp3");
-    overlays.add("ButtonController");
-
-    // add george to map
-    george = GeorgeComponent(
+    // add atlas character to map
+    atlas = AtlasCharacter(
       position: Vector2(529, 128),
     );
-    add(george);
+    add(atlas);
 
     // flame game camera follow character
     camera.followComponent(
-      george,
+      atlas,
       worldBounds: Rect.fromLTRB(
         0,
         0,
@@ -132,25 +98,25 @@ class GeorgeGame extends FlameGame with TapDetector, HasCollisionDetection {
   @override
   void onTapUp(info) {
     // change direction on tap
-    switch (george.direction) {
+    switch (atlas.direction) {
       case Direction.idle:
-        george.direction = Direction.down;
+        atlas.direction = Direction.down;
         break;
 
       case Direction.down:
-        george.direction = Direction.left;
+        atlas.direction = Direction.left;
         break;
 
       case Direction.left:
-        george.direction = Direction.up;
+        atlas.direction = Direction.up;
         break;
 
       case Direction.up:
-        george.direction = Direction.right;
+        atlas.direction = Direction.right;
         break;
 
       case Direction.right:
-        george.direction = Direction.idle;
+        atlas.direction = Direction.idle;
         break;
     }
 

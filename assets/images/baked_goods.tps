@@ -185,14 +185,14 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../../../george_characters/Ghostpixxells_pixelfood/05_apple_pie.png</key>
-            <key type="filename">../../../george_characters/Ghostpixxells_pixelfood/06_apple_pie_dish.png</key>
-            <key type="filename">../../../george_characters/Ghostpixxells_pixelfood/22_cheesecake.png</key>
-            <key type="filename">../../../george_characters/Ghostpixxells_pixelfood/23_cheesecake_dish.png</key>
-            <key type="filename">../../../george_characters/Ghostpixxells_pixelfood/28_cookies.png</key>
-            <key type="filename">../../../george_characters/Ghostpixxells_pixelfood/29_cookies_dish.png</key>
-            <key type="filename">../../../george_characters/Ghostpixxells_pixelfood/30_chocolatecake.png</key>
-            <key type="filename">../../../george_characters/Ghostpixxells_pixelfood/31_chocolatecake_dish.png</key>
+            <key type="filename">../../../atlas_characters/Ghostpixxells_pixelfood/05_apple_pie.png</key>
+            <key type="filename">../../../atlas_characters/Ghostpixxells_pixelfood/06_apple_pie_dish.png</key>
+            <key type="filename">../../../atlas_characters/Ghostpixxells_pixelfood/22_cheesecake.png</key>
+            <key type="filename">../../../atlas_characters/Ghostpixxells_pixelfood/23_cheesecake_dish.png</key>
+            <key type="filename">../../../atlas_characters/Ghostpixxells_pixelfood/28_cookies.png</key>
+            <key type="filename">../../../atlas_characters/Ghostpixxells_pixelfood/29_cookies_dish.png</key>
+            <key type="filename">../../../atlas_characters/Ghostpixxells_pixelfood/30_chocolatecake.png</key>
+            <key type="filename">../../../atlas_characters/Ghostpixxells_pixelfood/31_chocolatecake_dish.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -210,14 +210,14 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>../../../george_characters/Ghostpixxells_pixelfood/05_apple_pie.png</filename>
-            <filename>../../../george_characters/Ghostpixxells_pixelfood/22_cheesecake.png</filename>
-            <filename>../../../george_characters/Ghostpixxells_pixelfood/06_apple_pie_dish.png</filename>
-            <filename>../../../george_characters/Ghostpixxells_pixelfood/23_cheesecake_dish.png</filename>
-            <filename>../../../george_characters/Ghostpixxells_pixelfood/30_chocolatecake.png</filename>
-            <filename>../../../george_characters/Ghostpixxells_pixelfood/31_chocolatecake_dish.png</filename>
-            <filename>../../../george_characters/Ghostpixxells_pixelfood/28_cookies.png</filename>
-            <filename>../../../george_characters/Ghostpixxells_pixelfood/29_cookies_dish.png</filename>
+            <filename>../../../atlas_characters/Ghostpixxells_pixelfood/05_apple_pie.png</filename>
+            <filename>../../../atlas_characters/Ghostpixxells_pixelfood/22_cheesecake.png</filename>
+            <filename>../../../atlas_characters/Ghostpixxells_pixelfood/06_apple_pie_dish.png</filename>
+            <filename>../../../atlas_characters/Ghostpixxells_pixelfood/23_cheesecake_dish.png</filename>
+            <filename>../../../atlas_characters/Ghostpixxells_pixelfood/30_chocolatecake.png</filename>
+            <filename>../../../atlas_characters/Ghostpixxells_pixelfood/31_chocolatecake_dish.png</filename>
+            <filename>../../../atlas_characters/Ghostpixxells_pixelfood/28_cookies.png</filename>
+            <filename>../../../atlas_characters/Ghostpixxells_pixelfood/29_cookies_dish.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
