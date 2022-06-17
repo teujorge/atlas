@@ -34,6 +34,8 @@ class EnemyCharacter extends SpriteAnimationComponent
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
     if (other is AtlasCharacter) {
+      other.kills.value += 1;
+      other.health.value -= 1;
       gameRef.remove(this);
     }
   }

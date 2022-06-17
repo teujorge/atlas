@@ -10,6 +10,7 @@ import 'package:flame_tiled/flame_tiled.dart';
 
 import 'loaders.dart';
 import 'characters/atlas.dart';
+import 'hud/hud.dart';
 
 //  Load the game widgets
 void main() async {
@@ -26,7 +27,6 @@ void main() async {
       home: Scaffold(
         body: GameWidget(
           game: AtlasGame(),
-          overlayBuilderMap: null,
         ),
       ),
     ),
@@ -95,6 +95,7 @@ class AtlasGame extends FlameGame with HasCollisionDetection, HasDraggables {
 
     add(atlas);
     add(joystick);
+    add(Hud(priority: 1));
   }
 
   @override

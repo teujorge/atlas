@@ -1,12 +1,16 @@
 import 'package:flame/sprite.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flutter/foundation.dart';
 
 import '../main.dart';
 
 class AtlasCharacter extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<AtlasGame> {
-  //0 =idle, 1=down, 2=left, 3=up, 4=right
+  // score
+  final kills = ValueNotifier<int>(0);
+  final health = ValueNotifier<int>(100);
+
   final JoystickComponent joystick;
   List<JoystickDirection> collisionDirections = [];
 
