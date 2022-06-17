@@ -10,7 +10,7 @@ class AtlasCharacter extends SpriteAnimationComponent
   final JoystickComponent joystick;
   List<JoystickDirection> collisionDirections = [];
 
-  final double animationSpeed = .1;
+  final double animationSpeed = .3;
   final double characterSize = 60;
   final double characterSpeed = 80;
 
@@ -20,16 +20,16 @@ class AtlasCharacter extends SpriteAnimationComponent
   late SpriteAnimation rightAnimation;
   late SpriteAnimation idleAnimation;
 
-  final RectangleHitbox hitbox = RectangleHitbox(
-      // size: Vector2(40, 25),
-      // position: Vector2((characterSize / 2) - 20, (characterSize / 2) + 5),
-      );
-
   AtlasCharacter({required position, required this.joystick})
       : super(position: position) {
     debugMode = true;
     size = Vector2.all(characterSize);
-    add(hitbox);
+    add(
+      RectangleHitbox(
+        size: Vector2(40, 25),
+        position: Vector2((characterSize / 2) - 20, (characterSize / 2) + 5),
+      ),
+    );
   }
   @override
   Future<void>? onLoad() async {
@@ -49,11 +49,14 @@ class AtlasCharacter extends SpriteAnimationComponent
       srcSize: Vector2(32, 32),
     ).createAnimation(
       row: 0,
-      stepTime: .3,
+      stepTime: animationSpeed,
       to: 4,
     );
-    upAnimation = spriteSheet.createAnimation(
-      row: 2,
+    upAnimation = SpriteSheet(
+      image: await gameRef.images.load("mage_up.png"),
+      srcSize: Vector2(32, 32),
+    ).createAnimation(
+      row: 0,
       stepTime: animationSpeed,
       to: 4,
     );
@@ -62,7 +65,7 @@ class AtlasCharacter extends SpriteAnimationComponent
       srcSize: Vector2(32, 32),
     ).createAnimation(
       row: 0,
-      stepTime: .3,
+      stepTime: animationSpeed,
       to: 4,
     );
     idleAnimation = SpriteSheet(
