@@ -1,3 +1,4 @@
+import 'package:Atlas/characters/enemy.dart';
 import 'package:flame/game.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/palette.dart';
@@ -36,6 +37,8 @@ class AtlasGame extends FlameGame with HasCollisionDetection, HasDraggables {
   late AtlasCharacter atlas;
   late final JoystickComponent joystick;
 
+  late EnemyCharacter enemy = EnemyCharacter();
+
   late double mapWidth;
   late double mapHeight;
 
@@ -43,8 +46,7 @@ class AtlasGame extends FlameGame with HasCollisionDetection, HasDraggables {
   late String soundTrackName = "ukulele";
 
   // point system
-  int friendNumber = 0;
-  int bakedGoodsInventory = 0;
+  int kills = 0;
 
   @override
   Future<void> onLoad() async {
@@ -91,6 +93,10 @@ class AtlasGame extends FlameGame with HasCollisionDetection, HasDraggables {
     // addFriends(homeMap, this);
     // addObstacles(homeMap, this);
     add(atlas);
+
+    // create enemie(s)
+    add(enemy);
+
     add(joystick);
   }
 }
