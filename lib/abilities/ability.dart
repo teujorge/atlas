@@ -52,7 +52,39 @@ abstract class Ability extends SpriteComponent
   Future<void>? onLoad() async {
     await super.onLoad();
     position = gameRef.atlas.position;
-    size = Vector2(50, 50);
+  }
+}
+
+abstract class MeleeAbility extends Ability {
+  late Timer clock;
+
+  MeleeAbility({required direction}) : super(direction: direction) {
+    debugMode = true;
+    add(CircleHitbox());
+
+    clock = Timer(
+      2,
+      onTick: () {
+        print("end melee");
+        // gameRef.remove(this);
+      },
+    );
+    clock.start();
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    super.onCollision(intersectionPoints, other);
+    if (other is EnemyCharacter) {
+      other.health -= 1;
+      gameRef.remove(other);
+    }
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    clock.update(dt);
   }
 }
 
@@ -62,13 +94,6 @@ abstract class ThrownAbility extends Ability {
   ThrownAbility({required direction}) : super(direction: direction) {
     debugMode = true;
     add(CircleHitbox());
-  }
-
-  @override
-  Future<void>? onLoad() async {
-    await super.onLoad();
-    position = gameRef.atlas.position;
-    size = Vector2(50, 50);
   }
 
   @override
@@ -108,7 +133,14 @@ class Fireball extends ThrownAbility {
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
+    size = Vector2.all(50);
     sprite = Sprite(await gameRef.images.load("apple_pie.png"));
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    angle += dt * 2;
   }
 }
 
@@ -118,6 +150,13 @@ class Iceball extends ThrownAbility {
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
+    size = Vector2.all(50);
     sprite = Sprite(await gameRef.images.load("apple_pie.png"));
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    angle -= dt * 2;
   }
 }
