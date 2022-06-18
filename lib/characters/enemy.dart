@@ -11,9 +11,10 @@ class EnemyCharacter extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<AtlasGame> {
   late Vector2 randomMove;
   final double animationSpeed = .3;
+  int health = 100;
 
   EnemyCharacter() {
-    // debugMode = true;
+    debugMode = true;
     add(RectangleHitbox());
   }
 
