@@ -63,18 +63,11 @@
 6555,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6556,6557
 </data>
  </layer>
- <group id="6" name="Walls" locked="1">
-  <objectgroup id="2" name="LeftWall">
-   <object id="1" x="0" y="0" width="10" height="500"/>
+  <objectgroup id="4" name="Obstacles">
+  <object id="1" x="0" y="0" width="10" height="500"/>
+  <object id="4" x="990" y="0" width="10" height="500"/>
+  <object id="2" x="0" y="485" width="1000" height="10"/>
+  <object id="3" x="0" y="-5" width="1000" height="10"/>
   </objectgroup>
-  <objectgroup id="5" name="RightWall">
-   <object id="4" x="990" y="0" width="10" height="500"/>
-  </objectgroup>
-  <objectgroup id="3" name="BottomWall">
-   <object id="2" x="0" y="485" width="1000" height="10"/>
-  </objectgroup>
-  <objectgroup id="4" name="TopWall">
-   <object id="3" x="0" y="-5" width="1000" height="10"/>
-  </objectgroup>
- </group>
+
 </map>

@@ -89,11 +89,7 @@ class AtlasGame extends FlameGame
     clock.start();
 
     add(homeMap);
-
-    // addBakedGoods(homeMap, this);
-    // addFriends(homeMap, this);
-    // addObstacles(homeMap, this);
-
+    addObstacles(homeMap, this);
     add(atlas);
     add(hud);
   }
