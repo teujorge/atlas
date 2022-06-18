@@ -1,8 +1,5 @@
-import 'package:Atlas/characters/enemy.dart';
-import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/flame.dart';
-import 'package:flame/palette.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -37,8 +34,9 @@ void main() async {
 
 class AtlasGame extends FlameGame
     with HasCollisionDetection, HasDraggables, HasTappables {
+  Hud hud = Hud(priority: 1);
+
   late AtlasCharacter atlas;
-  late final JoystickComponent joystick;
 
   late Timer clock;
 
@@ -64,19 +62,10 @@ class AtlasGame extends FlameGame
     mapWidth = homeMap.tileMap.map.width * 10.0;
     mapHeight = homeMap.tileMap.map.height * 10.0;
 
-    // joystick
-    final knobPaint = BasicPalette.blue.withAlpha(200).paint();
-    final backgroundPaint = BasicPalette.blue.withAlpha(100).paint();
-    joystick = JoystickComponent(
-      knob: CircleComponent(radius: 25, paint: knobPaint),
-      background: CircleComponent(radius: 75, paint: backgroundPaint),
-      margin: const EdgeInsets.only(left: 40, bottom: 40),
-    );
-
     // create atlas character
     atlas = AtlasCharacter(
       position: Vector2(529, 128),
-      joystick: joystick,
+      joystick: hud.joystick,
     );
 
     // flame game camera follow character
@@ -106,8 +95,7 @@ class AtlasGame extends FlameGame
     // addObstacles(homeMap, this);
 
     add(atlas);
-    add(joystick);
-    add(Hud(priority: 1));
+    add(hud);
   }
 
   @override
