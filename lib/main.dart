@@ -1,4 +1,3 @@
-import 'package:Atlas/characters/enemy.dart';
 import 'package:flame/game.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/palette.dart';
@@ -9,8 +8,9 @@ import 'package:flame/extensions.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
 import 'loaders.dart';
-import 'characters/atlas.dart';
 import 'hud/hud.dart';
+import 'characters/atlas.dart';
+import '../characters/enemy.dart';
 
 //  Load the game widgets
 void main() async {
@@ -33,7 +33,8 @@ void main() async {
   );
 }
 
-class AtlasGame extends FlameGame with HasCollisionDetection, HasDraggables {
+class AtlasGame extends FlameGame
+    with HasCollisionDetection, HasDraggables, HasTappables {
   late AtlasCharacter atlas;
   late final JoystickComponent joystick;
 

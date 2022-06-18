@@ -1,5 +1,9 @@
+import 'package:flame/input.dart';
 import 'package:flame/components.dart';
+import 'package:flutter/material.dart';
+
 import '../main.dart';
+import '../abilities/ability.dart';
 
 class Hud extends Component with HasGameRef<AtlasGame> {
   Hud({super.children, super.priority}) {
@@ -21,7 +25,6 @@ class Hud extends Component with HasGameRef<AtlasGame> {
     );
     add(healthTextComponent);
 
-
     gameRef.atlas.kills.addListener(() {
       scoreTextComponent.text = 'Score: ${gameRef.atlas.kills.value}';
     });
@@ -29,6 +32,13 @@ class Hud extends Component with HasGameRef<AtlasGame> {
     gameRef.atlas.health.addListener(() {
       healthTextComponent.text = 'x${gameRef.atlas.health.value}';
     });
+
+    add(AbilityButton(
+      position: Vector2(
+        gameRef.size.x - 125,
+        gameRef.size.y - 125,
+      ),
+    ));
 
     return super.onLoad();
   }
