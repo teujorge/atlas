@@ -55,16 +55,6 @@ class EnemyCharacter extends SpriteAnimationComponent
   }
 
   @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    super.onCollision(intersectionPoints, other);
-    if (other is AtlasCharacter) {
-      other.kills.value += 1;
-      other.health.value -= 1;
-      gameRef.remove(this);
-    }
-  }
-
-  @override
   void update(double dt) {
     super.update(dt);
     position.add(randomMove * dt);
