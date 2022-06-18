@@ -64,6 +64,7 @@ flutter:
     - assets/images/
     - assets/images/atlas/
     - assets/images/enemies/
+    - assets/images/abilities/
     - assets/tiles/
 
   # An image asset can refer to one or more resolution-specific "variants", see
