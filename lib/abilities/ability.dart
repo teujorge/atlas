@@ -9,7 +9,7 @@ abstract class Ability extends SpriteAnimationComponent
   late double animationStep;
   late Vector2 direction;
 
-  Ability({required direction, this.animationStep = 0.1}) {
+  Ability({required JoystickDirection direction, this.animationStep = 0.1}) {
     this.direction = joystickDirToVector(direction);
     size = Vector2.all(50);
     debugMode = true;
