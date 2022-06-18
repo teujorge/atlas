@@ -1,4 +1,5 @@
 import 'package:Atlas/characters/enemy.dart';
+import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/palette.dart';
@@ -33,7 +34,8 @@ void main() async {
   );
 }
 
-class AtlasGame extends FlameGame with HasCollisionDetection, HasDraggables {
+class AtlasGame extends FlameGame
+    with HasCollisionDetection, HasDraggables, TapDetector {
   late AtlasCharacter atlas;
   late final JoystickComponent joystick;
 
@@ -105,6 +107,15 @@ class AtlasGame extends FlameGame with HasCollisionDetection, HasDraggables {
     add(atlas);
     add(joystick);
     add(Hud(priority: 1));
+  }
+
+  @override
+  void onTap() {
+    if (paused) {
+      resumeEngine();
+    } else {
+      pauseEngine();
+    }
   }
 
   @override
