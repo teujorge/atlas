@@ -1,32 +1,22 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/extensions.dart';
-import 'package:flutter/material.dart';
 
 import '../main.dart';
 import '../characters/enemy.dart';
 
-class AbilityButton extends PositionComponent
-    with Tappable, HasGameRef<AtlasGame> {
-  static final Paint _white = Paint()..color = const Color(0xFFFFFFFF);
+abstract class Ability extends SpriteComponent
+    with CollisionCallbacks, HasGameRef<AtlasGame> {
+  final double animationSpeed = .3;
+  late Vector2 direction;
 
-  // bool _beenPressed = false;
-
-  AbilityButton({required Vector2 position})
-      : super(
-          position: position,
-          size: Vector2.all(50),
-        );
-
-  @override
-  void render(Canvas canvas) {
-    canvas.drawRect(size.toRect(), _white);
+  Ability({required direction}) {
+    this.direction = joystickDirToVector(direction);
+    debugMode = true;
   }
 
-  @override
-  bool onTapDown(_) {
+  joystickDirToVector(JoystickDirection direction) {
     Vector2 abilityDir;
-    switch (gameRef.atlas.joystick.direction) {
+    switch (direction) {
       case JoystickDirection.up:
         abilityDir = Vector2(0, -1);
         break;
@@ -55,23 +45,21 @@ class AbilityButton extends PositionComponent
         abilityDir = Vector2(0, 1);
         break;
     }
+    return abilityDir;
+  }
 
-    gameRef.add(
-      Ability(
-        direction: abilityDir,
-      ),
-    );
-    return true;
+  @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+    position = gameRef.atlas.position;
+    size = Vector2(50, 50);
   }
 }
 
-class Ability extends SpriteComponent
-    with CollisionCallbacks, HasGameRef<AtlasGame> {
-  final double moveSpeed = 50;
-  final double animationSpeed = .3;
-  late Vector2 direction;
+abstract class ThrownAbility extends Ability {
+  final double moveSpeed = 100;
 
-  Ability({required this.direction}) {
+  ThrownAbility({required direction}) : super(direction: direction) {
     debugMode = true;
     add(CircleHitbox());
   }
@@ -81,7 +69,6 @@ class Ability extends SpriteComponent
     await super.onLoad();
     position = gameRef.atlas.position;
     size = Vector2(50, 50);
-    sprite = Sprite(await gameRef.images.load("apple_pie.png"));
   }
 
   @override
@@ -112,5 +99,25 @@ class Ability extends SpriteComponent
     } else if (position.y < 0) {
       gameRef.remove(this);
     }
+  }
+}
+
+class Fireball extends ThrownAbility {
+  Fireball({required direction}) : super(direction: direction);
+
+  @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+    sprite = Sprite(await gameRef.images.load("apple_pie.png"));
+  }
+}
+
+class Iceball extends ThrownAbility {
+  Iceball({required direction}) : super(direction: direction);
+
+  @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+    sprite = Sprite(await gameRef.images.load("apple_pie.png"));
   }
 }
