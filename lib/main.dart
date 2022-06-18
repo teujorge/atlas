@@ -111,15 +111,6 @@ class AtlasGame extends FlameGame
   }
 
   @override
-  void onTap() {
-    if (paused) {
-      resumeEngine();
-    } else {
-      pauseEngine();
-    }
-  }
-
-  @override
   void update(double dt) {
     super.update(dt);
     clock.update(dt);

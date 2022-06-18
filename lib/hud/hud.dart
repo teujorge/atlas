@@ -20,8 +20,7 @@ class Hud extends Component with HasGameRef<AtlasGame> {
 
     final healthTextComponent = TextComponent(
       text: 'x5',
-      anchor: Anchor.topRight,
-      position: Vector2(gameRef.size.x - 10, 10),
+      position: Vector2(10, 50),
     );
     add(healthTextComponent);
 
@@ -40,6 +39,41 @@ class Hud extends Component with HasGameRef<AtlasGame> {
       ),
     ));
 
+    add(
+      PauseButton(
+        position: Vector2(gameRef.size.x - 50, 10),
+      ),
+    );
+
     return super.onLoad();
+  }
+}
+
+class PauseButton extends PositionComponent
+    with Tappable, HasGameRef<AtlasGame> {
+  static final Paint _white = Paint()..color = Color.fromARGB(255, 255, 5, 5);
+
+  // bool _beenPressed = false;
+
+  PauseButton({required Vector2 position})
+      : super(
+          position: position,
+          size: Vector2.all(50),
+        );
+
+  @override
+  void render(Canvas canvas) {
+    canvas.drawRect(size.toRect(), _white);
+  }
+
+  @override
+  bool onTapDown(_) {
+    if (gameRef.paused) {
+      gameRef.resumeEngine();
+    } else {
+      gameRef.pauseEngine();
+    }
+
+    return true;
   }
 }
