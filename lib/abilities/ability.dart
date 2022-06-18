@@ -6,15 +6,16 @@ import '../characters/enemy.dart';
 
 abstract class Ability extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<AtlasGame> {
-  final double animationSpeed = .3;
+  late double animationStep;
   late Vector2 direction;
 
-  Ability({required direction}) {
+  Ability({required direction, this.animationStep = 0.1}) {
     this.direction = joystickDirToVector(direction);
+    size = Vector2.all(50);
     debugMode = true;
   }
 
-  joystickDirToVector(JoystickDirection direction) {
+  Vector2 joystickDirToVector(JoystickDirection direction) {
     Vector2 abilityDir;
     switch (direction) {
       case JoystickDirection.up:
@@ -48,6 +49,19 @@ abstract class Ability extends SpriteAnimationComponent
     return abilityDir;
   }
 
+  Future<SpriteAnimation> createAnimation(
+    String animationFile,
+  ) async {
+    return await gameRef.loadSpriteAnimation(
+      animationFile,
+      SpriteAnimationData.sequenced(
+        amount: 4,
+        textureSize: Vector2.all(32),
+        stepTime: animationStep,
+      ),
+    );
+  }
+
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
@@ -57,19 +71,12 @@ abstract class Ability extends SpriteAnimationComponent
 
 abstract class MeleeAbility extends Ability {
   late Timer clock;
+  int meleeCycles;
 
-  MeleeAbility({required direction}) : super(direction: direction) {
+  MeleeAbility(
+      {required super.direction, super.animationStep, this.meleeCycles = 1}) {
     debugMode = true;
     add(CircleHitbox());
-
-    clock = Timer(
-      2,
-      onTick: () {
-        print("end melee");
-        // gameRef.remove(this);
-      },
-    );
-    clock.start();
   }
 
   @override
@@ -82,17 +89,43 @@ abstract class MeleeAbility extends Ability {
   }
 
   @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+    clock = Timer(
+      animationStep * meleeCycles,
+      repeat: false,
+      autoStart: false,
+      onTick: () {
+        gameRef.remove(this);
+      },
+    );
+    clock.start();
+  }
+
+  @override
   void update(double dt) {
     super.update(dt);
+    position = gameRef.atlas.position;
     clock.update(dt);
+  }
+}
+
+class Whirlwind extends MeleeAbility {
+  Whirlwind(
+      {required super.direction, super.animationStep, super.meleeCycles}) {
+    meleeCycles *= 5;
+  }
+  @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+    animation = await createAnimation("abilities/whirlwind.png");
   }
 }
 
 abstract class ThrownAbility extends Ability {
   final double moveSpeed = 100;
 
-  ThrownAbility({required direction}) : super(direction: direction) {
-    debugMode = true;
+  ThrownAbility({required super.direction, super.animationStep}) {
     add(CircleHitbox());
   }
 
@@ -128,20 +161,12 @@ abstract class ThrownAbility extends Ability {
 }
 
 class Fireball extends ThrownAbility {
-  Fireball({required direction}) : super(direction: direction);
+  Fireball({required super.direction, super.animationStep});
 
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
-    size = Vector2.all(50);
-    animation = await gameRef.loadSpriteAnimation(
-      "abilities/fireball.png",
-      SpriteAnimationData.sequenced(
-        amount: 4,
-        textureSize: Vector2.all(32),
-        stepTime: 0.15,
-      ),
-    );
+    animation = await createAnimation("abilities/fireball.png");
   }
 
   @override
@@ -152,19 +177,11 @@ class Fireball extends ThrownAbility {
 }
 
 class Iceball extends ThrownAbility {
-  Iceball({required direction}) : super(direction: direction);
+  Iceball({required super.direction, super.animationStep});
 
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
-    size = Vector2.all(50);
-    animation = await gameRef.loadSpriteAnimation(
-      "abilities/iceball.png",
-      SpriteAnimationData.sequenced(
-        amount: 4,
-        textureSize: Vector2.all(32),
-        stepTime: 0.15,
-      ),
-    );
+    animation = await createAnimation("abilities/iceball.png");
   }
 }

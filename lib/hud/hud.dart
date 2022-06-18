@@ -67,6 +67,15 @@ class Hud extends Component with HasGameRef<AtlasGame> {
       ),
     );
 
+    // ability 3
+    add(
+      AbilityButton(
+        margin: const matl.EdgeInsets.only(bottom: 75, right: 75),
+        abilityType: Whirlwind,
+        joystick: joystick,
+      ),
+    );
+
     // joystick
     add(joystick);
 
@@ -146,6 +155,10 @@ class AbilityButton extends HudButton {
       case Iceball:
         print("iceball");
         gameRef.add(Iceball(direction: joystick.direction));
+        break;
+      case Whirlwind:
+        print("iceball");
+        gameRef.add(Whirlwind(direction: joystick.direction));
         break;
       default:
         print(
