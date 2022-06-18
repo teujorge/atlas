@@ -4,7 +4,7 @@ import 'package:flame/components.dart';
 import '../main.dart';
 import '../characters/enemy.dart';
 
-abstract class Ability extends SpriteComponent
+abstract class Ability extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<AtlasGame> {
   final double animationSpeed = .3;
   late Vector2 direction;
@@ -134,7 +134,14 @@ class Fireball extends ThrownAbility {
   Future<void>? onLoad() async {
     await super.onLoad();
     size = Vector2.all(50);
-    sprite = Sprite(await gameRef.images.load("apple_pie.png"));
+    animation = await gameRef.loadSpriteAnimation(
+      "abilities/fireball.png",
+      SpriteAnimationData.sequenced(
+        amount: 4,
+        textureSize: Vector2.all(32),
+        stepTime: 0.15,
+      ),
+    );
   }
 
   @override
@@ -151,12 +158,13 @@ class Iceball extends ThrownAbility {
   Future<void>? onLoad() async {
     await super.onLoad();
     size = Vector2.all(50);
-    sprite = Sprite(await gameRef.images.load("apple_pie.png"));
-  }
-
-  @override
-  void update(double dt) {
-    super.update(dt);
-    angle -= dt * 2;
+    animation = await gameRef.loadSpriteAnimation(
+      "abilities/iceball.png",
+      SpriteAnimationData.sequenced(
+        amount: 4,
+        textureSize: Vector2.all(32),
+        stepTime: 0.15,
+      ),
+    );
   }
 }
