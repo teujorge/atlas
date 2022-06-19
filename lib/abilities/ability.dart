@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import '../main.dart';
 import '../characters/enemy.dart';
 
+// general ability
 abstract class Ability extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<AtlasGame> {
   late double animationStep;
@@ -11,7 +12,8 @@ abstract class Ability extends SpriteAnimationComponent
 
   Ability({required JoystickDirection direction, this.animationStep = 0.1}) {
     this.direction = joystickDirToVector(direction);
-    size = Vector2.all(50);
+    size = Vector2.all(64);
+    anchor = Anchor.center;
     debugMode = true;
   }
 
@@ -69,6 +71,7 @@ abstract class Ability extends SpriteAnimationComponent
   }
 }
 
+// cqb ability
 abstract class MeleeAbility extends Ability {
   late Timer clock;
   int meleeCycles;
@@ -83,8 +86,8 @@ abstract class MeleeAbility extends Ability {
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
     if (other is EnemyCharacter) {
-      other.health -= 1;
-      gameRef.remove(other);
+      other.health -= 10;
+      other.position.add(direction * 10);
     }
   }
 
@@ -110,18 +113,7 @@ abstract class MeleeAbility extends Ability {
   }
 }
 
-class Whirlwind extends MeleeAbility {
-  Whirlwind(
-      {required super.direction, super.animationStep, super.meleeCycles}) {
-    meleeCycles *= 5;
-  }
-  @override
-  Future<void>? onLoad() async {
-    await super.onLoad();
-    animation = await createAnimation("abilities/whirlwind.png");
-  }
-}
-
+// ranged ability
 abstract class ThrownAbility extends Ability {
   final double moveSpeed = 100;
 
@@ -133,9 +125,8 @@ abstract class ThrownAbility extends Ability {
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
     if (other is EnemyCharacter) {
-      other.health -= 1;
-      gameRef.remove(other);
-      gameRef.remove(this);
+      other.health -= 2;
+      other.position.add(other.randomMove * -0.005);
     }
   }
 
@@ -157,31 +148,5 @@ abstract class ThrownAbility extends Ability {
     } else if (position.y < 0) {
       gameRef.remove(this);
     }
-  }
-}
-
-class Fireball extends ThrownAbility {
-  Fireball({required super.direction, super.animationStep});
-
-  @override
-  Future<void>? onLoad() async {
-    await super.onLoad();
-    animation = await createAnimation("abilities/fireball.png");
-  }
-
-  @override
-  void update(double dt) {
-    super.update(dt);
-    angle += dt * 2;
-  }
-}
-
-class Iceball extends ThrownAbility {
-  Iceball({required super.direction, super.animationStep});
-
-  @override
-  Future<void>? onLoad() async {
-    await super.onLoad();
-    animation = await createAnimation("abilities/iceball.png");
   }
 }
