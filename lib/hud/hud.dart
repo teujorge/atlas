@@ -6,7 +6,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/material.dart' as matl;
 
 import '../main.dart';
-import '../abilities/ability.dart';
+import '../abilities/abilities.dart';
 
 class Hud extends Component with HasGameRef<AtlasGame> {
   late JoystickComponent joystick;
@@ -157,7 +157,7 @@ class AbilityButton extends HudButton {
         gameRef.add(Iceball(direction: joystick.direction));
         break;
       case Whirlwind:
-        print("iceball");
+        print("whirlwind");
         gameRef.add(Whirlwind(direction: joystick.direction));
         break;
       default:
