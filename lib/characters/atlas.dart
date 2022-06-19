@@ -27,6 +27,7 @@ class AtlasCharacter extends SpriteAnimationComponent
   AtlasCharacter({required position, required this.joystick})
       : super(position: position) {
     debugMode = true;
+    anchor = Anchor.center;
     size = Vector2.all(characterSize);
     add(
       RectangleHitbox(
@@ -93,7 +94,7 @@ class AtlasCharacter extends SpriteAnimationComponent
 
       case JoystickDirection.up:
         animation = upAnimation;
-        if (y > 0) {
+        if (y > size.y / 2) {
           if (!collisionDirections.contains(JoystickDirection.up)) {
             y += dt * characterSpeed * joystick.relativeDelta.y;
           }
@@ -102,12 +103,12 @@ class AtlasCharacter extends SpriteAnimationComponent
 
       case JoystickDirection.upLeft:
         animation = leftAnimation;
-        if (y > 0) {
+        if (y > height / 2) {
           if (!collisionDirections.contains(JoystickDirection.up)) {
             y += dt * characterSpeed * joystick.relativeDelta.y;
           }
         }
-        if (x > 0) {
+        if (x > width / 2) {
           if (!collisionDirections.contains(JoystickDirection.left)) {
             x += dt * characterSpeed * joystick.relativeDelta.x;
           }
@@ -118,12 +119,12 @@ class AtlasCharacter extends SpriteAnimationComponent
       case JoystickDirection.upRight:
         animation = rightAnimation;
 
-        if (y > 0) {
+        if (y > height / 2) {
           if (!collisionDirections.contains(JoystickDirection.up)) {
             y += dt * characterSpeed * joystick.relativeDelta.y;
           }
         }
-        if (x < gameRef.mapWidth - width) {
+        if (x < gameRef.mapWidth - width / 2) {
           if (!collisionDirections.contains(JoystickDirection.right)) {
             x += dt * characterSpeed * joystick.relativeDelta.x;
           }
@@ -133,7 +134,7 @@ class AtlasCharacter extends SpriteAnimationComponent
 
       case JoystickDirection.down:
         animation = downAnimation;
-        if (y < gameRef.mapHeight - height) {
+        if (y < gameRef.mapHeight - height / 2) {
           if (!collisionDirections.contains(JoystickDirection.down)) {
             y += dt * characterSpeed * joystick.relativeDelta.y;
           }
@@ -142,12 +143,12 @@ class AtlasCharacter extends SpriteAnimationComponent
 
       case JoystickDirection.downLeft:
         animation = leftAnimation;
-        if (y < gameRef.mapHeight - height) {
+        if (y < gameRef.mapHeight - height / 2) {
           if (!collisionDirections.contains(JoystickDirection.down)) {
             y += dt * characterSpeed * joystick.relativeDelta.y;
           }
         }
-        if (x > 0) {
+        if (x > width / 2) {
           if (!collisionDirections.contains(JoystickDirection.left)) {
             x += dt * characterSpeed * joystick.relativeDelta.x;
           }
@@ -156,12 +157,12 @@ class AtlasCharacter extends SpriteAnimationComponent
 
       case JoystickDirection.downRight:
         animation = rightAnimation;
-        if (y < gameRef.mapHeight - height) {
+        if (y < gameRef.mapHeight - height / 2) {
           if (!collisionDirections.contains(JoystickDirection.down)) {
             y += dt * characterSpeed * joystick.relativeDelta.y;
           }
         }
-        if (x < gameRef.mapWidth - width) {
+        if (x < gameRef.mapWidth - width / 2) {
           if (!collisionDirections.contains(JoystickDirection.right)) {
             x += dt * characterSpeed * joystick.relativeDelta.x;
           }
@@ -170,7 +171,7 @@ class AtlasCharacter extends SpriteAnimationComponent
 
       case JoystickDirection.left:
         animation = leftAnimation;
-        if (x > 0) {
+        if (x > width / 2) {
           if (!collisionDirections.contains(JoystickDirection.left)) {
             x += dt * characterSpeed * joystick.relativeDelta.x;
           }
@@ -179,7 +180,7 @@ class AtlasCharacter extends SpriteAnimationComponent
 
       case JoystickDirection.right:
         animation = rightAnimation;
-        if (x < gameRef.mapWidth - width) {
+        if (x < gameRef.mapWidth - width / 2) {
           if (!collisionDirections.contains(JoystickDirection.right)) {
             x += dt * characterSpeed * joystick.relativeDelta.x;
           }
