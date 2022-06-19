@@ -1,3 +1,4 @@
+import 'package:Atlas/screen/main_menu.dart';
 import 'package:flame/game.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/components.dart';
@@ -5,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame_tiled/flame_tiled.dart';
-
 import 'loaders.dart';
 import 'hud/hud.dart';
 import 'characters/atlas.dart';
@@ -23,11 +23,9 @@ void main() async {
   Flame.device.fullScreen();
   runApp(
     MaterialApp(
-      home: Scaffold(
-        body: GameWidget(
-          game: AtlasGame(),
-        ),
-      ),
+      themeMode: ThemeMode.dark,
+      darkTheme: ThemeData.dark(),
+      home: const MainMenu(),
     ),
   );
 }
