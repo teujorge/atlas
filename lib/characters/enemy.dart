@@ -6,6 +6,7 @@ import 'package:flame/components.dart';
 
 import 'atlas.dart';
 import '../main.dart';
+import '../abilities/ability.dart';
 
 class EnemyCharacter extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<AtlasGame> {
@@ -55,6 +56,14 @@ class EnemyCharacter extends SpriteAnimationComponent
   }
 
   @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    super.onCollision(intersectionPoints, other);
+    if (other is Ability) {
+      print("my health: $health");
+    }
+  }
+
+  @override
   void update(double dt) {
     super.update(dt);
     position.add(randomMove * dt);
@@ -71,6 +80,11 @@ class EnemyCharacter extends SpriteAnimationComponent
       randomMove.y *= -1;
     } else if (position.y < 0) {
       randomMove.y *= -1;
+    }
+
+    // dead if health = 0;
+    if (health <= 0) {
+      gameRef.remove(this);
     }
   }
 }
