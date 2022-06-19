@@ -29,24 +29,30 @@ class MainMenu extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => const GamePlay(),
-                    ),
-                  );
-                },
-                child: Text("Play"),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 3,
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 10.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => const GamePlay(),
+                      ),
+                    );
+                  },
+                  child: Text("Play"),
+                ),
               ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                //navigation to options button
-              },
-              child: Text("Options"),
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 3,
+              child: ElevatedButton(
+                onPressed: () {
+                  //navigation to options button
+                },
+                child: Text("Options"),
+              ),
             ),
           ],
         ),
