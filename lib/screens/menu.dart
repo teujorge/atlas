@@ -32,7 +32,7 @@ class MainMenu extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(
+                  Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => const CharacterSelection(),
                     ),
