@@ -1,17 +1,20 @@
-import 'dart:ui';
 import 'package:flame/input.dart';
 import 'package:flame/palette.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/components.dart';
-import 'package:flutter/material.dart' as matl;
+import 'package:flutter/material.dart';
 
-import '../main.dart';
-import '../abilities/abilities.dart';
+import 'dart:ui' as ui;
+
+import 'main.dart';
+import 'screens/options.dart';
+import 'abilities/abilities.dart';
 
 class Hud extends Component with HasGameRef<AtlasGame> {
   late JoystickComponent joystick;
+  late BuildContext context;
 
-  Hud({super.children, super.priority}) {
+  Hud({super.children, super.priority, required this.context}) {
     positionType = PositionType.viewport;
 
     joystick = JoystickComponent(
@@ -23,7 +26,7 @@ class Hud extends Component with HasGameRef<AtlasGame> {
         radius: 75,
         paint: BasicPalette.blue.withAlpha(100).paint(),
       ),
-      margin: const matl.EdgeInsets.only(left: 40, bottom: 40),
+      margin: const EdgeInsets.only(left: 40, bottom: 40),
     );
   }
 
@@ -52,7 +55,7 @@ class Hud extends Component with HasGameRef<AtlasGame> {
     // ability 1
     add(
       AbilityButton(
-        margin: const matl.EdgeInsets.only(bottom: 25, right: 75),
+        margin: const EdgeInsets.only(bottom: 25, right: 75),
         abilityType: Fireball,
         joystick: joystick,
       ),
@@ -61,7 +64,7 @@ class Hud extends Component with HasGameRef<AtlasGame> {
     // ability 2
     add(
       AbilityButton(
-        margin: const matl.EdgeInsets.only(bottom: 75, right: 25),
+        margin: const EdgeInsets.only(bottom: 75, right: 25),
         abilityType: Iceball,
         joystick: joystick,
       ),
@@ -70,7 +73,7 @@ class Hud extends Component with HasGameRef<AtlasGame> {
     // ability 3
     add(
       AbilityButton(
-        margin: const matl.EdgeInsets.only(bottom: 75, right: 75),
+        margin: const EdgeInsets.only(bottom: 75, right: 75),
         abilityType: Whirlwind,
         joystick: joystick,
       ),
@@ -82,7 +85,8 @@ class Hud extends Component with HasGameRef<AtlasGame> {
     // settings
     add(
       PauseButton(
-        margin: const matl.EdgeInsets.only(top: 20, right: 20),
+        margin: const EdgeInsets.only(top: 20, right: 20),
+        context: context,
       ),
     );
 
@@ -93,10 +97,10 @@ class Hud extends Component with HasGameRef<AtlasGame> {
 class HudButton extends HudMarginComponent with Tappable {
   Paint background = Paint()
     ..color = const Color.fromARGB(255, 255, 5, 5).withAlpha(150);
-  Image? image;
+  ui.Image? image;
 
   HudButton({
-    required matl.EdgeInsets margin,
+    required EdgeInsets margin,
     this.image,
   }) : super(
           margin: margin,
@@ -116,19 +120,36 @@ class HudButton extends HudMarginComponent with Tappable {
 }
 
 class PauseButton extends HudButton {
-  PauseButton({required matl.EdgeInsets margin})
+  BuildContext context;
+  PauseButton({required EdgeInsets margin, required this.context})
       : super(
           margin: margin,
         );
 
   @override
+  void render(Canvas canvas) {
+    if (gameRef.paused) {
+      canvas.drawLine(const Offset(-20, 0), const Offset(20, 0), background);
+    } else {
+      canvas.drawLine(const Offset(0, -20), const Offset(0, 20), background);
+    }
+  }
+
+  @override
   bool onTapDown(TapDownInfo info) {
+    // exit settings
     if (gameRef.paused) {
       gameRef.resumeEngine();
-    } else {
-      gameRef.pauseEngine();
     }
-
+    // enter settings
+    else {
+      gameRef.pauseEngine();
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const Options(),
+        ),
+      );
+    }
     return true;
   }
 }
@@ -138,7 +159,7 @@ class AbilityButton extends HudButton {
   late Type abilityType;
   late JoystickComponent joystick;
   AbilityButton({
-    required matl.EdgeInsets margin,
+    required EdgeInsets margin,
     required this.abilityType,
     required this.joystick,
   }) : super(

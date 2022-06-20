@@ -1,7 +1,6 @@
-import 'package:Atlas/screen/game_play.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
+import 'character.dart';
 
 class MainMenu extends StatelessWidget {
   const MainMenu({Key? key}) : super(key: key);
@@ -30,23 +29,17 @@ class MainMenu extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                      builder: (context) => const GamePlay(),
+                      builder: (context) => const CharacterSelection(),
                     ),
                   );
                 },
-                child: Text("Play"),
+                child: const Text("Play"),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                //navigation to options button
-              },
-              child: Text("Options"),
             ),
           ],
         ),
