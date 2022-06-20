@@ -1,4 +1,3 @@
-import 'package:Atlas/screen/main_menu.dart';
 import 'package:flame/game.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/components.dart';
@@ -6,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+
+import 'hud.dart';
 import 'loaders.dart';
-import 'hud/hud.dart';
+import 'screens/menu.dart';
 import 'characters/atlas.dart';
 import '../characters/enemy.dart';
 
@@ -32,12 +33,13 @@ void main() async {
 
 class AtlasGame extends FlameGame
     with HasCollisionDetection, HasDraggables, HasTappables {
-  Hud hud = Hud(priority: 1);
-
+  // game set up
+  late Hud hud;
+  BuildContext context;
   late AtlasCharacter atlas;
 
+  // arena
   late Timer clock;
-
   late double mapWidth;
   late double mapHeight;
 
@@ -46,6 +48,10 @@ class AtlasGame extends FlameGame
 
   // point system
   int kills = 0;
+
+  AtlasGame(this.context) {
+    hud = Hud(priority: 1, context: context);
+  }
 
   @override
   Future<void> onLoad() async {
