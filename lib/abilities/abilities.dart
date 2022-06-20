@@ -1,6 +1,3 @@
-import 'package:flame/components.dart';
-
-import '../characters/enemy.dart';
 import 'ability.dart';
 
 // throw ball of fire
