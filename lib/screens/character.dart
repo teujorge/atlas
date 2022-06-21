@@ -6,7 +6,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 class CharacterSelection extends StatefulWidget {
   CharacterSelection({Key? key}) : super(key: key);
 
-  final List<String> characters = ["mage_down", "elf", "knight"];
+  final List<String> characters = ["mage", "archer", "knight"];
   final List<List<Widget>> abilityInfo = [
     // mage abilities
     [
@@ -43,7 +43,7 @@ class CharacterSelection extends StatefulWidget {
         children: [
           const Text("Arrow"),
           Image.asset(
-            'assets/images/abilities/iceball.png',
+            'assets/images/abilities/arrow.png',
           ),
         ],
       ),
