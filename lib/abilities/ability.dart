@@ -53,20 +53,6 @@ abstract class Ability extends SpriteAnimationComponent
     return abilityDir;
   }
 
-  // create standard 4 frame animation 32x32
-  Future<SpriteAnimation> createAnimation(
-    String animationFile,
-  ) async {
-    return await gameRef.loadSpriteAnimation(
-      animationFile,
-      SpriteAnimationData.sequenced(
-        amount: 4,
-        textureSize: Vector2.all(32),
-        stepTime: animationStep,
-      ),
-    );
-  }
-
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
@@ -126,7 +112,7 @@ abstract class MeleeAbility extends Ability {
 
 // ranged ability
 abstract class ThrownAbility extends Ability {
-  final double moveSpeed = 100;
+  final double moveSpeed = 200;
 
   ThrownAbility({required super.direction, super.animationStep}) {
     add(CircleHitbox());
