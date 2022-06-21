@@ -177,6 +177,10 @@ class AbilityButton extends HudButton {
         print("iceball");
         gameRef.add(Iceball(direction: joystick.direction));
         break;
+      case Arrow:
+        print("Arrow");
+        gameRef.add(Arrow(direction: joystick.direction));
+        break;
       case Whirlwind:
         print("whirlwind");
         gameRef.add(Whirlwind(direction: joystick.direction));

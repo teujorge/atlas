@@ -28,6 +28,16 @@ class Iceball extends ThrownAbility {
   }
 }
 
+class Arrow extends ThrownAbility {
+  Arrow({required super.direction, super.animationStep});
+
+  @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+    animation = await createAnimation("abilities/arrow.png");
+  }
+}
+
 // spin around with sword
 class Whirlwind extends MeleeAbility {
   Whirlwind(

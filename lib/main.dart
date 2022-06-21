@@ -87,7 +87,8 @@ class AtlasGame extends FlameGame
       2,
       repeat: true,
       onTick: () {
-        add(EnemyCharacter());
+        add(Skelet());
+        add(Necro());
       },
     );
     clock.start();

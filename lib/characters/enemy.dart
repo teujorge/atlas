@@ -44,15 +44,6 @@ class EnemyCharacter extends SpriteAnimationComponent
     randomMove = getRandomVector(max: 50, onlyPos: false);
 
     size = Vector2(50, 50);
-
-    animation = await gameRef.loadSpriteAnimation(
-      "enemies/enemy.png",
-      SpriteAnimationData.sequenced(
-        amount: 4,
-        textureSize: Vector2.all(32),
-        stepTime: 0.15,
-      ),
-    );
   }
 
   @override
@@ -86,5 +77,37 @@ class EnemyCharacter extends SpriteAnimationComponent
     if (health <= 0) {
       gameRef.remove(this);
     }
+  }
+}
+
+class Skelet extends EnemyCharacter {
+  Skelet() {}
+  @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+    animation = await gameRef.loadSpriteAnimation(
+      "enemies/skelet.png",
+      SpriteAnimationData.sequenced(
+        amount: 4,
+        textureSize: Vector2.all(32),
+        stepTime: 0.15,
+      ),
+    );
+  }
+}
+
+class Necro extends EnemyCharacter {
+  Necro() {}
+  @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+    animation = await gameRef.loadSpriteAnimation(
+      "enemies/necro.png",
+      SpriteAnimationData.sequenced(
+        amount: 4,
+        textureSize: Vector2.all(32),
+        stepTime: 0.15,
+      ),
+    );
   }
 }
