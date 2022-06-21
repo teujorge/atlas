@@ -11,10 +11,14 @@ import 'loaders.dart';
 import 'screens/options.dart';
 import 'abilities/abilities.dart';
 
-class Hud extends Component with HasGameRef<AtlasGame> {
-  // movement, app context and slected character
-  late final JoystickComponent joystick;
+class Hud extends Component {
+// game and app
   late final BuildContext context;
+  final AtlasGame game;
+
+  // movement and slected character
+  late final JoystickComponent joystick;
+
   late final CharName character;
 
   // 3 ability buttons locations (margins)
@@ -22,12 +26,10 @@ class Hud extends Component with HasGameRef<AtlasGame> {
   final abilityMargin2 = const EdgeInsets.only(bottom: 25, right: 75);
   final abilityMargin3 = const EdgeInsets.only(bottom: 75, right: 75);
 
-  // list of characters' abilities
-  late final List<AbilityButton> characterAbilities;
-
   Hud({
     super.children,
     super.priority,
+    required this.game,
     required this.context,
     required this.character,
   }) {
@@ -44,56 +46,6 @@ class Hud extends Component with HasGameRef<AtlasGame> {
       ),
       margin: const EdgeInsets.only(left: 40, bottom: 40),
     );
-
-    switch (character) {
-      case CharName.mage:
-        characterAbilities = [
-          AbilityButton(
-            margin: abilityMargin1,
-            abilityType: Fireball,
-            joystick: joystick,
-          ),
-          AbilityButton(
-            margin: abilityMargin2,
-            abilityType: Iceball,
-            joystick: joystick,
-          ),
-          AbilityButton(
-            margin: abilityMargin3,
-            abilityType: Beam,
-            joystick: joystick,
-          ),
-        ];
-        break;
-      case CharName.archer:
-        characterAbilities = [
-          AbilityButton(
-            margin: abilityMargin1,
-            abilityType: Arrow,
-            joystick: joystick,
-          ),
-          AbilityButton(
-            margin: abilityMargin2,
-            abilityType: Cluster,
-            joystick: joystick,
-          ),
-        ];
-        break;
-      case CharName.knight:
-        characterAbilities = [
-          AbilityButton(
-            margin: abilityMargin3,
-            abilityType: Whirlwind,
-            joystick: joystick,
-          ),
-          AbilityButton(
-            margin: abilityMargin2,
-            abilityType: Impact,
-            joystick: joystick,
-          ),
-        ];
-        break;
-    }
   }
 
   @override
@@ -104,8 +56,8 @@ class Hud extends Component with HasGameRef<AtlasGame> {
       position: Vector2.all(10),
     );
     add(scoreTextComponent);
-    gameRef.atlas.kills.addListener(() {
-      scoreTextComponent.text = 'Score: ${gameRef.atlas.kills.value}';
+    game.atlas.kills.addListener(() {
+      scoreTextComponent.text = 'Score: ${game.atlas.kills.value}';
     });
 
     // health
@@ -114,14 +66,35 @@ class Hud extends Component with HasGameRef<AtlasGame> {
       position: Vector2(10, 50),
     );
     add(healthTextComponent);
-    gameRef.atlas.health.addListener(() {
-      healthTextComponent.text = 'x${gameRef.atlas.health.value}';
+    game.atlas.health.addListener(() {
+      healthTextComponent.text = 'x${game.atlas.health.value}';
     });
 
     // add abilities (character dependant)
-    for (AbilityButton ab in characterAbilities) {
-      add(ab);
-    }
+    add(
+      // ability 1
+      AbilityButton(
+        game: game,
+        ability: 1,
+        margin: abilityMargin1,
+      ),
+    );
+    add(
+      // ability 2
+      AbilityButton(
+        game: game,
+        ability: 2,
+        margin: abilityMargin2,
+      ),
+    );
+    add(
+      // ability 3
+      AbilityButton(
+        game: game,
+        ability: 3,
+        margin: abilityMargin3,
+      ),
+    );
 
     // joystick
     add(joystick);
@@ -206,27 +179,16 @@ class PauseButton extends HudButton {
 class AbilityButton extends HudButton {
   bool onCooldown = false;
   late Timer cooldown;
-  late Type abilityType;
-  late JoystickComponent joystick;
+
+  int ability;
+  AtlasGame game;
+
   AbilityButton({
     required EdgeInsets margin,
-    required this.abilityType,
-    required this.joystick,
+    required this.ability,
+    required this.game,
+    double cooldownTime = 1.0,
   }) : super(margin: margin) {
-    // explicit cooldown timers
-    double cooldownTime;
-    switch (abilityType) {
-      case Fireball:
-        cooldownTime = 1;
-        break;
-      case Arrow:
-        cooldownTime = 1;
-        break;
-      default:
-        cooldownTime = 1;
-        break;
-    }
-
     cooldown = Timer(
       cooldownTime,
       onTick: () {
@@ -242,32 +204,18 @@ class AbilityButton extends HudButton {
     if (!onCooldown) {
       onCooldown = true;
       cooldown.start();
-      switch (abilityType) {
-        case Fireball:
-          gameRef.add(Fireball(direction: joystick.direction));
+      switch (ability) {
+        case 1:
+          game.atlas.ability1();
           break;
-        case Iceball:
-          gameRef.add(Iceball(direction: joystick.direction));
+        case 2:
+          game.atlas.ability2();
           break;
-        case Beam:
-          gameRef.add(Beam(direction: joystick.direction));
-          break;
-        case Arrow:
-          gameRef.add(Arrow(direction: joystick.direction));
-          break;
-        case Cluster:
-          gameRef.add(Cluster(direction: joystick.direction));
-          break;
-        case Whirlwind:
-          gameRef.add(Whirlwind(direction: joystick.direction));
-          break;
-        case Impact:
-          gameRef.add(Impact(direction: joystick.direction));
+        case 3:
+          game.atlas.ability3();
           break;
         default:
-          print(
-            "ABILITY BUTTON SWITCH DEFAULT CASE: ability type not recognized!!!",
-          );
+          print("ABILITY NO 1 / 2 /3  ERROR");
           break;
       }
     }

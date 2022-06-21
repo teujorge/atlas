@@ -5,16 +5,15 @@ import 'package:flutter/foundation.dart';
 
 import '../main.dart';
 import '../loaders.dart';
+import '../abilities/abilities.dart';
 
-class AtlasCharacter extends SpriteAnimationComponent
+abstract class AtlasCharacter extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<AtlasGame> {
   // score
   final kills = ValueNotifier<int>(0);
   final health = ValueNotifier<int>(100);
 
   // char movement
-  late CharName character;
-  late String characterName;
   final double animationSpeed = .3;
   final double characterSize = 60;
   final double characterSpeed = 80;
@@ -26,8 +25,7 @@ class AtlasCharacter extends SpriteAnimationComponent
   final JoystickComponent joystick;
   List<JoystickDirection> collisionDirections = [];
 
-  AtlasCharacter(
-      {required position, required this.character, required this.joystick})
+  AtlasCharacter({required position, required this.joystick})
       : super(position: position) {
     debugMode = true;
     anchor = Anchor.center;
@@ -37,47 +35,6 @@ class AtlasCharacter extends SpriteAnimationComponent
         size: Vector2(40, 25),
         position: Vector2((characterSize / 2) - 20, (characterSize / 2) + 5),
       ),
-    );
-
-    switch (character) {
-      case CharName.mage:
-        characterName = "mage";
-        break;
-      case CharName.archer:
-        characterName = "archer";
-        break;
-      case CharName.knight:
-        characterName = "knight";
-        break;
-    }
-  }
-  @override
-  Future<void>? onLoad() async {
-    await super.onLoad();
-    idleAnimation = await createAnimation(
-      gameRef,
-      "atlas/${characterName}_idle.png",
-      0.8,
-    );
-    upAnimation = await createAnimation(
-      gameRef,
-      "atlas/${characterName}_up.png",
-      animationSpeed,
-    );
-    downAnimation = await createAnimation(
-      gameRef,
-      "atlas/${characterName}_down.png",
-      animationSpeed,
-    );
-    leftAnimation = await createAnimation(
-      gameRef,
-      "atlas/${characterName}_left.png",
-      animationSpeed,
-    );
-    rightAnimation = await createAnimation(
-      gameRef,
-      "atlas/${characterName}_right.png",
-      animationSpeed,
     );
   }
 
@@ -186,5 +143,166 @@ class AtlasCharacter extends SpriteAnimationComponent
         }
         break;
     }
+  }
+
+  // overwritten by children
+  ability1() {}
+  ability2() {}
+  ability3() {}
+}
+
+class Mage extends AtlasCharacter {
+  Mage({
+    required super.position,
+    required super.joystick,
+  });
+
+  @override
+  ability1() {
+    gameRef.add(Fireball(direction: joystick.direction));
+  }
+
+  @override
+  ability2() {
+    gameRef.add(Iceball(direction: joystick.direction));
+  }
+
+  @override
+  ability3() {
+    gameRef.add(Beam(direction: joystick.direction));
+  }
+
+  @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+    idleAnimation = await createAnimation(
+      gameRef,
+      "atlas/mage_idle.png",
+      0.8,
+    );
+    upAnimation = await createAnimation(
+      gameRef,
+      "atlas/mage_up.png",
+      animationSpeed,
+    );
+    downAnimation = await createAnimation(
+      gameRef,
+      "atlas/mage_down.png",
+      animationSpeed,
+    );
+    leftAnimation = await createAnimation(
+      gameRef,
+      "atlas/mage_left.png",
+      animationSpeed,
+    );
+    rightAnimation = await createAnimation(
+      gameRef,
+      "atlas/mage_right.png",
+      animationSpeed,
+    );
+  }
+}
+
+class Archer extends AtlasCharacter {
+  Archer({
+    required super.position,
+    required super.joystick,
+  });
+
+  @override
+  ability1() {
+    gameRef.add(Arrow(direction: joystick.direction));
+  }
+
+  @override
+  ability2() {
+    gameRef.add(Cluster(direction: joystick.direction));
+  }
+
+  @override
+  ability3() {
+    gameRef.add(Fireball(direction: joystick.direction));
+  }
+
+  @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+    idleAnimation = await createAnimation(
+      gameRef,
+      "atlas/archer_idle.png",
+      0.8,
+    );
+    upAnimation = await createAnimation(
+      gameRef,
+      "atlas/archer_up.png",
+      animationSpeed,
+    );
+    downAnimation = await createAnimation(
+      gameRef,
+      "atlas/archer_down.png",
+      animationSpeed,
+    );
+    leftAnimation = await createAnimation(
+      gameRef,
+      "atlas/archer_left.png",
+      animationSpeed,
+    );
+    rightAnimation = await createAnimation(
+      gameRef,
+      "atlas/archer_right.png",
+      animationSpeed,
+    );
+  }
+}
+
+class Knight extends AtlasCharacter {
+  Knight({
+    required super.position,
+    required super.joystick,
+  });
+
+  @override
+  ability1() {
+    gameRef.add(Fireball(direction: joystick.direction));
+  }
+
+  @override
+  ability2() {
+    gameRef.add(Whirlwind(direction: joystick.direction));
+  }
+
+  @override
+  ability3() {
+    gameRef.add(Impact(direction: joystick.direction));
+  }
+
+  @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+    idleAnimation = await createAnimation(
+      gameRef,
+      "atlas/knight_idle.png",
+      0.8,
+    );
+    upAnimation = await createAnimation(
+      gameRef,
+      "atlas/knight_up.png",
+      animationSpeed,
+    );
+    downAnimation = await createAnimation(
+      gameRef,
+      "atlas/knight_down.png",
+      animationSpeed,
+    );
+    leftAnimation = await createAnimation(
+      gameRef,
+      "atlas/knight_left.png",
+      animationSpeed,
+    );
+    rightAnimation = await createAnimation(
+      gameRef,
+      "atlas/knight_right.png",
+      animationSpeed,
+    );
   }
 }
