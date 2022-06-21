@@ -6,6 +6,12 @@ import 'package:flame_tiled/flame_tiled.dart';
 import 'main.dart';
 import 'characters/obstacle.dart';
 
+enum CharName {
+  mage,
+  archer,
+  knight,
+}
+
 enum Dir {
   up,
   down,

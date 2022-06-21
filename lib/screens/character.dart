@@ -1,7 +1,8 @@
-import 'package:Atlas/screens/options.dart';
-import 'package:flutter/material.dart';
-import 'play.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
+
+import '../screens/options.dart';
+import 'play.dart';
 
 class CharacterSelection extends StatefulWidget {
   CharacterSelection({Key? key}) : super(key: key);
@@ -29,9 +30,9 @@ class CharacterSelection extends StatefulWidget {
       ),
       Row(
         children: [
-          const Text("XXXXXXX"),
+          const Text("Arcane Beam"),
           Image.asset(
-            'assets/images/abilities/iceball.png',
+            'assets/images/abilities/beam.png',
           ),
         ],
       ),
@@ -69,25 +70,25 @@ class CharacterSelection extends StatefulWidget {
       const Text("Knight Abilities"),
       Row(
         children: [
+          const Text("XXXXXXX"),
+          Image.asset(
+            'assets/images/abilities/iceball.png',
+          ),
+        ],
+      ),
+      Row(
+        children: [
+          const Text("XXXXXXX"),
+          Image.asset(
+            'assets/images/abilities/iceball.png',
+          ),
+        ],
+      ),
+      Row(
+        children: [
           const Text("Whirlwind"),
           Image.asset(
             'assets/images/abilities/Whirlwind.png',
-          ),
-        ],
-      ),
-      Row(
-        children: [
-          const Text("XXXXXXX"),
-          Image.asset(
-            'assets/images/abilities/iceball.png',
-          ),
-        ],
-      ),
-      Row(
-        children: [
-          const Text("XXXXXXX"),
-          Image.asset(
-            'assets/images/abilities/iceball.png',
           ),
         ],
       ),
@@ -130,9 +131,11 @@ class CharacterSelectionState extends State<CharacterSelection> {
                 height: 200,
                 aspectRatio: 2,
                 enlargeCenterPage: true,
+                onPageChanged: (index, reason) {
+                  selectedCharacter = index;
+                },
               ),
               itemBuilder: (BuildContext context, int index, int realIndex) {
-                selectedCharacter = index;
                 return Container(
                   width: MediaQuery.of(context).size.width,
                   margin: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -142,6 +145,7 @@ class CharacterSelectionState extends State<CharacterSelection> {
                     children: [
                       Image.asset(
                         'assets/images/atlas/${widget.characters[index]}.png',
+                        scale: 1 / 3,
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,

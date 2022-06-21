@@ -36,6 +36,7 @@ class AtlasGame extends FlameGame
   // game set up
   late Hud hud;
   BuildContext context;
+  CharName charName;
   late AtlasCharacter atlas;
 
   // arena
@@ -49,11 +50,15 @@ class AtlasGame extends FlameGame
   // point system
   int kills = 0;
 
-  AtlasGame(this.context, character) {
-    hud = Hud(priority: 1, context: context);
+  AtlasGame(this.context, this.charName) {
+    hud = Hud(
+      priority: 1,
+      context: context,
+      character: charName,
+    );
     // create atlas character
     atlas = AtlasCharacter(
-      character: character,
+      character: charName,
       position: Vector2(529, 128),
       joystick: hud.joystick,
     );

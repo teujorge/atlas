@@ -2,20 +2,23 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
 import '../main.dart';
+import '../loaders.dart';
 
 class GamePlay extends StatelessWidget {
-  late String character;
+  late final CharName character;
   GamePlay({Key? key, required int character}) : super(key: key) {
     switch (character) {
       case 0:
-        this.character = "mage";
+        this.character = CharName.mage;
         break;
-
       case 1:
-        this.character = "elf";
+        this.character = CharName.archer;
         break;
       case 2:
-        this.character = "knight";
+        this.character = CharName.knight;
+        break;
+      default:
+        this.character = CharName.mage;
         break;
     }
   }
@@ -23,7 +26,6 @@ class GamePlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AtlasGame _atlasGame = AtlasGame(context, character);
-
     return GameWidget(game: _atlasGame);
   }
 }

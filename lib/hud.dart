@@ -7,14 +7,30 @@ import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
 import 'main.dart';
+import 'loaders.dart';
 import 'screens/options.dart';
 import 'abilities/abilities.dart';
 
 class Hud extends Component with HasGameRef<AtlasGame> {
-  late JoystickComponent joystick;
-  late BuildContext context;
+  // movement, app context and slected character
+  late final JoystickComponent joystick;
+  late final BuildContext context;
+  late final CharName character;
 
-  Hud({super.children, super.priority, required this.context}) {
+  // 3 ability buttons locations (margins)
+  final abilityMargin1 = const EdgeInsets.only(bottom: 75, right: 25);
+  final abilityMargin2 = const EdgeInsets.only(bottom: 25, right: 75);
+  final abilityMargin3 = const EdgeInsets.only(bottom: 75, right: 75);
+
+  // list of characters' abilities
+  late final List<AbilityButton> characterAbilities;
+
+  Hud({
+    super.children,
+    super.priority,
+    required this.context,
+    required this.character,
+  }) {
     positionType = PositionType.viewport;
 
     joystick = JoystickComponent(
@@ -28,6 +44,46 @@ class Hud extends Component with HasGameRef<AtlasGame> {
       ),
       margin: const EdgeInsets.only(left: 40, bottom: 40),
     );
+
+    switch (character) {
+      case CharName.mage:
+        characterAbilities = [
+          AbilityButton(
+            margin: abilityMargin1,
+            abilityType: Fireball,
+            joystick: joystick,
+          ),
+          AbilityButton(
+            margin: abilityMargin2,
+            abilityType: Iceball,
+            joystick: joystick,
+          ),
+          AbilityButton(
+            margin: abilityMargin3,
+            abilityType: Beam,
+            joystick: joystick,
+          ),
+        ];
+        break;
+      case CharName.archer:
+        characterAbilities = [
+          AbilityButton(
+            margin: abilityMargin1,
+            abilityType: Arrow,
+            joystick: joystick,
+          ),
+        ];
+        break;
+      case CharName.knight:
+        characterAbilities = [
+          AbilityButton(
+            margin: abilityMargin3,
+            abilityType: Whirlwind,
+            joystick: joystick,
+          ),
+        ];
+        break;
+    }
   }
 
   @override
@@ -52,32 +108,10 @@ class Hud extends Component with HasGameRef<AtlasGame> {
       healthTextComponent.text = 'x${gameRef.atlas.health.value}';
     });
 
-    // ability 1
-    add(
-      AbilityButton(
-        margin: const EdgeInsets.only(bottom: 25, right: 75),
-        abilityType: Fireball,
-        joystick: joystick,
-      ),
-    );
-
-    // ability 2
-    add(
-      AbilityButton(
-        margin: const EdgeInsets.only(bottom: 75, right: 25),
-        abilityType: Iceball,
-        joystick: joystick,
-      ),
-    );
-
-    // ability 3
-    add(
-      AbilityButton(
-        margin: const EdgeInsets.only(bottom: 75, right: 75),
-        abilityType: Whirlwind,
-        joystick: joystick,
-      ),
-    );
+    // add abilities (character dependant)
+    for (AbilityButton ab in characterAbilities) {
+      add(ab);
+    }
 
     // joystick
     add(joystick);
@@ -121,10 +155,10 @@ class HudButton extends HudMarginComponent with Tappable {
 
 class PauseButton extends HudButton {
   BuildContext context;
-  PauseButton({required EdgeInsets margin, required this.context})
-      : super(
-          margin: margin,
-        );
+  PauseButton({
+    required EdgeInsets margin,
+    required this.context,
+  }) : super(margin: margin);
 
   @override
   void render(Canvas canvas) {
@@ -162,27 +196,24 @@ class AbilityButton extends HudButton {
     required EdgeInsets margin,
     required this.abilityType,
     required this.joystick,
-  }) : super(
-          margin: margin,
-        );
+  }) : super(margin: margin);
 
   @override
   bool onTapDown(TapDownInfo info) {
     switch (abilityType) {
       case Fireball:
-        print("fireball");
         gameRef.add(Fireball(direction: joystick.direction));
         break;
       case Iceball:
-        print("iceball");
         gameRef.add(Iceball(direction: joystick.direction));
         break;
+      case Beam:
+        gameRef.add(Beam(direction: joystick.direction));
+        break;
       case Arrow:
-        print("Arrow");
         gameRef.add(Arrow(direction: joystick.direction));
         break;
       case Whirlwind:
-        print("whirlwind");
         gameRef.add(Whirlwind(direction: joystick.direction));
         break;
       default:

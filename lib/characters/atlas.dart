@@ -13,7 +13,7 @@ class AtlasCharacter extends SpriteAnimationComponent
   final health = ValueNotifier<int>(100);
 
   // char movement
-  late String character;
+  late CharName character;
   final double animationSpeed = .3;
   final double characterSize = 60;
   final double characterSpeed = 80;
