@@ -58,9 +58,9 @@ class CharacterSelection extends StatefulWidget {
       ),
       Row(
         children: [
-          const Text("XXXXXXX"),
+          const Text("Green Hit"),
           Image.asset(
-            'assets/images/abilities/iceball.png',
+            'assets/images/abilities/green_hit.png',
           ),
         ],
       ),
@@ -70,9 +70,9 @@ class CharacterSelection extends StatefulWidget {
       const Text("Knight Abilities"),
       Row(
         children: [
-          const Text("XXXXXXX"),
+          const Text("Sword"),
           Image.asset(
-            'assets/images/abilities/iceball.png',
+            'assets/images/abilities/sword.png',
           ),
         ],
       ),
