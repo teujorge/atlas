@@ -263,7 +263,7 @@ class Knight extends AtlasCharacter {
 
   @override
   ability1() {
-    gameRef.add(Fireball(direction: joystick.direction));
+    gameRef.add(Sword(direction: joystick.direction));
   }
 
   @override
