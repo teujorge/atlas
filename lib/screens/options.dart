@@ -28,27 +28,33 @@ class Options extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            SizedBox(
+              width: 100,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    //navigation to options button
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("Resume"),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 85,
               child: ElevatedButton(
                 onPressed: () {
                   //navigation to options button
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => const MainMenu(),
+                    ),
+                    (route) => route.isFirst,
+                  );
                 },
-                child: const Text("Resume"),
+                child: const Text("Quit"),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                //navigation to options button
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (context) => const MainMenu(),
-                  ),
-                  (route) => route.isFirst,
-                );
-              },
-              child: const Text("Quit"),
             ),
           ],
         ),
