@@ -109,3 +109,20 @@ class Whirlwind extends MeleeAbility {
     );
   }
 }
+
+class Impact extends MeleeAbility {
+  Impact({required super.direction, super.animationStep, super.meleeCycles}) {
+    size *= 2;
+    anchor = Anchor.topCenter;
+    meleeCycles *= 5;
+  }
+  @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+    animation = await createAnimation(
+      gameRef,
+      "abilities/impact.png",
+      animationStep,
+    );
+  }
+}

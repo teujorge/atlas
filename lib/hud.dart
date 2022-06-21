@@ -86,6 +86,11 @@ class Hud extends Component with HasGameRef<AtlasGame> {
             abilityType: Whirlwind,
             joystick: joystick,
           ),
+          AbilityButton(
+            margin: abilityMargin2,
+            abilityType: Impact,
+            joystick: joystick,
+          ),
         ];
         break;
     }
@@ -241,6 +246,9 @@ class AbilityButton extends HudButton {
           break;
         case Whirlwind:
           gameRef.add(Whirlwind(direction: joystick.direction));
+          break;
+        case Impact:
+          gameRef.add(Impact(direction: joystick.direction));
           break;
         default:
           print(
