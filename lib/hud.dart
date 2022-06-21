@@ -208,8 +208,22 @@ class AbilityButton extends HudButton {
     required this.abilityType,
     required this.joystick,
   }) : super(margin: margin) {
+    // explicit cooldown timers
+    double cooldownTime;
+    switch (abilityType) {
+      case Fireball:
+        cooldownTime = 1;
+        break;
+      case Arrow:
+        cooldownTime = 1;
+        break;
+      default:
+        cooldownTime = 1;
+        break;
+    }
+
     cooldown = Timer(
-      4,
+      cooldownTime,
       onTick: () {
         onCooldown = false;
       },
