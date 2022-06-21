@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/foundation.dart';
 
 import '../main.dart';
+import '../loaders.dart';
 
 class AtlasCharacter extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<AtlasGame> {
@@ -40,46 +41,30 @@ class AtlasCharacter extends SpriteAnimationComponent
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
-
-    downAnimation = SpriteSheet(
-      image: await gameRef.images.load("atlas/mage_down.png"),
-      srcSize: Vector2(32, 32),
-    ).createAnimation(
-      row: 0,
-      stepTime: animationSpeed,
-      to: 4,
+    idleAnimation = await createAnimation(
+      gameRef,
+      "atlas/mage_idle.png",
+      0.8,
     );
-    leftAnimation = SpriteSheet(
-      image: await gameRef.images.load("atlas/mage_left.png"),
-      srcSize: Vector2(32, 32),
-    ).createAnimation(
-      row: 0,
-      stepTime: animationSpeed,
-      to: 4,
+    upAnimation = await createAnimation(
+      gameRef,
+      "atlas/mage_up.png",
+      animationSpeed,
     );
-    upAnimation = SpriteSheet(
-      image: await gameRef.images.load("atlas/mage_up.png"),
-      srcSize: Vector2(32, 32),
-    ).createAnimation(
-      row: 0,
-      stepTime: animationSpeed,
-      to: 4,
+    downAnimation = await createAnimation(
+      gameRef,
+      "atlas/mage_down.png",
+      animationSpeed,
     );
-    rightAnimation = SpriteSheet(
-      image: await gameRef.images.load("atlas/mage_right.png"),
-      srcSize: Vector2(32, 32),
-    ).createAnimation(
-      row: 0,
-      stepTime: animationSpeed,
-      to: 4,
+    leftAnimation = await createAnimation(
+      gameRef,
+      "atlas/mage_left.png",
+      animationSpeed,
     );
-    idleAnimation = SpriteSheet(
-      image: await gameRef.images.load("atlas/mage_idle.png"),
-      srcSize: Vector2(32, 32),
-    ).createAnimation(
-      row: 0,
-      stepTime: .8,
-      to: 4,
+    rightAnimation = await createAnimation(
+      gameRef,
+      "atlas/mage_right.png",
+      animationSpeed,
     );
   }
 

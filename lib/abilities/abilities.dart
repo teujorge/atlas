@@ -1,4 +1,5 @@
 import 'ability.dart';
+import '../loaders.dart';
 
 // throw ball of fire
 class Fireball extends ThrownAbility {
@@ -7,7 +8,11 @@ class Fireball extends ThrownAbility {
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
-    animation = await createAnimation("abilities/fireball.png");
+    animation = await createAnimation(
+      gameRef,
+      "abilities/fireball.png",
+      animationStep,
+    );
   }
 
   @override
@@ -24,7 +29,11 @@ class Iceball extends ThrownAbility {
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
-    animation = await createAnimation("abilities/iceball.png");
+    animation = await createAnimation(
+      gameRef,
+      "abilities/iceball.png",
+      animationStep,
+    );
   }
 }
 
@@ -34,7 +43,11 @@ class Arrow extends ThrownAbility {
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
-    animation = await createAnimation("abilities/arrow.png");
+    animation = await createAnimation(
+      gameRef,
+      "abilities/arrow.png",
+      animationStep,
+    );
   }
 }
 
@@ -48,6 +61,10 @@ class Whirlwind extends MeleeAbility {
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
-    animation = await createAnimation("abilities/whirlwind.png");
+    animation = await createAnimation(
+      gameRef,
+      "abilities/whirlwind.png",
+      animationStep,
+    );
   }
 }
