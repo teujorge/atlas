@@ -9,6 +9,7 @@ abstract class Ability extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<AtlasGame> {
   late double animationStep;
   late Vector2 direction;
+  int damage = 10;
 
   Ability({required JoystickDirection direction, this.animationStep = 0.1}) {
     this.direction = joystickDirToVector(direction);
@@ -17,29 +18,30 @@ abstract class Ability extends SpriteAnimationComponent
     debugMode = true;
   }
 
+  // translate joystick direction to normal vector
   Vector2 joystickDirToVector(JoystickDirection direction) {
     Vector2 abilityDir;
     switch (direction) {
       case JoystickDirection.up:
-        abilityDir = Vector2(0, -1);
+        abilityDir = Vector2(0.0, -1.0);
         break;
       case JoystickDirection.upLeft:
-        abilityDir = Vector2(-1, -1);
+        abilityDir = Vector2(-0.707, -0.707);
         break;
       case JoystickDirection.upRight:
-        abilityDir = Vector2(1, -1);
+        abilityDir = Vector2(0.707, -0.707);
         break;
       case JoystickDirection.right:
-        abilityDir = Vector2(1, 0);
+        abilityDir = Vector2(1.0, 0.0);
         break;
       case JoystickDirection.down:
-        abilityDir = Vector2(0, 1);
+        abilityDir = Vector2(0.0, 1.0);
         break;
       case JoystickDirection.downRight:
-        abilityDir = Vector2(1, 1);
+        abilityDir = Vector2(0.707, 0.707);
         break;
       case JoystickDirection.downLeft:
-        abilityDir = Vector2(-1, 1);
+        abilityDir = Vector2(-0.707, 0.707);
         break;
       case JoystickDirection.left:
         abilityDir = Vector2(-1, 0);
@@ -51,6 +53,7 @@ abstract class Ability extends SpriteAnimationComponent
     return abilityDir;
   }
 
+  // create standard 4 frame animation 32x32
   Future<SpriteAnimation> createAnimation(
     String animationFile,
   ) async {
@@ -86,7 +89,9 @@ abstract class MeleeAbility extends Ability {
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
     if (other is EnemyCharacter) {
-      other.health -= 10;
+      // damage
+      other.health -= damage;
+      // push
       other.position.add(direction * 10);
     }
   }
@@ -94,6 +99,8 @@ abstract class MeleeAbility extends Ability {
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
+
+    // ability timer
     clock = Timer(
       animationStep * meleeCycles,
       repeat: false,
@@ -108,7 +115,11 @@ abstract class MeleeAbility extends Ability {
   @override
   void update(double dt) {
     super.update(dt);
+
+    // ability moves with atlas
     position = gameRef.atlas.position;
+
+    // update timer
     clock.update(dt);
   }
 }
@@ -125,7 +136,9 @@ abstract class ThrownAbility extends Ability {
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
     if (other is EnemyCharacter) {
-      other.health -= 2;
+      // damage
+      other.health -= damage;
+      //stagger
       other.position.add(other.randomMove * -0.005);
     }
   }
@@ -133,16 +146,16 @@ abstract class ThrownAbility extends Ability {
   @override
   void update(double dt) {
     super.update(dt);
+
+    // move ability
     position.add(direction * moveSpeed * dt);
 
-    // switch x vel
+    // remove out of bounds abilities
     if (position.x - 25 > gameRef.mapWidth) {
       gameRef.remove(this);
     } else if (position.x < 0) {
       gameRef.remove(this);
     }
-
-    // switch y vel
     if (position.y - 25 > gameRef.mapHeight) {
       gameRef.remove(this);
     } else if (position.y < 0) {
