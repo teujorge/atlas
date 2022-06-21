@@ -34,7 +34,7 @@ class MainMenu extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => const CharacterSelection(),
+                      builder: (context) => CharacterSelection(),
                     ),
                   );
                 },
