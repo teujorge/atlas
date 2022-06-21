@@ -10,10 +10,10 @@ class MainMenu extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Container(
-          constraints: BoxConstraints.expand(),
+          constraints: const BoxConstraints.expand(),
           decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/images/backgroundCastel.png"),
+                image: AssetImage("assets/images/background_castle.png"),
                 fit: BoxFit.cover),
           ),
           child: Column(
