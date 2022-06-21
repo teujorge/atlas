@@ -77,6 +77,11 @@ class Hud extends Component with HasGameRef<AtlasGame> {
             abilityType: Cluster,
             joystick: joystick,
           ),
+          AbilityButton(
+            margin: abilityMargin3,
+            abilityType: GreenHit,
+            joystick: joystick,
+          ),
         ];
         break;
       case CharName.knight:
@@ -89,6 +94,11 @@ class Hud extends Component with HasGameRef<AtlasGame> {
           AbilityButton(
             margin: abilityMargin2,
             abilityType: Impact,
+            joystick: joystick,
+          ),
+          AbilityButton(
+            margin: abilityMargin1,
+            abilityType: Sword,
             joystick: joystick,
           ),
         ];
@@ -258,11 +268,17 @@ class AbilityButton extends HudButton {
         case Cluster:
           gameRef.add(Cluster(direction: joystick.direction));
           break;
+        case GreenHit:
+          gameRef.add(GreenHit(direction: joystick.direction));
+          break;
         case Whirlwind:
           gameRef.add(Whirlwind(direction: joystick.direction));
           break;
         case Impact:
           gameRef.add(Impact(direction: joystick.direction));
+          break;
+        case Sword:
+          gameRef.add(Sword(direction: joystick.direction));
           break;
         default:
           print(

@@ -126,3 +126,37 @@ class Impact extends MeleeAbility {
     );
   }
 }
+
+class Sword extends MeleeAbility {
+  Sword({required super.direction, super.animationStep, super.meleeCycles}) {
+    size *= 2;
+    anchor = Anchor.topCenter;
+    meleeCycles *= 5;
+  }
+  @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+    animation = await createAnimation(
+      gameRef,
+      "abilities/sword.png",
+      animationStep,
+    );
+  }
+}
+
+class GreenHit extends MeleeAbility {
+  GreenHit({required super.direction, super.animationStep, super.meleeCycles}) {
+    size *= 2;
+    anchor = Anchor.topCenter;
+    meleeCycles *= 5;
+  }
+  @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+    animation = await createAnimation(
+      gameRef,
+      "abilities/green_hit.png",
+      animationStep,
+    );
+  }
+}
