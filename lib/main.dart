@@ -49,8 +49,14 @@ class AtlasGame extends FlameGame
   // point system
   int kills = 0;
 
-  AtlasGame(this.context) {
+  AtlasGame(this.context, character) {
     hud = Hud(priority: 1, context: context);
+    // create atlas character
+    atlas = AtlasCharacter(
+      character: character,
+      position: Vector2(529, 128),
+      joystick: hud.joystick,
+    );
   }
 
   @override
@@ -65,12 +71,6 @@ class AtlasGame extends FlameGame
 
     mapWidth = homeMap.tileMap.map.width * 10.0;
     mapHeight = homeMap.tileMap.map.height * 10.0;
-
-    // create atlas character
-    atlas = AtlasCharacter(
-      position: Vector2(529, 128),
-      joystick: hud.joystick,
-    );
 
     // flame game camera follow character
     camera.followComponent(

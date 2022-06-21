@@ -3,8 +3,103 @@ import 'package:flutter/material.dart';
 import 'play.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-class CharacterSelection extends StatelessWidget {
-  const CharacterSelection({Key? key}) : super(key: key);
+class CharacterSelection extends StatefulWidget {
+  CharacterSelection({Key? key}) : super(key: key);
+
+  final List<String> characters = ["mage_down", "elf", "knight"];
+  final List<List<Widget>> abilityInfo = [
+    // mage abilities
+    [
+      const Text("Mage Abilities"),
+      Row(
+        children: [
+          const Text("Fireball"),
+          Image.asset(
+            'assets/images/abilities/fireball.png',
+          ),
+        ],
+      ),
+      Row(
+        children: [
+          const Text("Iceball"),
+          Image.asset(
+            'assets/images/abilities/iceball.png',
+          ),
+        ],
+      ),
+      Row(
+        children: [
+          const Text("XXXXXXX"),
+          Image.asset(
+            'assets/images/abilities/iceball.png',
+          ),
+        ],
+      ),
+    ],
+    // elf abilities
+    [
+      const Text("Elf Abilities"),
+      Row(
+        children: [
+          const Text("Arrow"),
+          Image.asset(
+            'assets/images/abilities/iceball.png',
+          ),
+        ],
+      ),
+      Row(
+        children: [
+          const Text("XXXXXXX"),
+          Image.asset(
+            'assets/images/abilities/iceball.png',
+          ),
+        ],
+      ),
+      Row(
+        children: [
+          const Text("XXXXXXX"),
+          Image.asset(
+            'assets/images/abilities/iceball.png',
+          ),
+        ],
+      ),
+    ],
+    // knight abilities
+    [
+      const Text("Knight Abilities"),
+      Row(
+        children: [
+          const Text("Whirlwind"),
+          Image.asset(
+            'assets/images/abilities/Whirlwind.png',
+          ),
+        ],
+      ),
+      Row(
+        children: [
+          const Text("XXXXXXX"),
+          Image.asset(
+            'assets/images/abilities/iceball.png',
+          ),
+        ],
+      ),
+      Row(
+        children: [
+          const Text("XXXXXXX"),
+          Image.asset(
+            'assets/images/abilities/iceball.png',
+          ),
+        ],
+      ),
+    ],
+  ];
+
+  @override
+  State<CharacterSelection> createState() => CharacterSelectionState();
+}
+
+class CharacterSelectionState extends State<CharacterSelection> {
+  int selectedCharacter = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -29,22 +124,33 @@ class CharacterSelection extends StatelessWidget {
                 ),
               ),
             ),
-            CarouselSlider(
-              options: CarouselOptions(height: 200.0, enlargeCenterPage: true),
-              items: [1, 2, 3, 4, 5].map((i) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        decoration: BoxDecoration(color: Colors.amber),
-                        child: Text(
-                          'text $i',
-                          style: TextStyle(fontSize: 16.0),
-                        ));
-                  },
+            CarouselSlider.builder(
+              itemCount: 3,
+              options: CarouselOptions(
+                height: 200,
+                aspectRatio: 2,
+                enlargeCenterPage: true,
+              ),
+              itemBuilder: (BuildContext context, int index, int realIndex) {
+                selectedCharacter = index;
+                return Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                  decoration: const BoxDecoration(color: Colors.amber),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Image.asset(
+                        'assets/images/atlas/${widget.characters[index]}.png',
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: widget.abilityInfo[index],
+                      ),
+                    ],
+                  ),
                 );
-              }).toList(),
+              },
             ),
             SizedBox(
               width: 100,
@@ -54,7 +160,9 @@ class CharacterSelection extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => const GamePlay(),
+                        builder: (context) => GamePlay(
+                          character: selectedCharacter,
+                        ),
                       ),
                     );
                   },

@@ -11,20 +11,21 @@ class AtlasCharacter extends SpriteAnimationComponent
   final kills = ValueNotifier<int>(0);
   final health = ValueNotifier<int>(100);
 
-  final JoystickComponent joystick;
-  List<JoystickDirection> collisionDirections = [];
-
+  // char movement
+  late String character;
   final double animationSpeed = .3;
   final double characterSize = 60;
   final double characterSpeed = 80;
-
   late SpriteAnimation downAnimation;
   late SpriteAnimation leftAnimation;
   late SpriteAnimation upAnimation;
   late SpriteAnimation rightAnimation;
   late SpriteAnimation idleAnimation;
+  final JoystickComponent joystick;
+  List<JoystickDirection> collisionDirections = [];
 
-  AtlasCharacter({required position, required this.joystick})
+  AtlasCharacter(
+      {required position, required this.character, required this.joystick})
       : super(position: position) {
     debugMode = true;
     anchor = Anchor.center;
