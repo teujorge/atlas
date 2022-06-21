@@ -134,8 +134,12 @@ class Hud extends Component with HasGameRef<AtlasGame> {
 }
 
 class HudButton extends HudMarginComponent with Tappable {
-  Paint background = Paint()
+  final Paint redBackground = Paint()
     ..color = const Color.fromARGB(255, 255, 5, 5).withAlpha(150);
+  final Paint greenBackground = Paint()
+    ..color = const Color.fromARGB(255, 80, 255, 5).withAlpha(150);
+  Paint background = Paint()
+    ..color = const Color.fromARGB(255, 80, 255, 5).withAlpha(150);
   ui.Image? image;
 
   HudButton({
@@ -168,9 +172,9 @@ class PauseButton extends HudButton {
   @override
   void render(Canvas canvas) {
     if (gameRef.paused) {
-      canvas.drawLine(const Offset(-20, 0), const Offset(20, 0), background);
+      canvas.drawLine(const Offset(-20, 0), const Offset(20, 0), redBackground);
     } else {
-      canvas.drawLine(const Offset(0, -20), const Offset(0, 20), background);
+      canvas.drawLine(const Offset(0, -20), const Offset(0, 20), redBackground);
     }
   }
 
@@ -195,42 +199,67 @@ class PauseButton extends HudButton {
 
 // https://medium.com/flutteropen/canvas-tutorial-01-how-to-use-the-canvas-in-the-flutter-8aade29ddc9
 class AbilityButton extends HudButton {
+  bool onCooldown = false;
+  late Timer cooldown;
   late Type abilityType;
   late JoystickComponent joystick;
   AbilityButton({
     required EdgeInsets margin,
     required this.abilityType,
     required this.joystick,
-  }) : super(margin: margin);
+  }) : super(margin: margin) {
+    cooldown = Timer(
+      4,
+      onTick: () {
+        onCooldown = false;
+      },
+      repeat: false,
+      autoStart: false,
+    );
+  }
 
   @override
   bool onTapDown(TapDownInfo info) {
-    switch (abilityType) {
-      case Fireball:
-        gameRef.add(Fireball(direction: joystick.direction));
-        break;
-      case Iceball:
-        gameRef.add(Iceball(direction: joystick.direction));
-        break;
-      case Beam:
-        gameRef.add(Beam(direction: joystick.direction));
-        break;
-      case Arrow:
-        gameRef.add(Arrow(direction: joystick.direction));
-        break;
-      case Cluster:
-        gameRef.add(Cluster(direction: joystick.direction));
-        break;
-      case Whirlwind:
-        gameRef.add(Whirlwind(direction: joystick.direction));
-        break;
-      default:
-        print(
-          "ABILITY BUTTON SWITCH DEFAULT CASE: ability type not recognized!!!",
-        );
-        break;
+    if (!onCooldown) {
+      onCooldown = true;
+      cooldown.start();
+      switch (abilityType) {
+        case Fireball:
+          gameRef.add(Fireball(direction: joystick.direction));
+          break;
+        case Iceball:
+          gameRef.add(Iceball(direction: joystick.direction));
+          break;
+        case Beam:
+          gameRef.add(Beam(direction: joystick.direction));
+          break;
+        case Arrow:
+          gameRef.add(Arrow(direction: joystick.direction));
+          break;
+        case Cluster:
+          gameRef.add(Cluster(direction: joystick.direction));
+          break;
+        case Whirlwind:
+          gameRef.add(Whirlwind(direction: joystick.direction));
+          break;
+        default:
+          print(
+            "ABILITY BUTTON SWITCH DEFAULT CASE: ability type not recognized!!!",
+          );
+          break;
+      }
     }
-
     return true;
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    cooldown.update(dt);
+    if (onCooldown) {
+      background = redBackground;
+    } else {
+      background = greenBackground;
+    }
   }
 }
