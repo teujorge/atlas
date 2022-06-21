@@ -28,12 +28,15 @@ class Options extends StatelessWidget {
                 ),
               ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                //navigation to options button
-                Navigator.of(context).pop();
-              },
-              child: const Text("Resume"),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  //navigation to options button
+                  Navigator.of(context).pop();
+                },
+                child: const Text("Resume"),
+              ),
             ),
             ElevatedButton(
               onPressed: () {
