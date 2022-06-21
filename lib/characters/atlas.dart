@@ -221,7 +221,7 @@ class Archer extends AtlasCharacter {
 
   @override
   ability3() {
-    gameRef.add(Fireball(direction: joystick.direction));
+    gameRef.add(GreenHit(direction: joystick.direction));
   }
 
   @override
