@@ -1,5 +1,9 @@
+import 'package:flame/components.dart';
+
 import 'ability.dart';
 import '../loaders.dart';
+
+// // Mage Abilities // //
 
 // throw ball of fire
 class Fireball extends ThrownAbility {
@@ -37,6 +41,27 @@ class Iceball extends ThrownAbility {
   }
 }
 
+// beam of arcane
+class Beam extends MeleeAbility {
+  Beam({required super.direction, super.animationStep}) {
+    anchor = Anchor.topCenter;
+    meleeCycles *= 10;
+    size *= 4;
+  }
+
+  @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+    animation = await createAnimation(
+      gameRef,
+      "abilities/beam.png",
+      animationStep,
+    );
+  }
+}
+
+// // Archer Abilities // //
+
 class Arrow extends ThrownAbility {
   Arrow({required super.direction, super.animationStep});
 
@@ -50,6 +75,8 @@ class Arrow extends ThrownAbility {
     );
   }
 }
+
+// // Knight Abilities // //
 
 // spin around with sword
 class Whirlwind extends MeleeAbility {
