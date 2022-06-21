@@ -14,6 +14,7 @@ class AtlasCharacter extends SpriteAnimationComponent
 
   // char movement
   late CharName character;
+  late String characterName;
   final double animationSpeed = .3;
   final double characterSize = 60;
   final double characterSpeed = 80;
@@ -37,33 +38,45 @@ class AtlasCharacter extends SpriteAnimationComponent
         position: Vector2((characterSize / 2) - 20, (characterSize / 2) + 5),
       ),
     );
+
+    switch (character) {
+      case CharName.mage:
+        characterName = "mage";
+        break;
+      case CharName.archer:
+        characterName = "archer";
+        break;
+      case CharName.knight:
+        characterName = "knight";
+        break;
+    }
   }
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
     idleAnimation = await createAnimation(
       gameRef,
-      "atlas/mage_idle.png",
+      "atlas/${characterName}_idle.png",
       0.8,
     );
     upAnimation = await createAnimation(
       gameRef,
-      "atlas/mage_up.png",
+      "atlas/${characterName}_up.png",
       animationSpeed,
     );
     downAnimation = await createAnimation(
       gameRef,
-      "atlas/mage_down.png",
+      "atlas/${characterName}_down.png",
       animationSpeed,
     );
     leftAnimation = await createAnimation(
       gameRef,
-      "atlas/mage_left.png",
+      "atlas/${characterName}_left.png",
       animationSpeed,
     );
     rightAnimation = await createAnimation(
       gameRef,
-      "atlas/mage_right.png",
+      "atlas/${characterName}_right.png",
       animationSpeed,
     );
   }
