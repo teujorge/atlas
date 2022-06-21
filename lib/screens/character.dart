@@ -50,7 +50,7 @@ class CharacterSelection extends StatefulWidget {
       ),
       Row(
         children: [
-          const Text("XXXXXXX"),
+          const Text("Cluster"),
           Image.asset(
             'assets/images/abilities/cluster.png',
           ),
