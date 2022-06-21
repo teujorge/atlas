@@ -76,6 +76,20 @@ class Arrow extends ThrownAbility {
   }
 }
 
+class Cluster extends ThrownAbility {
+  Cluster({required super.direction, super.animationStep});
+
+  @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+    animation = await createAnimation(
+      gameRef,
+      "abilities/cluster.png",
+      animationStep,
+    );
+  }
+}
+
 // // Knight Abilities // //
 
 // spin around with sword

@@ -52,7 +52,7 @@ class CharacterSelection extends StatefulWidget {
         children: [
           const Text("XXXXXXX"),
           Image.asset(
-            'assets/images/abilities/iceball.png',
+            'assets/images/abilities/cluster.png',
           ),
         ],
       ),

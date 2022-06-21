@@ -72,6 +72,11 @@ class Hud extends Component with HasGameRef<AtlasGame> {
             abilityType: Arrow,
             joystick: joystick,
           ),
+          AbilityButton(
+            margin: abilityMargin2,
+            abilityType: Cluster,
+            joystick: joystick,
+          ),
         ];
         break;
       case CharName.knight:
@@ -212,6 +217,9 @@ class AbilityButton extends HudButton {
         break;
       case Arrow:
         gameRef.add(Arrow(direction: joystick.direction));
+        break;
+      case Cluster:
+        gameRef.add(Cluster(direction: joystick.direction));
         break;
       case Whirlwind:
         gameRef.add(Whirlwind(direction: joystick.direction));
