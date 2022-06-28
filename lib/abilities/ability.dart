@@ -66,10 +66,7 @@ abstract class MeleeAbility extends Ability {
   int meleeCycles;
 
   MeleeAbility(
-      {required super.direction, super.animationStep, this.meleeCycles = 1}) {
-    debugMode = true;
-    add(CircleHitbox());
-  }
+      {required super.direction, super.animationStep, this.meleeCycles = 1});
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
@@ -114,9 +111,7 @@ abstract class MeleeAbility extends Ability {
 abstract class ThrownAbility extends Ability {
   final double moveSpeed = 200;
 
-  ThrownAbility({required super.direction, super.animationStep}) {
-    add(CircleHitbox());
-  }
+  ThrownAbility({required super.direction, super.animationStep});
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
