@@ -88,7 +88,7 @@ class CharacterSelection extends StatefulWidget {
         children: [
           const Text("Whirlwind"),
           Image.asset(
-            'assets/images/abilities/Whirlwind.png',
+            'assets/images/abilities/whirlwind.png',
           ),
         ],
       ),
