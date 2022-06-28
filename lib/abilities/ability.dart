@@ -24,27 +24,34 @@ abstract class Ability extends SpriteAnimationComponent
     switch (direction) {
       case JoystickDirection.up:
         abilityDir = Vector2(0.0, -1.0);
+        angle = radians(180);
         break;
       case JoystickDirection.upLeft:
         abilityDir = Vector2(-0.707, -0.707);
+        angle = radians(150);
         break;
       case JoystickDirection.upRight:
         abilityDir = Vector2(0.707, -0.707);
+        angle = radians(230);
         break;
       case JoystickDirection.right:
         abilityDir = Vector2(1.0, 0.0);
+        angle = radians(270);
         break;
       case JoystickDirection.down:
         abilityDir = Vector2(0.0, 1.0);
         break;
       case JoystickDirection.downRight:
         abilityDir = Vector2(0.707, 0.707);
+        angle = radians(330);
         break;
       case JoystickDirection.downLeft:
         abilityDir = Vector2(-0.707, 0.707);
+        angle = radians(30);
         break;
       case JoystickDirection.left:
         abilityDir = Vector2(-1, 0);
+        angle = radians(90);
         break;
       case JoystickDirection.idle:
         abilityDir = Vector2(0, 1);
