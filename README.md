@@ -1,4 +1,4 @@
-# atlas
+# Atlas Arena
 
 A new Flutter project.
 
