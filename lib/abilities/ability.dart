@@ -161,7 +161,7 @@ abstract class ThrownAbility extends Ability {
       // damage
       other.health -= damage;
       //stagger
-      other.position.add(other.randomMove * -0.005);
+      other.position.add(other.moveDirection * -0.005);
     }
   }
 

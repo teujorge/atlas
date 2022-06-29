@@ -13,7 +13,8 @@ import '../abilities/ability.dart';
 class EnemyCharacter extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<AtlasGame> {
   Dir direction = Dir.idle;
-  late Vector2 randomMove;
+  Vector2 moveDirection = Vector2(0, 0);
+  double moveSpeed = 25;
   final double animationSpeed = .3;
   int health = 100;
 
@@ -21,6 +22,14 @@ class EnemyCharacter extends SpriteAnimationComponent
     debugMode = true;
     anchor = Anchor.center;
     add(RectangleHitbox());
+  }
+
+  Vector2 getRandomSpawnVector() {
+    Vector2 randomVector = Vector2(
+      Random().nextDouble() * gameRef.mapWidth,
+      Random().nextDouble() * gameRef.mapHeight * 0.1 + gameRef.mapHeight * .8,
+    );
+    return randomVector;
   }
 
   Vector2 getRandomVector({required max, min = 0, onlyPos = true}) {
@@ -44,13 +53,8 @@ class EnemyCharacter extends SpriteAnimationComponent
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
-    position = getRandomVector(max: 400, min: 100);
-    randomMove = getRandomVector(max: 50, onlyPos: false);
+    position = getRandomSpawnVector();
     size = Vector2(50, 50);
-    // anim x flip
-    if (randomMove.x < 0) {
-      flipHorizontally();
-    }
   }
 
   @override
@@ -71,34 +75,29 @@ class EnemyCharacter extends SpriteAnimationComponent
     }
     // alive
     else {
-      // current direction
-      if (randomMove.x > 0) {
-        direction = Dir.right;
-      } else if (randomMove.x < 0) {
-        direction = Dir.left;
-      }
+      // get atlas vector
+      Vector2 atlasDirection =
+          Vector2(gameRef.atlas.x, gameRef.atlas.y) - Vector2(x, y);
+      // get door vector
+      Vector2 doorDirection =
+          Vector2(gameRef.doorPosition.x, gameRef.doorPosition.y) -
+              Vector2(x, y);
 
-      // switch x vel
-      if (position.x + 25 > gameRef.mapWidth) {
-        randomMove.x *= -1;
-      } else if (position.x < 25) {
-        randomMove.x *= -1;
+      // go to shortest objective
+      if (atlasDirection.length < doorDirection.length) {
+        moveDirection = atlasDirection;
+      } else {
+        moveDirection = doorDirection;
       }
-
-      // switch y vel
-      if (position.y + 25 > gameRef.mapHeight) {
-        randomMove.y *= -1;
-      } else if (position.y < 25) {
-        randomMove.y *= -1;
-      }
+      moveDirection /= moveDirection.length;
 
       // move
-      position.add(randomMove * dt);
+      position.add(moveDirection * moveSpeed * dt);
 
       // anim x flip
-      if (randomMove.x > 0 && direction == Dir.left) {
+      if (atlasDirection.x > 0 && direction == Dir.left) {
         flipHorizontallyAroundCenter();
-      } else if (randomMove.x < 0 && direction == Dir.right) {
+      } else if (atlasDirection.x < 0 && direction == Dir.right) {
         flipHorizontallyAroundCenter();
       }
     }
@@ -126,6 +125,19 @@ class Necro extends EnemyCharacter {
     animation = await createAnimation(
       gameRef,
       "enemies/necro.png",
+      0.15,
+    );
+  }
+}
+
+class Goblin extends EnemyCharacter {
+  Goblin();
+  @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+    animation = await createAnimation(
+      gameRef,
+      "enemies/goblin.png",
       0.15,
     );
   }

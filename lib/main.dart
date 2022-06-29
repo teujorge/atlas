@@ -49,6 +49,10 @@ class AtlasGame extends FlameGame
   // point system
   int kills = 0;
 
+  // door
+  int health = 100;
+  late Vector2 doorPosition;
+
   AtlasGame(this.context, CharName charName) {
     hud = Hud(
       game: this,
@@ -90,8 +94,12 @@ class AtlasGame extends FlameGame
       Vector2.all(10),
     );
 
+    // map size
     mapWidth = homeMap.tileMap.map.width * 10.0;
     mapHeight = homeMap.tileMap.map.height * 10.0;
+
+    // door position
+    doorPosition = Vector2(mapWidth / 2, 0);
 
     // flame game camera follow character
     camera.followComponent(
@@ -110,6 +118,7 @@ class AtlasGame extends FlameGame
       onTick: () {
         add(Skelet());
         add(Necro());
+        add(Goblin());
       },
     );
     clock.start();
