@@ -16,7 +16,7 @@ class CharacterSelection extends StatefulWidget {
         children: [
           const Text("Fireball"),
           Image.asset(
-            'assets/images/abilities/fireball.png',
+            'assets/images/abilities/fireball.gif',
           ),
         ],
       ),
@@ -24,7 +24,7 @@ class CharacterSelection extends StatefulWidget {
         children: [
           const Text("Iceball"),
           Image.asset(
-            'assets/images/abilities/iceball.png',
+            'assets/images/abilities/iceball.gif',
           ),
         ],
       ),
@@ -32,7 +32,7 @@ class CharacterSelection extends StatefulWidget {
         children: [
           const Text("Arcane Beam"),
           Image.asset(
-            'assets/images/abilities/beam.png',
+            'assets/images/abilities/beam.gif',
           ),
         ],
       ),
@@ -44,7 +44,7 @@ class CharacterSelection extends StatefulWidget {
         children: [
           const Text("Arrow"),
           Image.asset(
-            'assets/images/abilities/arrow.png',
+            'assets/images/abilities/arrow.gif',
           ),
         ],
       ),
@@ -52,7 +52,7 @@ class CharacterSelection extends StatefulWidget {
         children: [
           const Text("Cluster"),
           Image.asset(
-            'assets/images/abilities/cluster.png',
+            'assets/images/abilities/cluster.gif',
           ),
         ],
       ),
@@ -60,7 +60,7 @@ class CharacterSelection extends StatefulWidget {
         children: [
           const Text("Green Hit"),
           Image.asset(
-            'assets/images/abilities/green_hit.png',
+            'assets/images/abilities/green_hit.gif',
           ),
         ],
       ),
@@ -72,7 +72,7 @@ class CharacterSelection extends StatefulWidget {
         children: [
           const Text("Sword"),
           Image.asset(
-            'assets/images/abilities/sword.png',
+            'assets/images/abilities/sword.gif',
           ),
         ],
       ),
@@ -80,7 +80,7 @@ class CharacterSelection extends StatefulWidget {
         children: [
           const Text("Impact"),
           Image.asset(
-            'assets/images/abilities/impact.png',
+            'assets/images/abilities/impact.gif',
           ),
         ],
       ),
@@ -88,7 +88,7 @@ class CharacterSelection extends StatefulWidget {
         children: [
           const Text("Whirlwind"),
           Image.asset(
-            'assets/images/abilities/whirlwind.png',
+            'assets/images/abilities/whirlwind.gif',
           ),
         ],
       ),
@@ -110,11 +110,11 @@ class CharacterSelectionState extends State<CharacterSelection> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Padding(
-              padding: EdgeInsets.symmetric(vertical: 50.0),
+              padding: EdgeInsets.symmetric(vertical: 10.0),
               child: Text(
                 "Character Selection",
                 style: TextStyle(
-                  fontSize: 50.0,
+                  fontSize: 30.0,
                   shadows: [
                     Shadow(
                       blurRadius: 20.0,
@@ -144,7 +144,7 @@ class CharacterSelectionState extends State<CharacterSelection> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Image.asset(
-                        'assets/images/atlas/${widget.characters[index]}.png',
+                        'assets/images/atlas/${widget.characters[index]}_idle.gif',
                         scale: 1 / 3,
                       ),
                       Column(
