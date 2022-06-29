@@ -53,7 +53,7 @@ class Beam extends MeleeAbility {
     super.animationStep,
   }) {
     anchor = Anchor.topCenter;
-    meleeCycles *= 100;
+    meleeCycles *= 50;
     size *= 4;
     add(RectangleHitbox(
       anchor: Anchor.topCenter,
