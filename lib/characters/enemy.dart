@@ -18,6 +18,7 @@ class EnemyCharacter extends SpriteAnimationComponent
   double moveSpeed = 25;
   final double animationSpeed = .3;
   int health = 100;
+  int maxHealth = 100;
 
   EnemyCharacter() {
     debugMode = true;
@@ -54,9 +55,10 @@ class EnemyCharacter extends SpriteAnimationComponent
   @override
   void render(Canvas canvas) {
     super.render(canvas);
+
     canvas.drawRect(
-      Vector2(10, 10).toRect(),
-      Paint()..color = const Color.fromARGB(255, 255, 5, 5).withAlpha(150),
+      Vector2(50 * health / maxHealth, -5).toRect(),
+      Paint()..color = Color.fromARGB(255, 255, 0, 0),
     );
   }
 
@@ -82,7 +84,9 @@ class EnemyCharacter extends SpriteAnimationComponent
     // dead if health = 0;
     if (health <= 0) {
       gameRef.remove(this);
+      gameRef.atlas.kills.value += 1;
     }
+
     // alive
     else {
       // get atlas vector
@@ -128,7 +132,9 @@ class Skelet extends EnemyCharacter {
 }
 
 class Necro extends EnemyCharacter {
-  Necro();
+  Necro() {
+    health = maxHealth = 200;
+  }
   @override
   Future<void>? onLoad() async {
     await super.onLoad();

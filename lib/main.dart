@@ -46,9 +46,6 @@ class AtlasGame extends FlameGame
   // sound
   late String soundTrackName = "ukulele";
 
-  // point system
-  int kills = 0;
-
   // door
   int health = 100;
   late Vector2 doorPosition;
