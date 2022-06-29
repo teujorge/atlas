@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mjorge.atlas">
+    package="com.mjorge.AtlasArena">
    <application
-        android:label="atlas"
+        android:label="Atlas Arena"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

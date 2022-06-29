@@ -1,4 +1,4 @@
-package com.mjorge.atlas
+package com.mjorge.AtlasArena
 
 import io.flutter.embedding.android.FlutterActivity
 
