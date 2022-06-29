@@ -1,12 +1,9 @@
-import 'dart:math';
-import 'dart:ui';
-
-import 'package:Atlas/characters/obstacle.dart';
-import 'package:flame/sprite.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
-import 'atlas.dart';
+import 'dart:ui';
+import 'dart:math';
+
 import '../main.dart';
 import '../loaders.dart';
 import '../abilities/ability.dart';
@@ -58,7 +55,7 @@ class EnemyCharacter extends SpriteAnimationComponent
 
     canvas.drawRect(
       Vector2(50 * health / maxHealth, -5).toRect(),
-      Paint()..color = Color.fromARGB(255, 255, 0, 0),
+      Paint()..color = const Color.fromARGB(255, 255, 0, 0),
     );
   }
 

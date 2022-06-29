@@ -1,4 +1,3 @@
-import 'package:Atlas/characters/atlas.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
@@ -6,6 +5,7 @@ import 'dart:math';
 
 import '../main.dart';
 import '../characters/enemy.dart';
+import '../characters/atlas.dart';
 
 // general ability
 abstract class Ability extends SpriteAnimationComponent

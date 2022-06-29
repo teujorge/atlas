@@ -1,4 +1,3 @@
-import 'package:flame/sprite.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/foundation.dart';
@@ -11,7 +10,7 @@ abstract class AtlasCharacter extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<AtlasGame> {
   // score
   final kills = ValueNotifier<int>(0);
-  final health = ValueNotifier<int>(100);
+  int health = 100;
 
   // char movement
   final double animationSpeed = .3;
