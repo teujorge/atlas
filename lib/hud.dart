@@ -9,7 +9,6 @@ import 'dart:ui' as ui;
 import 'main.dart';
 import 'loaders.dart';
 import 'screens/options.dart';
-import 'abilities/abilities.dart';
 
 class Hud extends Component {
 // game and app
@@ -49,25 +48,33 @@ class Hud extends Component {
   }
 
   @override
+  void render(Canvas canvas) {
+    // atlas health bar
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(0, 0, game.atlas.health * 2, 50),
+        Radius.circular(game.atlas.health * 1.0),
+      ),
+      Paint()..color = const Color.fromARGB(255, 255, 10, 10),
+    );
+    // atlas energy sphere
+    canvas.drawCircle(
+      Offset(25, 75),
+      25,
+      Paint()..color = const Color.fromARGB(255, 100, 50, 200),
+    );
+  }
+
+  @override
   Future<void>? onLoad() {
     // score
     final scoreTextComponent = TextComponent(
       text: 'Score: 0',
-      position: Vector2.all(10),
+      position: Vector2(game.mapWidth - 225, 10),
     );
     add(scoreTextComponent);
     game.atlas.kills.addListener(() {
       scoreTextComponent.text = 'Score: ${game.atlas.kills.value}';
-    });
-
-    // health
-    final healthTextComponent = TextComponent(
-      text: 'x5',
-      position: Vector2(10, 50),
-    );
-    add(healthTextComponent);
-    game.atlas.health.addListener(() {
-      healthTextComponent.text = 'x${game.atlas.health.value}';
     });
 
     // add abilities (character dependant)
@@ -113,11 +120,10 @@ class Hud extends Component {
 
 class HudButton extends HudMarginComponent with Tappable {
   final Paint redBackground = Paint()
-    ..color = const Color.fromARGB(255, 255, 5, 5).withAlpha(150);
+    ..color = const Color.fromARGB(150, 255, 5, 5);
   final Paint greenBackground = Paint()
-    ..color = const Color.fromARGB(255, 80, 255, 5).withAlpha(150);
-  Paint background = Paint()
-    ..color = const Color.fromARGB(255, 80, 255, 5).withAlpha(150);
+    ..color = const Color.fromARGB(150, 80, 255, 5);
+  Paint background = Paint()..color = const Color.fromARGB(150, 80, 255, 5);
   ui.Image? image;
 
   HudButton({
@@ -220,6 +226,16 @@ class AbilityButton extends HudButton {
       }
     }
     return true;
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+    // cooldown progress
+    canvas.drawRect(
+      Vector2(50 - cooldown.progress * size.x, 5).toRect(),
+      Paint()..color = const Color.fromARGB(255, 255, 255, 255),
+    );
   }
 
   @override
