@@ -16,10 +16,11 @@ abstract class Ability extends SpriteAnimationComponent
   late Vector2 direction;
 
   Ability({required this.atlas, this.animationStep = 0.1}) {
-    direction = joystickDirToVector();
+    debugMode = true;
     size = Vector2.all(64);
     anchor = Anchor.center;
-    debugMode = true;
+    angle = joystickAngle();
+    direction = joystickDirToVector();
   }
 
   // translate joystick direction to normal vector
@@ -28,34 +29,27 @@ abstract class Ability extends SpriteAnimationComponent
     switch (atlas.joystick.direction) {
       case JoystickDirection.up:
         abilityVector = Vector2(0.0, -1.0);
-        angle = radians(180);
         break;
       case JoystickDirection.upLeft:
         abilityVector = Vector2(-0.707, -0.707);
-        angle = radians(150);
         break;
       case JoystickDirection.upRight:
         abilityVector = Vector2(0.707, -0.707);
-        angle = radians(230);
         break;
       case JoystickDirection.right:
         abilityVector = Vector2(1.0, 0.0);
-        angle = radians(270);
         break;
       case JoystickDirection.down:
         abilityVector = Vector2(0.0, 1.0);
         break;
       case JoystickDirection.downRight:
         abilityVector = Vector2(0.707, 0.707);
-        angle = radians(330);
         break;
       case JoystickDirection.downLeft:
         abilityVector = Vector2(-0.707, 0.707);
-        angle = radians(30);
         break;
       case JoystickDirection.left:
         abilityVector = Vector2(-1, 0);
-        angle = radians(90);
         break;
       case JoystickDirection.idle:
         abilityVector = Vector2(0, 1);
