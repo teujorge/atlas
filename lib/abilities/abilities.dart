@@ -8,7 +8,7 @@ import '../loaders.dart';
 
 // throw ball of fire
 class Fireball extends ThrownAbility {
-  Fireball({required super.direction, super.animationStep}) {
+  Fireball({required super.atlas, super.animationStep}) {
     add(CircleHitbox());
   }
 
@@ -31,7 +31,7 @@ class Fireball extends ThrownAbility {
 
 // throw ball of ice
 class Iceball extends ThrownAbility {
-  Iceball({required super.direction, super.animationStep}) {
+  Iceball({required super.atlas, super.animationStep}) {
     add(CircleHitbox());
   }
 
@@ -48,15 +48,24 @@ class Iceball extends ThrownAbility {
 
 // beam of arcane
 class Beam extends MeleeAbility {
-  Beam({required super.direction, super.animationStep}) {
+  Beam({
+    required super.atlas,
+    super.animationStep,
+  }) {
     anchor = Anchor.topCenter;
-    meleeCycles *= 10;
+    meleeCycles *= 100;
     size *= 4;
     add(RectangleHitbox(
       anchor: Anchor.topCenter,
       size: Vector2(size.x / 8, size.y),
       position: Vector2(position.x + (size.x / 2), position.y),
     ));
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    angle = joystickAngle();
   }
 
   @override
@@ -73,7 +82,7 @@ class Beam extends MeleeAbility {
 // // Archer Abilities // //
 
 class Arrow extends ThrownAbility {
-  Arrow({required super.direction, super.animationStep}) {
+  Arrow({required super.atlas, super.animationStep}) {
     add(RectangleHitbox(
       anchor: Anchor.topCenter,
       size: Vector2(size.x / 5, size.y / 2),
@@ -93,7 +102,7 @@ class Arrow extends ThrownAbility {
 }
 
 class Cluster extends ThrownAbility {
-  Cluster({required super.direction, super.animationStep}) {
+  Cluster({required super.atlas, super.animationStep}) {
     add(RectangleHitbox());
   }
 
@@ -109,7 +118,7 @@ class Cluster extends ThrownAbility {
 }
 
 class GreenHit extends MeleeAbility {
-  GreenHit({required super.direction, super.animationStep, super.meleeCycles}) {
+  GreenHit({required super.atlas, super.animationStep, super.meleeCycles}) {
     anchor = Anchor.topCenter;
     meleeCycles *= 5;
     size *= 2;
@@ -133,8 +142,7 @@ class GreenHit extends MeleeAbility {
 // // Knight Abilities // //
 
 class Whirlwind extends MeleeAbility {
-  Whirlwind(
-      {required super.direction, super.animationStep, super.meleeCycles}) {
+  Whirlwind({required super.atlas, super.animationStep, super.meleeCycles}) {
     meleeCycles *= 5;
     size *= 2;
     add(CircleHitbox(
@@ -165,7 +173,7 @@ class Whirlwind extends MeleeAbility {
 }
 
 class Impact extends MeleeAbility {
-  Impact({required super.direction, super.animationStep, super.meleeCycles}) {
+  Impact({required super.atlas, super.animationStep, super.meleeCycles}) {
     anchor = Anchor.topCenter;
     size *= 2;
     meleeCycles *= 4;
@@ -187,7 +195,7 @@ class Impact extends MeleeAbility {
 }
 
 class Sword extends MeleeAbility {
-  Sword({required super.direction, super.animationStep, super.meleeCycles}) {
+  Sword({required super.atlas, super.animationStep, super.meleeCycles}) {
     anchor = Anchor.topCenter;
     meleeCycles *= 5;
     size *= 2;

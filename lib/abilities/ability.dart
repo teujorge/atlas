@@ -1,5 +1,8 @@
+import 'package:Atlas/characters/atlas.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+
+import 'dart:math';
 
 import '../main.dart';
 import '../characters/enemy.dart';
@@ -7,57 +10,94 @@ import '../characters/enemy.dart';
 // general ability
 abstract class Ability extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<AtlasGame> {
-  late double animationStep;
-  late Vector2 direction;
   int damage = 10;
+  double animationStep;
+  AtlasCharacter atlas;
+  late Vector2 direction;
 
-  Ability({required JoystickDirection direction, this.animationStep = 0.1}) {
-    this.direction = joystickDirToVector(direction);
+  Ability({required this.atlas, this.animationStep = 0.1}) {
+    direction = joystickDirToVector();
     size = Vector2.all(64);
     anchor = Anchor.center;
     debugMode = true;
   }
 
   // translate joystick direction to normal vector
-  Vector2 joystickDirToVector(JoystickDirection direction) {
-    Vector2 abilityDir;
-    switch (direction) {
+  Vector2 joystickDirToVector() {
+    Vector2 abilityVector;
+    switch (atlas.joystick.direction) {
       case JoystickDirection.up:
-        abilityDir = Vector2(0.0, -1.0);
+        abilityVector = Vector2(0.0, -1.0);
         angle = radians(180);
         break;
       case JoystickDirection.upLeft:
-        abilityDir = Vector2(-0.707, -0.707);
+        abilityVector = Vector2(-0.707, -0.707);
         angle = radians(150);
         break;
       case JoystickDirection.upRight:
-        abilityDir = Vector2(0.707, -0.707);
+        abilityVector = Vector2(0.707, -0.707);
         angle = radians(230);
         break;
       case JoystickDirection.right:
-        abilityDir = Vector2(1.0, 0.0);
+        abilityVector = Vector2(1.0, 0.0);
         angle = radians(270);
         break;
       case JoystickDirection.down:
-        abilityDir = Vector2(0.0, 1.0);
+        abilityVector = Vector2(0.0, 1.0);
         break;
       case JoystickDirection.downRight:
-        abilityDir = Vector2(0.707, 0.707);
+        abilityVector = Vector2(0.707, 0.707);
         angle = radians(330);
         break;
       case JoystickDirection.downLeft:
-        abilityDir = Vector2(-0.707, 0.707);
+        abilityVector = Vector2(-0.707, 0.707);
         angle = radians(30);
         break;
       case JoystickDirection.left:
-        abilityDir = Vector2(-1, 0);
+        abilityVector = Vector2(-1, 0);
         angle = radians(90);
         break;
       case JoystickDirection.idle:
-        abilityDir = Vector2(0, 1);
+        abilityVector = Vector2(0, 1);
         break;
     }
-    return abilityDir;
+    return abilityVector;
+  }
+
+  double joystickAngle() {
+    double abilityAngle = 0;
+    // check edge case angles
+    if (atlas.joystick.delta.y == 0) {
+      if (atlas.joystick.delta.x == 0) {
+        abilityAngle = radians(0);
+      } else if (atlas.joystick.delta.x > 0) {
+        abilityAngle = radians(270);
+      } else if (atlas.joystick.delta.x < 0) {
+        abilityAngle = radians(90);
+      }
+    } else if (atlas.joystick.delta.x == 0) {
+      if (atlas.joystick.delta.y > 0) {
+        abilityAngle = radians(0);
+      } else if (atlas.joystick.delta.y < 0) {
+        abilityAngle = radians(180);
+      }
+    } else {
+      double rads = atan(atlas.joystick.delta.x / atlas.joystick.delta.y);
+      if (atlas.joystick.delta.x > 0) {
+        if (atlas.joystick.delta.y > 0) {
+          abilityAngle = -rads;
+        } else {
+          abilityAngle = radians(180) - rads;
+        }
+      } else {
+        if (atlas.joystick.delta.y > 0) {
+          abilityAngle = -rads;
+        } else {
+          abilityAngle = radians(180) - rads;
+        }
+      }
+    }
+    return abilityAngle;
   }
 
   @override
@@ -73,7 +113,7 @@ abstract class MeleeAbility extends Ability {
   int meleeCycles;
 
   MeleeAbility(
-      {required super.direction, super.animationStep, this.meleeCycles = 1});
+      {required super.atlas, super.animationStep, this.meleeCycles = 1});
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
@@ -118,7 +158,7 @@ abstract class MeleeAbility extends Ability {
 abstract class ThrownAbility extends Ability {
   final double moveSpeed = 200;
 
-  ThrownAbility({required super.direction, super.animationStep});
+  ThrownAbility({required super.atlas, super.animationStep});
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {

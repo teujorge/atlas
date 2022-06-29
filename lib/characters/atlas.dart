@@ -159,17 +159,17 @@ class Mage extends AtlasCharacter {
 
   @override
   ability1() {
-    gameRef.add(Fireball(direction: joystick.direction));
+    gameRef.add(Fireball(atlas: gameRef.atlas));
   }
 
   @override
   ability2() {
-    gameRef.add(Iceball(direction: joystick.direction));
+    gameRef.add(Iceball(atlas: gameRef.atlas));
   }
 
   @override
   ability3() {
-    gameRef.add(Beam(direction: joystick.direction));
+    gameRef.add(Beam(atlas: gameRef.atlas));
   }
 
   @override
@@ -211,17 +211,17 @@ class Archer extends AtlasCharacter {
 
   @override
   ability1() {
-    gameRef.add(Arrow(direction: joystick.direction));
+    gameRef.add(Arrow(atlas: gameRef.atlas));
   }
 
   @override
   ability2() {
-    gameRef.add(Cluster(direction: joystick.direction));
+    gameRef.add(Cluster(atlas: gameRef.atlas));
   }
 
   @override
   ability3() {
-    gameRef.add(GreenHit(direction: joystick.direction));
+    gameRef.add(GreenHit(atlas: gameRef.atlas));
   }
 
   @override
@@ -263,17 +263,17 @@ class Knight extends AtlasCharacter {
 
   @override
   ability1() {
-    gameRef.add(Sword(direction: joystick.direction));
+    gameRef.add(Sword(atlas: gameRef.atlas));
   }
 
   @override
   ability2() {
-    gameRef.add(Whirlwind(direction: joystick.direction));
+    gameRef.add(Whirlwind(atlas: gameRef.atlas));
   }
 
   @override
   ability3() {
-    gameRef.add(Impact(direction: joystick.direction));
+    gameRef.add(Impact(atlas: gameRef.atlas));
   }
 
   @override
