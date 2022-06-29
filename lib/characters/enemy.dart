@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:Atlas/characters/obstacle.dart';
 import 'package:flame/sprite.dart';
@@ -48,6 +49,15 @@ class EnemyCharacter extends SpriteAnimationComponent
     }
 
     return randomVector;
+  }
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+    canvas.drawRect(
+      Vector2(10, 10).toRect(),
+      Paint()..color = const Color.fromARGB(255, 255, 5, 5).withAlpha(150),
+    );
   }
 
   @override
