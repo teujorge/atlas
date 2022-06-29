@@ -9,6 +9,7 @@ import 'dart:ui' as ui;
 import 'main.dart';
 import 'loaders.dart';
 import 'screens/options.dart';
+import '../characters/atlas.dart';
 
 class Hud extends Component {
 // game and app
@@ -77,12 +78,22 @@ class Hud extends Component {
       scoreTextComponent.text = 'Score: ${game.atlas.kills.value}';
     });
 
-    // add abilities (character dependant)
+    // get ability cooldowns
+    double ab1cd = 2; // top right
+    double ab2cd = 2; // bot left
+    double ab3cd = 2; // mid
+    if (game.atlas.runtimeType == Mage) {
+      ab3cd = 7.5;
+    } else if (game.atlas.runtimeType == Knight) {
+    } else {}
+
+    // add abilities buttons
     add(
       // ability 1
       AbilityButton(
         game: game,
         ability: 1,
+        cooldownTime: ab1cd,
         margin: abilityMargin1,
       ),
     );
@@ -91,6 +102,7 @@ class Hud extends Component {
       AbilityButton(
         game: game,
         ability: 2,
+        cooldownTime: ab2cd,
         margin: abilityMargin2,
       ),
     );
@@ -99,6 +111,7 @@ class Hud extends Component {
       AbilityButton(
         game: game,
         ability: 3,
+        cooldownTime: ab3cd,
         margin: abilityMargin3,
       ),
     );
@@ -190,10 +203,10 @@ class AbilityButton extends HudButton {
   AtlasGame game;
 
   AbilityButton({
+    required double cooldownTime,
     required EdgeInsets margin,
     required this.ability,
     required this.game,
-    double cooldownTime = 1.0,
   }) : super(margin: margin) {
     cooldown = Timer(
       cooldownTime,
