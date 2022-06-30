@@ -50,6 +50,7 @@ class Hud extends Component {
 
   @override
   void render(Canvas canvas) {
+    super.render(canvas);
     // atlas health bar
     canvas.drawRRect(
       RRect.fromRectAndRadius(
@@ -70,6 +71,7 @@ class Hud extends Component {
 
   @override
   Future<void>? onLoad() {
+    super.onLoad();
     // score
     final scoreTextComponent = TextComponent(
       text: 'Score: 0',
@@ -142,6 +144,7 @@ class HudButton extends HudMarginComponent with Tappable {
 
   @override
   void render(Canvas canvas) {
+    super.render(canvas);
     if (image != null) {
       canvas.drawImage(image!, const Offset(0, 0), background);
     } else {
@@ -157,6 +160,7 @@ class PauseButton extends HudButton {
 
   @override
   void render(Canvas canvas) {
+    super.render(canvas);
     if (gameRef.paused) {
       canvas.drawLine(const Offset(-20, 0), const Offset(20, 0), redBackground);
     } else {
@@ -166,8 +170,8 @@ class PauseButton extends HudButton {
 
   @override
   bool onTapDown(TapDownInfo info) {
+    super.onTapDown(info);
     // enter settings
-
     gameRef.pauseEngine();
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -219,6 +223,7 @@ class AbilityButton extends HudButton {
 
   @override
   bool onTapDown(TapDownInfo info) {
+    super.onTapDown(info);
     if (!onCooldown) {
       bool abilityUsed = abilityFn();
       // if ability was used start cooldown
@@ -235,7 +240,7 @@ class AbilityButton extends HudButton {
     super.render(canvas);
     // cooldown progress
     canvas.drawRect(
-      Vector2(50 - cooldown.progress * size.x, 5).toRect(),
+      Vector2(size.x - cooldown.progress * size.x, 5).toRect(),
       Paint()..color = const Color.fromARGB(255, 255, 255, 255),
     );
   }

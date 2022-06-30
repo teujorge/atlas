@@ -57,7 +57,7 @@ class EnemyCharacter extends SpriteAnimationComponent
     super.render(canvas);
 
     canvas.drawRect(
-      Vector2(50 * health / maxHealth, -5).toRect(),
+      Vector2(size.x * health / maxHealth, -5).toRect(),
       Paint()..color = const Color.fromARGB(255, 255, 0, 0),
     );
   }

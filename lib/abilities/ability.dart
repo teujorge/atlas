@@ -117,8 +117,13 @@ abstract class Ability extends SpriteAnimationComponent
       // damage
       other.health -= damage;
       // push
-      other.position.add(-other.atlasDirection * 0.01);
+      other.position.add(-other.atlasDirection * 0.005);
     }
+  }
+
+  void removeAbility() {
+    gameRef.atlas.usingAbility = false;
+    gameRef.remove(this);
   }
 }
 
@@ -138,13 +143,16 @@ abstract class MeleeAbility extends Ability {
   Future<void>? onLoad() async {
     await super.onLoad();
 
+    // cannot do another ability while doing melee
+    gameRef.atlas.usingAbility = true;
+
     // ability timer
     clock = Timer(
       animationStep * meleeCycles,
       repeat: false,
       autoStart: false,
       onTick: () {
-        gameRef.remove(this);
+        removeAbility();
       },
     );
     clock.start();
@@ -181,14 +189,14 @@ abstract class ThrownAbility extends Ability {
 
     // remove out of bounds abilities
     if (position.x - 25 > gameRef.mapWidth) {
-      gameRef.remove(this);
+      removeAbility();
     } else if (position.x < 0) {
-      gameRef.remove(this);
+      removeAbility();
     }
     if (position.y - 25 > gameRef.mapHeight) {
-      gameRef.remove(this);
+      removeAbility();
     } else if (position.y < 0) {
-      gameRef.remove(this);
+      removeAbility();
     }
   }
 }
