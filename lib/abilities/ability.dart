@@ -10,12 +10,16 @@ import '../characters/atlas.dart';
 // general ability
 abstract class Ability extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<AtlasGame> {
-  int damage = 10;
+  double damage;
   double animationStep;
   AtlasCharacter atlas;
   late Vector2 direction;
 
-  Ability({required this.atlas, this.animationStep = 0.1}) {
+  Ability({
+    required this.atlas,
+    this.animationStep = 0.1,
+    this.damage = 10,
+  }) {
     debugMode = true;
     size = Vector2.all(64);
     anchor = Anchor.center;
@@ -123,8 +127,12 @@ abstract class MeleeAbility extends Ability {
   late Timer clock;
   int meleeCycles;
 
-  MeleeAbility(
-      {required super.atlas, super.animationStep, this.meleeCycles = 1});
+  MeleeAbility({
+    required super.atlas,
+    super.animationStep,
+    super.damage,
+    this.meleeCycles = 1,
+  });
 
   @override
   Future<void>? onLoad() async {
@@ -158,7 +166,11 @@ abstract class MeleeAbility extends Ability {
 abstract class ThrownAbility extends Ability {
   final double moveSpeed = 200;
 
-  ThrownAbility({required super.atlas, super.animationStep});
+  ThrownAbility({
+    required super.atlas,
+    super.animationStep,
+    super.damage,
+  });
 
   @override
   void update(double dt) {

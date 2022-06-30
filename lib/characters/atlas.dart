@@ -179,7 +179,7 @@ class Mage extends AtlasCharacter {
     double energyReq = 15;
     if (energy > energyReq) {
       energy -= energyReq;
-      gameRef.add(Fireball(atlas: gameRef.atlas));
+      gameRef.add(Fireball(atlas: this, damage: 20));
       return true;
     }
     return false;
@@ -190,7 +190,7 @@ class Mage extends AtlasCharacter {
     double energyReq = 15;
     if (energy > energyReq) {
       energy -= energyReq;
-      gameRef.add(Iceball(atlas: gameRef.atlas));
+      gameRef.add(Iceball(atlas: this, damage: 20));
       return true;
     }
     return false;
@@ -201,7 +201,7 @@ class Mage extends AtlasCharacter {
     double energyReq = 50;
     if (energy > energyReq) {
       energy -= energyReq;
-      gameRef.add(Beam(atlas: gameRef.atlas));
+      gameRef.add(Beam(atlas: this, damage: 5));
       return true;
     }
     return false;
@@ -263,7 +263,7 @@ class Archer extends AtlasCharacter {
     double energyReq = 50;
     if (energy > energyReq) {
       energy -= energyReq;
-      gameRef.add(Arrow(atlas: gameRef.atlas));
+      gameRef.add(Arrow(atlas: this, damage: 1));
       return true;
     }
     return false;
@@ -274,7 +274,7 @@ class Archer extends AtlasCharacter {
     double energyReq = 50;
     if (energy > energyReq) {
       energy -= energyReq;
-      gameRef.add(Cluster(atlas: gameRef.atlas));
+      gameRef.add(Cluster(atlas: this, damage: 1));
       return true;
     }
     return false;
@@ -285,7 +285,7 @@ class Archer extends AtlasCharacter {
     double energyReq = 50;
     if (energy > energyReq) {
       energy -= energyReq;
-      gameRef.add(GreenHit(atlas: gameRef.atlas));
+      gameRef.add(GreenHit(atlas: this, damage: 1));
       return true;
     }
     return false;
@@ -345,7 +345,7 @@ class Knight extends AtlasCharacter {
   @override
   ability1() {
     energy += 10;
-    gameRef.add(Sword(atlas: gameRef.atlas));
+    gameRef.add(Sword(atlas: this, damage: 1));
     return true;
   }
 
@@ -354,7 +354,7 @@ class Knight extends AtlasCharacter {
     double energyReq = 30;
     if (energy > energyReq) {
       energy -= energyReq;
-      gameRef.add(Whirlwind(atlas: gameRef.atlas));
+      gameRef.add(Whirlwind(atlas: this, damage: 1));
       return true;
     }
     return false;
@@ -365,7 +365,7 @@ class Knight extends AtlasCharacter {
     double energyReq = 50;
     if (energy > energyReq) {
       energy -= energyReq;
-      gameRef.add(Impact(atlas: gameRef.atlas));
+      gameRef.add(Impact(atlas: this, damage: 1));
       return true;
     }
     return false;
