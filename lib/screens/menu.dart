@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../config.dart';
 import 'character.dart';
 
 class MainMenu extends StatelessWidget {
@@ -35,18 +36,15 @@ class MainMenu extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => CharacterSelection(),
-                      ),
-                    );
-                  },
-                  child: const Text("Play"),
-                ),
+              Button(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => CharacterSelection(),
+                    ),
+                  );
+                },
+                child: const Text("Play"),
               ),
             ],
           ),
