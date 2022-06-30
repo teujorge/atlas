@@ -75,7 +75,7 @@ class EnemyCharacter extends SpriteAnimationComponent
       print("my health: $health");
     }
     if (other is AtlasCharacter) {
-      other.position += atlasDirection * 0.1;
+      other.position += atlasDirection * 0.01;
     }
   }
 

@@ -99,6 +99,17 @@ abstract class Ability extends SpriteAnimationComponent
     await super.onLoad();
     position = gameRef.atlas.position;
   }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    super.onCollision(intersectionPoints, other);
+    if (other is EnemyCharacter) {
+      // damage
+      other.health -= damage;
+      // push
+      other.position.add(-other.atlasDirection * 0.01);
+    }
+  }
 }
 
 // cqb ability
@@ -108,17 +119,6 @@ abstract class MeleeAbility extends Ability {
 
   MeleeAbility(
       {required super.atlas, super.animationStep, this.meleeCycles = 1});
-
-  @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    super.onCollision(intersectionPoints, other);
-    if (other is EnemyCharacter) {
-      // damage
-      other.health -= damage;
-      // push
-      other.position.add(direction * 10);
-    }
-  }
 
   @override
   Future<void>? onLoad() async {
@@ -153,17 +153,6 @@ abstract class ThrownAbility extends Ability {
   final double moveSpeed = 200;
 
   ThrownAbility({required super.atlas, super.animationStep});
-
-  @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    super.onCollision(intersectionPoints, other);
-    if (other is EnemyCharacter) {
-      // damage
-      other.health -= damage;
-      //stagger
-      other.position.add(other.moveDirection * -0.005);
-    }
-  }
 
   @override
   void update(double dt) {
