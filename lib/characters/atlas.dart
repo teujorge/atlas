@@ -46,7 +46,6 @@ abstract class AtlasCharacter extends SpriteAnimationComponent
     if (energy < 100) {
       energy += 0.2;
     }
-    print(energy);
 
     // update caharacter location based on walk
     switch (joystick.direction) {

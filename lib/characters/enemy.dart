@@ -72,7 +72,7 @@ class EnemyCharacter extends SpriteAnimationComponent
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
     if (other is Ability) {
-      print("my health: $health");
+      // print("my health: $health");
     }
     if (other is AtlasCharacter) {
       other.position += atlasDirection * 0.01;
