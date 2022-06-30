@@ -1,3 +1,4 @@
+import 'package:Atlas/characters/atlas.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
@@ -11,6 +12,7 @@ import '../abilities/ability.dart';
 class EnemyCharacter extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<AtlasGame> {
   Dir direction = Dir.idle;
+  Vector2 atlasDirection = Vector2(0, 0);
   Vector2 moveDirection = Vector2(0, 0);
   double moveSpeed = 25;
   final double animationSpeed = .3;
@@ -72,6 +74,9 @@ class EnemyCharacter extends SpriteAnimationComponent
     if (other is Ability) {
       print("my health: $health");
     }
+    if (other is AtlasCharacter) {
+      other.position += atlasDirection * 0.1;
+    }
   }
 
   @override
@@ -81,13 +86,13 @@ class EnemyCharacter extends SpriteAnimationComponent
     // dead if health = 0;
     if (health <= 0) {
       gameRef.remove(this);
-      gameRef.atlas.kills.value += 1;
+      gameRef.atlas.kills.value++;
     }
 
     // alive
     else {
       // get atlas vector
-      Vector2 atlasDirection =
+      atlasDirection =
           Vector2(gameRef.atlas.x, gameRef.atlas.y) - Vector2(x, y);
       // get door vector
       Vector2 doorDirection =
@@ -117,6 +122,7 @@ class EnemyCharacter extends SpriteAnimationComponent
 
 class Skelet extends EnemyCharacter {
   Skelet();
+
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
@@ -126,12 +132,21 @@ class Skelet extends EnemyCharacter {
       0.15,
     );
   }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    super.onCollision(intersectionPoints, other);
+    if (other is AtlasCharacter) {
+      other.health -= 0.10;
+    }
+  }
 }
 
 class Necro extends EnemyCharacter {
   Necro() {
     health = maxHealth = 200;
   }
+
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
@@ -141,10 +156,19 @@ class Necro extends EnemyCharacter {
       0.15,
     );
   }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    super.onCollision(intersectionPoints, other);
+    if (other is AtlasCharacter) {
+      other.health -= 0.25;
+    }
+  }
 }
 
 class Goblin extends EnemyCharacter {
   Goblin();
+
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
@@ -153,5 +177,13 @@ class Goblin extends EnemyCharacter {
       "enemies/goblin.png",
       0.15,
     );
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    super.onCollision(intersectionPoints, other);
+    if (other is AtlasCharacter) {
+      other.health -= 0.50;
+    }
   }
 }
