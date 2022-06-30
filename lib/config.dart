@@ -7,17 +7,14 @@ class Button extends StatelessWidget {
   final VoidCallback? onLongPress;
   final Widget? child;
 
-  late final EdgeInsets? padding;
+  final EdgeInsets? padding = const EdgeInsets.all(8);
 
-  Button({
+  const Button({
     Key? key,
     this.onPressed,
     this.onLongPress,
-    this.padding,
     required this.child,
-  }) : super(key: key) {
-    padding ??= const EdgeInsets.all(8);
-  }
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
