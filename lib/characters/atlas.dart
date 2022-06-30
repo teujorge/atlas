@@ -10,7 +10,8 @@ abstract class AtlasCharacter extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<AtlasGame> {
   // score
   final kills = ValueNotifier<int>(0);
-  int health = 100;
+  double health = 100;
+  double energy = 100;
 
   // char movement
   final double animationSpeed = .3;
@@ -40,6 +41,12 @@ abstract class AtlasCharacter extends SpriteAnimationComponent
   @override
   void update(double dt) {
     super.update(dt);
+
+    // regain energy
+    if (energy < 100) {
+      energy += 0.2;
+    }
+    print(energy);
 
     // update caharacter location based on walk
     switch (joystick.direction) {
@@ -145,9 +152,17 @@ abstract class AtlasCharacter extends SpriteAnimationComponent
   }
 
   // overwritten by children
-  ability1() {}
-  ability2() {}
-  ability3() {}
+  bool ability1() {
+    return false;
+  }
+
+  bool ability2() {
+    return false;
+  }
+
+  bool ability3() {
+    return false;
+  }
 }
 
 class Mage extends AtlasCharacter {
@@ -157,18 +172,36 @@ class Mage extends AtlasCharacter {
   });
 
   @override
-  ability1() {
-    gameRef.add(Fireball(atlas: gameRef.atlas));
+  bool ability1() {
+    double energyReq = 15;
+    if (energy > energyReq) {
+      energy -= energyReq;
+      gameRef.add(Fireball(atlas: gameRef.atlas));
+      return true;
+    }
+    return false;
   }
 
   @override
-  ability2() {
-    gameRef.add(Iceball(atlas: gameRef.atlas));
+  bool ability2() {
+    double energyReq = 15;
+    if (energy > energyReq) {
+      energy -= energyReq;
+      gameRef.add(Iceball(atlas: gameRef.atlas));
+      return true;
+    }
+    return false;
   }
 
   @override
-  ability3() {
-    gameRef.add(Beam(atlas: gameRef.atlas));
+  bool ability3() {
+    double energyReq = 50;
+    if (energy > energyReq) {
+      energy -= energyReq;
+      gameRef.add(Beam(atlas: gameRef.atlas));
+      return true;
+    }
+    return false;
   }
 
   @override
@@ -210,17 +243,32 @@ class Archer extends AtlasCharacter {
 
   @override
   ability1() {
-    gameRef.add(Arrow(atlas: gameRef.atlas));
+    if (energy > 50) {
+      energy -= 50;
+      gameRef.add(Arrow(atlas: gameRef.atlas));
+      return true;
+    }
+    return false;
   }
 
   @override
   ability2() {
-    gameRef.add(Cluster(atlas: gameRef.atlas));
+    if (energy > 50) {
+      energy -= 50;
+      gameRef.add(Cluster(atlas: gameRef.atlas));
+      return true;
+    }
+    return false;
   }
 
   @override
   ability3() {
-    gameRef.add(GreenHit(atlas: gameRef.atlas));
+    if (energy > 50) {
+      energy -= 50;
+      gameRef.add(GreenHit(atlas: gameRef.atlas));
+      return true;
+    }
+    return false;
   }
 
   @override
@@ -262,17 +310,32 @@ class Knight extends AtlasCharacter {
 
   @override
   ability1() {
-    gameRef.add(Sword(atlas: gameRef.atlas));
+    if (energy > 50) {
+      energy -= 50;
+      gameRef.add(Sword(atlas: gameRef.atlas));
+      return true;
+    }
+    return false;
   }
 
   @override
   ability2() {
-    gameRef.add(Whirlwind(atlas: gameRef.atlas));
+    if (energy > 50) {
+      energy -= 50;
+      gameRef.add(Whirlwind(atlas: gameRef.atlas));
+      return true;
+    }
+    return false;
   }
 
   @override
   ability3() {
-    gameRef.add(Impact(atlas: gameRef.atlas));
+    if (energy > 50) {
+      energy -= 50;
+      gameRef.add(Impact(atlas: gameRef.atlas));
+      return true;
+    }
+    return false;
   }
 
   @override
