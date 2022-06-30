@@ -52,7 +52,7 @@ class AtlasGame extends FlameGame
   late String soundTrackName = "ukulele";
 
   // door
-  int health = 100;
+  double health = 100;
   late Vector2 doorPosition;
 
   AtlasGame(this.context, CharName charName) {

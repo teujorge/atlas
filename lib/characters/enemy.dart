@@ -16,8 +16,8 @@ class EnemyCharacter extends SpriteAnimationComponent
   Vector2 moveDirection = Vector2(0, 0);
   double moveSpeed = 25;
   final double animationSpeed = .3;
-  int health = 100;
-  int maxHealth = 100;
+  double health = 100;
+  double maxHealth = 100;
 
   EnemyCharacter() {
     debugMode = true;
