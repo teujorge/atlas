@@ -41,3 +41,14 @@ class Button extends StatelessWidget {
     );
   }
 }
+
+class BabaText extends Text {
+  BabaText(String data, {Key? key, TextStyle? style})
+      : super(
+          data,
+          key: key,
+          style: style != null
+              ? style.copyWith(fontFamily: 'BABA')
+              : const TextStyle(fontFamily: 'BABA'),
+        );
+}

@@ -15,11 +15,11 @@ class Options extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 50.0),
-              child: Text(
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 50.0),
+              child: BabaText(
                 "Settings",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 50.0,
                   shadows: [
                     Shadow(
@@ -41,14 +41,14 @@ class Options extends StatelessWidget {
                       // exit settings
                       Navigator.of(context).pop();
                     },
-                    child: const Text("Resume"),
+                    child: BabaText("Resume"),
                   )
                 : Button(
                     onPressed: () {
                       // exit settings
                       Navigator.of(context).pop();
                     },
-                    child: const Text("Back"),
+                    child: BabaText("Back"),
                   ),
             Button(
               onPressed: () {
@@ -60,7 +60,7 @@ class Options extends StatelessWidget {
                   (route) => route.isFirst,
                 );
               },
-              child: const Text("Quit"),
+              child: BabaText("Quit"),
             ),
           ],
         ),

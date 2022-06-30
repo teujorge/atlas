@@ -20,11 +20,11 @@ class MainMenu extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 100.0),
-                child: Text(
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 100.0),
+                child: BabaText(
                   "Atlas Arena",
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 50.0,
                     shadows: [
                       Shadow(
@@ -44,7 +44,7 @@ class MainMenu extends StatelessWidget {
                     ),
                   );
                 },
-                child: const Text("Play"),
+                child: BabaText("Play"),
               ),
             ],
           ),

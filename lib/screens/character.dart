@@ -12,10 +12,10 @@ class CharacterSelection extends StatefulWidget {
   final List<List<Widget>> abilityInfo = [
     // mage abilities
     [
-      const Text("Mage Abilities"),
+      BabaText("Mage Abilities"),
       Row(
         children: [
-          const Text("Fireball"),
+          BabaText("Fireball"),
           Image.asset(
             'assets/images/abilities/fireball.gif',
           ),
@@ -23,7 +23,7 @@ class CharacterSelection extends StatefulWidget {
       ),
       Row(
         children: [
-          const Text("Iceball"),
+          BabaText("Iceball"),
           Image.asset(
             'assets/images/abilities/iceball.gif',
           ),
@@ -31,7 +31,7 @@ class CharacterSelection extends StatefulWidget {
       ),
       Row(
         children: [
-          const Text("Arcane Beam"),
+          BabaText("Arcane Beam"),
           Image.asset(
             'assets/images/abilities/beam.gif',
           ),
@@ -40,10 +40,10 @@ class CharacterSelection extends StatefulWidget {
     ],
     // elf abilities
     [
-      const Text("Elf Abilities"),
+      BabaText("Elf Abilities"),
       Row(
         children: [
-          const Text("Arrow"),
+          BabaText("Arrow"),
           Image.asset(
             'assets/images/abilities/arrow.gif',
           ),
@@ -51,7 +51,7 @@ class CharacterSelection extends StatefulWidget {
       ),
       Row(
         children: [
-          const Text("Cluster"),
+          BabaText("Cluster"),
           Image.asset(
             'assets/images/abilities/cluster.gif',
           ),
@@ -59,7 +59,7 @@ class CharacterSelection extends StatefulWidget {
       ),
       Row(
         children: [
-          const Text("Green Hit"),
+          BabaText("Green Hit"),
           Image.asset(
             'assets/images/abilities/green_hit.gif',
           ),
@@ -68,10 +68,10 @@ class CharacterSelection extends StatefulWidget {
     ],
     // knight abilities
     [
-      const Text("Knight Abilities"),
+      BabaText("Knight Abilities"),
       Row(
         children: [
-          const Text("Sword"),
+          BabaText("Sword"),
           Image.asset(
             'assets/images/abilities/sword.gif',
           ),
@@ -79,7 +79,7 @@ class CharacterSelection extends StatefulWidget {
       ),
       Row(
         children: [
-          const Text("Impact"),
+          BabaText("Impact"),
           Image.asset(
             'assets/images/abilities/impact.gif',
           ),
@@ -87,7 +87,7 @@ class CharacterSelection extends StatefulWidget {
       ),
       Row(
         children: [
-          const Text("Whirlwind"),
+          BabaText("Whirlwind"),
           Image.asset(
             'assets/images/abilities/whirlwind.gif',
           ),
@@ -108,11 +108,11 @@ class CharacterSelectionState extends State<CharacterSelection> {
     return Scaffold(
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.0),
-            child: Text(
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: BabaText(
               "Character Selection",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 30.0,
                 shadows: [
                   Shadow(
@@ -166,7 +166,7 @@ class CharacterSelectionState extends State<CharacterSelection> {
                   ),
                 );
               },
-              child: const Text("Play"),
+              child: BabaText("Play"),
             ),
             Button(
               onPressed: () {
@@ -176,7 +176,7 @@ class CharacterSelectionState extends State<CharacterSelection> {
                   ),
                 );
               },
-              child: const Text("Options"),
+              child: BabaText("Options"),
             ),
           ]),
         ]),
