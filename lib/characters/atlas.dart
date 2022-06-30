@@ -25,6 +25,11 @@ abstract class AtlasCharacter extends SpriteAnimationComponent
   final JoystickComponent joystick;
   List<JoystickDirection> collisionDirections = [];
 
+  // ability cooldown timers
+  double abilityCooldown1 = 1;
+  double abilityCooldown2 = 1;
+  double abilityCooldown3 = 1;
+
   AtlasCharacter({required position, required this.joystick})
       : super(position: position) {
     debugMode = true;
@@ -41,11 +46,6 @@ abstract class AtlasCharacter extends SpriteAnimationComponent
   @override
   void update(double dt) {
     super.update(dt);
-
-    // regain energy
-    if (energy < 100) {
-      energy += 0.2;
-    }
 
     // update caharacter location based on walk
     switch (joystick.direction) {
@@ -168,7 +168,11 @@ class Mage extends AtlasCharacter {
   Mage({
     required super.position,
     required super.joystick,
-  });
+  }) {
+    abilityCooldown1 = 1.5;
+    abilityCooldown2 = 5;
+    abilityCooldown3 = 5;
+  }
 
   @override
   bool ability1() {
@@ -232,18 +236,33 @@ class Mage extends AtlasCharacter {
       animationSpeed,
     );
   }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+
+    // regain mana
+    if (energy < 100) {
+      energy += 0.2;
+    }
+  }
 }
 
 class Archer extends AtlasCharacter {
   Archer({
     required super.position,
     required super.joystick,
-  });
+  }) {
+    abilityCooldown1 = 2;
+    abilityCooldown2 = 2;
+    abilityCooldown3 = 2;
+  }
 
   @override
   ability1() {
-    if (energy > 50) {
-      energy -= 50;
+    double energyReq = 50;
+    if (energy > energyReq) {
+      energy -= energyReq;
       gameRef.add(Arrow(atlas: gameRef.atlas));
       return true;
     }
@@ -252,8 +271,9 @@ class Archer extends AtlasCharacter {
 
   @override
   ability2() {
-    if (energy > 50) {
-      energy -= 50;
+    double energyReq = 50;
+    if (energy > energyReq) {
+      energy -= energyReq;
       gameRef.add(Cluster(atlas: gameRef.atlas));
       return true;
     }
@@ -262,8 +282,9 @@ class Archer extends AtlasCharacter {
 
   @override
   ability3() {
-    if (energy > 50) {
-      energy -= 50;
+    double energyReq = 50;
+    if (energy > energyReq) {
+      energy -= energyReq;
       gameRef.add(GreenHit(atlas: gameRef.atlas));
       return true;
     }
@@ -299,28 +320,40 @@ class Archer extends AtlasCharacter {
       animationSpeed,
     );
   }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+
+    // regain stamina
+    if (energy < 100) {
+      energy += 0.5;
+    }
+  }
 }
 
 class Knight extends AtlasCharacter {
   Knight({
     required super.position,
     required super.joystick,
-  });
+  }) {
+    abilityCooldown1 = 1.5;
+    abilityCooldown2 = 5;
+    abilityCooldown3 = 5;
+  }
 
   @override
   ability1() {
-    if (energy > 50) {
-      energy -= 50;
-      gameRef.add(Sword(atlas: gameRef.atlas));
-      return true;
-    }
-    return false;
+    energy += 10;
+    gameRef.add(Sword(atlas: gameRef.atlas));
+    return true;
   }
 
   @override
   ability2() {
-    if (energy > 50) {
-      energy -= 50;
+    double energyReq = 30;
+    if (energy > energyReq) {
+      energy -= energyReq;
       gameRef.add(Whirlwind(atlas: gameRef.atlas));
       return true;
     }
@@ -329,8 +362,9 @@ class Knight extends AtlasCharacter {
 
   @override
   ability3() {
-    if (energy > 50) {
-      energy -= 50;
+    double energyReq = 50;
+    if (energy > energyReq) {
+      energy -= energyReq;
       gameRef.add(Impact(atlas: gameRef.atlas));
       return true;
     }
@@ -365,5 +399,15 @@ class Knight extends AtlasCharacter {
       "atlas/knight_right.png",
       animationSpeed,
     );
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+
+    // loose fury
+    if (energy < 100) {
+      energy -= 0.05;
+    }
   }
 }

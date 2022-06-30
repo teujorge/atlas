@@ -80,22 +80,12 @@ class Hud extends Component {
       scoreTextComponent.text = 'Score: ${game.atlas.kills.value}';
     });
 
-    // get ability cooldowns
-    double ab1cd = 2; // top right
-    double ab2cd = 2; // bot left
-    double ab3cd = 2; // mid
-    if (game.atlas.runtimeType == Mage) {
-      ab3cd = 7.5;
-    } else if (game.atlas.runtimeType == Knight) {
-    } else {}
-
     // add abilities buttons
     add(
       // ability 1
       AbilityButton(
         game: game,
         ability: 1,
-        cooldownTime: ab1cd,
         margin: abilityMargin1,
       ),
     );
@@ -104,7 +94,6 @@ class Hud extends Component {
       AbilityButton(
         game: game,
         ability: 2,
-        cooldownTime: ab2cd,
         margin: abilityMargin2,
       ),
     );
@@ -113,7 +102,6 @@ class Hud extends Component {
       AbilityButton(
         game: game,
         ability: 3,
-        cooldownTime: ab3cd,
         margin: abilityMargin3,
       ),
     );
@@ -194,18 +182,31 @@ class PauseButton extends HudButton {
 
 // https://medium.com/flutteropen/canvas-tutorial-01-how-to-use-the-canvas-in-the-flutter-8aade29ddc9
 class AbilityButton extends HudButton {
+  AtlasGame game;
   bool onCooldown = false;
   late Timer cooldown;
-
-  int ability;
-  AtlasGame game;
+  late Function abilityFn;
 
   AbilityButton({
-    required double cooldownTime,
     required EdgeInsets margin,
-    required this.ability,
+    required ability,
     required this.game,
   }) : super(margin: margin) {
+    double cooldownTime = 2;
+    switch (ability) {
+      case 1:
+        cooldownTime = game.atlas.abilityCooldown1;
+        abilityFn = game.atlas.ability1;
+        break;
+      case 2:
+        cooldownTime = game.atlas.abilityCooldown2;
+        abilityFn = game.atlas.ability2;
+        break;
+      case 3:
+        cooldownTime = game.atlas.abilityCooldown3;
+        abilityFn = game.atlas.ability3;
+        break;
+    }
     cooldown = Timer(
       cooldownTime,
       onTick: () {
@@ -219,21 +220,7 @@ class AbilityButton extends HudButton {
   @override
   bool onTapDown(TapDownInfo info) {
     if (!onCooldown) {
-      bool abilityUsed = false;
-      switch (ability) {
-        case 1:
-          abilityUsed = game.atlas.ability1();
-          break;
-        case 2:
-          abilityUsed = game.atlas.ability2();
-          break;
-        case 3:
-          abilityUsed = game.atlas.ability3();
-          break;
-        default:
-          print("ABILITY NO 1 / 2 /3  ERROR");
-          break;
-      }
+      bool abilityUsed = abilityFn();
       // if ability was used start cooldown
       if (abilityUsed) {
         onCooldown = true;
