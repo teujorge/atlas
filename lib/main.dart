@@ -9,6 +9,7 @@ import 'package:flame_tiled/flame_tiled.dart';
 import 'hud.dart';
 import 'loaders.dart';
 import 'screens/menu.dart';
+import 'screens/options.dart';
 import 'characters/atlas.dart';
 import '../characters/enemy.dart';
 
@@ -32,11 +33,15 @@ void main() async {
 }
 
 class AtlasGame extends FlameGame
-    with HasCollisionDetection, HasDraggables, HasTappables {
+    with
+        HasCollisionDetection,
+        HasDraggables,
+        HasTappables,
+        WidgetsBindingObserver {
   // game set up
   late Hud hud;
-  BuildContext context;
   late AtlasCharacter atlas;
+  BuildContext context;
 
   // arena
   late Timer clock;
@@ -57,6 +62,9 @@ class AtlasGame extends FlameGame
       context: context,
       character: charName,
     );
+
+    // tell if game (while running) has been minimized or closed
+    WidgetsBinding.instance.addObserver(this);
 
     // create selected atlas character
     switch (charName) {
@@ -130,5 +138,19 @@ class AtlasGame extends FlameGame
   void update(double dt) {
     super.update(dt);
     clock.update(dt);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    if (state != AppLifecycleState.resumed && !paused) {
+      pauseEngine();
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const Options(),
+        ),
+      );
+    }
   }
 }
