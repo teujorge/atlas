@@ -25,6 +25,7 @@ void main() async {
   Flame.device.fullScreen();
   runApp(
     MaterialApp(
+      theme: ThemeData(fontFamily: 'BABA'),
       themeMode: ThemeMode.dark,
       darkTheme: ThemeData.dark(),
       home: const MainMenu(),
