@@ -54,14 +54,22 @@ class Hud extends Component {
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         Rect.fromLTWH(0, 0, game.atlas.health * 2, 50),
-        Radius.circular(game.atlas.health * 1.0),
+        Radius.circular(game.atlas.health),
       ),
       Paint()..color = const Color.fromARGB(255, 255, 10, 10),
     );
-    // atlas energy sphere
-    canvas.drawCircle(
-      Offset(25, 75),
-      25,
+    // // atlas energy sphere
+    // canvas.drawCircle(
+    //   Offset(25, 75),
+    //   25,
+    //   Paint()..color = const Color.fromARGB(255, 100, 50, 200),
+    // );
+    // atlas energy bar
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(0, 50, game.atlas.energy * 2, 50),
+        Radius.circular(game.atlas.energy),
+      ),
       Paint()..color = const Color.fromARGB(255, 100, 50, 200),
     );
   }
@@ -221,21 +229,25 @@ class AbilityButton extends HudButton {
   @override
   bool onTapDown(TapDownInfo info) {
     if (!onCooldown) {
-      onCooldown = true;
-      cooldown.start();
+      bool abilityUsed = false;
       switch (ability) {
         case 1:
-          game.atlas.ability1();
+          abilityUsed = game.atlas.ability1();
           break;
         case 2:
-          game.atlas.ability2();
+          abilityUsed = game.atlas.ability2();
           break;
         case 3:
-          game.atlas.ability3();
+          abilityUsed = game.atlas.ability3();
           break;
         default:
           print("ABILITY NO 1 / 2 /3  ERROR");
           break;
+      }
+      // if ability was used start cooldown
+      if (abilityUsed) {
+        onCooldown = true;
+        cooldown.start();
       }
     }
     return true;
