@@ -20,7 +20,13 @@ abstract class Ability extends SpriteAnimationComponent
     size = Vector2.all(64);
     anchor = Anchor.center;
     angle = joystickAngle();
-    direction = joystickDirToVector();
+    // direction = joystickDirToVector();
+
+    if (atlas.joystick.delta.length == 0) {
+      direction = Vector2(0, 1);
+    } else {
+      direction = atlas.joystick.delta / atlas.joystick.delta.length;
+    }
   }
 
   // translate joystick direction to normal vector
