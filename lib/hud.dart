@@ -115,6 +115,7 @@ class Hud extends Component {
     add(
       PauseButton(
         margin: const EdgeInsets.only(top: 20, right: 20),
+        // image: Image.asset('collectables/potion.png'),
         context: context,
       ),
     );
@@ -154,10 +155,8 @@ class HudButton extends HudMarginComponent with Tappable {
 
 class PauseButton extends HudButton {
   BuildContext context;
-  PauseButton({
-    required EdgeInsets margin,
-    required this.context,
-  }) : super(margin: margin);
+  PauseButton({required EdgeInsets margin, required this.context, image})
+      : super(margin: margin, image: image);
 
   @override
   void render(Canvas canvas) {
@@ -192,10 +191,11 @@ class AbilityButton extends HudButton {
   late Function abilityFn;
 
   AbilityButton({
+    image,
     required EdgeInsets margin,
     required ability,
     required this.game,
-  }) : super(margin: margin) {
+  }) : super(margin: margin, image: image) {
     double cooldownTime = 2;
     switch (ability) {
       case 1:

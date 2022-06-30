@@ -1,4 +1,5 @@
 import 'package:Atlas/characters/atlas.dart';
+import 'package:Atlas/collectables/collectables.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
@@ -85,8 +86,13 @@ class EnemyCharacter extends SpriteAnimationComponent
 
     // dead if health = 0;
     if (health <= 0) {
-      gameRef.remove(this);
+      if (Random().nextInt(51) == 10) {
+        gameRef.add(HealthPotion(position: position));
+      } else if (Random().nextInt(51) == 10) {
+        gameRef.add(EnergyPotion(position: position));
+      }
       gameRef.atlas.kills.value++;
+      gameRef.remove(this);
     }
 
     // alive

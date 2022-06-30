@@ -1,3 +1,4 @@
+import 'package:Atlas/collectables/collectables.dart';
 import 'package:flame/game.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/components.dart';
@@ -45,6 +46,7 @@ class AtlasGame extends FlameGame
   BuildContext context;
 
   // arena
+
   late Timer clock;
   late double mapWidth;
   late double mapHeight;
