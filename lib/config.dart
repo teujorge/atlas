@@ -25,12 +25,12 @@ class Button extends StatelessWidget {
         onPressed: onPressed,
         onLongPress: onLongPress,
         style: ButtonStyle(
-          // backgroundColor: MaterialStateProperty.resolveWith(
-          //   (states) => Colors.black,
-          // ),
-          // foregroundColor: MaterialStateProperty.resolveWith(
-          //   (states) => Colors.white,
-          // ),
+          backgroundColor: MaterialStateProperty.resolveWith(
+            (states) => Colors.black,
+          ),
+          foregroundColor: MaterialStateProperty.resolveWith(
+            (states) => Colors.white,
+          ),
           padding: MaterialStateProperty.resolveWith(
             (states) => const EdgeInsets.all(8),
           ),
