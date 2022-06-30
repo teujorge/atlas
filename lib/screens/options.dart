@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 
 class Options extends StatelessWidget {
-  const Options({Key? key}) : super(key: key);
+  final FlameGame? game;
+  const Options({Key? key, this.game}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,19 +29,25 @@ class Options extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
-              width: 100,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    //navigation to options button
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text("Resume"),
-                ),
-              ),
-            ),
+            game != null
+                ? SizedBox(
+                    width: 100,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // resume game
+                          if (game!.paused) {
+                            game!.resumeEngine();
+                          }
+                          // exit settings
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text("Resume"),
+                      ),
+                    ),
+                  )
+                : const SizedBox(),
             SizedBox(
               width: 85,
               child: ElevatedButton(

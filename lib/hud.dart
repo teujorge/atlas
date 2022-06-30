@@ -58,12 +58,6 @@ class Hud extends Component {
       ),
       Paint()..color = const Color.fromARGB(255, 255, 10, 10),
     );
-    // // atlas energy sphere
-    // canvas.drawCircle(
-    //   Offset(25, 75),
-    //   25,
-    //   Paint()..color = const Color.fromARGB(255, 100, 50, 200),
-    // );
     // atlas energy bar
     canvas.drawRRect(
       RRect.fromRectAndRadius(
@@ -185,19 +179,15 @@ class PauseButton extends HudButton {
 
   @override
   bool onTapDown(TapDownInfo info) {
-    // exit settings
-    if (gameRef.paused) {
-      gameRef.resumeEngine();
-    }
     // enter settings
-    else {
-      gameRef.pauseEngine();
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const Options(),
-        ),
-      );
-    }
+
+    gameRef.pauseEngine();
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => Options(game: gameRef),
+      ),
+    );
+
     return true;
   }
 }

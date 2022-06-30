@@ -148,7 +148,7 @@ class AtlasGame extends FlameGame
       pauseEngine();
       Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => const Options(),
+          builder: (context) => Options(game: this),
         ),
       );
     }
