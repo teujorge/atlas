@@ -20,7 +20,6 @@ abstract class Ability extends SpriteAnimationComponent
     this.animationStep = 0.1,
     this.damage = 10,
   }) {
-    debugMode = true;
     size = Vector2.all(64);
     anchor = Anchor.center;
     angle = joystickAngle();

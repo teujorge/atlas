@@ -21,7 +21,6 @@ class EnemyCharacter extends SpriteAnimationComponent
   double maxHealth = 100;
 
   EnemyCharacter() {
-    debugMode = true;
     anchor = Anchor.center;
     add(RectangleHitbox());
   }

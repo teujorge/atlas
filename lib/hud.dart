@@ -138,9 +138,7 @@ class HudButton extends HudMarginComponent with Tappable {
   }) : super(
           margin: margin,
           size: Vector2.all(50),
-        ) {
-    debugMode = true;
-  }
+        ) {}
 
   @override
   void render(Canvas canvas) {

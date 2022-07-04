@@ -9,7 +9,6 @@ import '../main.dart';
 class ItemsCollectables extends SpriteComponent
     with CollisionCallbacks, HasGameRef<AtlasGame> {
   ItemsCollectables({required super.position}) {
-    debugMode = true;
     anchor = Anchor.center;
     add(RectangleHitbox());
   }

@@ -11,7 +11,6 @@ class Obstacle extends PositionComponent
   bool _horizontalCollision = false;
   List<JoystickDirection> _atlasCollisionDirections = [];
   Obstacle() {
-    debugMode = true;
     add(RectangleHitbox());
   }
 

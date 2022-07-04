@@ -33,7 +33,6 @@ abstract class AtlasCharacter extends SpriteAnimationComponent
 
   AtlasCharacter({required position, required this.joystick})
       : super(position: position) {
-    debugMode = true;
     anchor = Anchor.center;
     size = Vector2.all(characterSize);
     add(

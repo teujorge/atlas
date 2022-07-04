@@ -59,6 +59,8 @@ class AtlasGame extends FlameGame
   late Vector2 doorPosition;
 
   AtlasGame(this.context, CharName charName) {
+    debugMode = true;
+
     hud = Hud(
       game: this,
       priority: 1,
