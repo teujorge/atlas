@@ -103,6 +103,12 @@ abstract class Ability extends SpriteAnimationComponent
     return abilityAngle;
   }
 
+  Vector2 angleToVector() {
+    double xx = sin(angle);
+    double yy = cos(angle);
+    return Vector2(-xx, yy);
+  }
+
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
@@ -197,5 +203,21 @@ abstract class ThrownAbility extends Ability {
     } else if (position.y < 0) {
       removeAbility();
     }
+  }
+}
+
+// dash ability
+abstract class DashAbility extends Ability {
+  late final Vector2 newPosition = angleToVector() * 200;
+  final double moveSpeed = 200;
+
+  DashAbility({
+    required super.atlas,
+    super.animationStep,
+  });
+
+  @override
+  void update(double dt) {
+    super.update(dt);
   }
 }

@@ -190,7 +190,7 @@ class Mage extends AtlasCharacter {
     double energyReq = 15;
     if (energy > energyReq && !usingAbility) {
       energy -= energyReq;
-      gameRef.add(Iceball(atlas: this, damage: 20));
+      gameRef.add(Teleport(atlas: this));
       return true;
     }
     return false;
@@ -337,16 +337,16 @@ class Knight extends AtlasCharacter {
     required super.position,
     required super.joystick,
   }) {
-    abilityCooldown1 = 1.5;
-    abilityCooldown2 = 5;
-    abilityCooldown3 = 5;
+    abilityCooldown1 = 0.5;
+    abilityCooldown2 = 3;
+    abilityCooldown3 = 10;
   }
 
   @override
   ability1() {
     if (!usingAbility) {
       energy += 10;
-      gameRef.add(Sword(atlas: this, damage: 1));
+      gameRef.add(Sword(atlas: this, damage: 10));
       return true;
     }
     return false;
@@ -357,7 +357,7 @@ class Knight extends AtlasCharacter {
     double energyReq = 30;
     if (energy > energyReq && !usingAbility) {
       energy -= energyReq;
-      gameRef.add(Whirlwind(atlas: this, damage: 1));
+      gameRef.add(Whirlwind(atlas: this, damage: 10));
       return true;
     }
     return false;
@@ -368,7 +368,7 @@ class Knight extends AtlasCharacter {
     double energyReq = 50;
     if (energy > energyReq && !usingAbility) {
       energy -= energyReq;
-      gameRef.add(Impact(atlas: this, damage: 1));
+      gameRef.add(Impact(atlas: this, damage: 30));
       return true;
     }
     return false;

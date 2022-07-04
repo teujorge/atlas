@@ -252,3 +252,22 @@ class Sword extends MeleeAbility {
     );
   }
 }
+
+class Teleport extends DashAbility {
+  Teleport({
+    required super.atlas,
+    super.animationStep,
+  });
+  @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+    atlas.position = atlas.position + newPosition;
+  }
+
+  @override
+  void update(double dt) {
+    // TODO: implement update
+    super.update(dt);
+    gameRef.remove(this);
+  }
+}
