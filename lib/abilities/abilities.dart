@@ -243,6 +243,18 @@ class Sword extends MeleeAbility {
     ));
   }
   @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    super.onCollision(intersectionPoints, other);
+    if (gameRef.atlas.energy < 100) {
+      if (gameRef.atlas.energy + gameRef.atlas.energyGain > 100) {
+        gameRef.atlas.energy = 100;
+      } else {
+        gameRef.atlas.energy += gameRef.atlas.energyGain;
+      }
+    }
+  }
+
+  @override
   Future<void>? onLoad() async {
     await super.onLoad();
     animation = await createAnimation(
