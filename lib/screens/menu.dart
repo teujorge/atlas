@@ -17,6 +17,12 @@ class _MainMenuState extends State<MainMenu> with TickerProviderStateMixin {
   late Animation<double> _animation;
 
   @override
+  dispose() {
+    _controller.dispose(); // you need this
+    super.dispose();
+  }
+
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
