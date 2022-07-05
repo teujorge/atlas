@@ -138,7 +138,8 @@ class CharacterSelectionState extends State<CharacterSelection> {
               return Container(
                 width: MediaQuery.of(context).size.width,
                 margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                decoration: const BoxDecoration(color: Colors.amber),
+                decoration:
+                    const BoxDecoration(color: Color.fromARGB(255, 27, 27, 27)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
