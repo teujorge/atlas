@@ -65,7 +65,7 @@ class Hud extends Component {
         Rect.fromLTWH(0, 50, game.atlas.energy * 2, 50),
         Radius.circular(game.atlas.energy),
       ),
-      Paint()..color = const Color.fromARGB(255, 100, 50, 200),
+      Paint()..color = Color.fromARGB(255, 14, 90, 253),
     );
   }
 
