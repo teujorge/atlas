@@ -13,7 +13,8 @@ abstract class AtlasCharacter extends SpriteAnimationComponent
   final kills = ValueNotifier<int>(0);
   double health = 100;
   double energy = 100;
-  double energyGain = 1;
+  double energyGain = 0.8;
+  double energyReqKnight = 30;
   // char movement
   final double animationSpeed = .3;
   final double characterSize = 60;
@@ -354,9 +355,8 @@ class Knight extends AtlasCharacter {
 
   @override
   ability2() {
-    double energyReq = 30;
-    if (energy > energyReq && !usingAbility) {
-      energy -= energyReq;
+    if (energy > energyReqKnight && !usingAbility) {
+      energy -= energyReqKnight;
       gameRef.add(Whirlwind(atlas: this, damage: 10));
       return true;
     }
@@ -365,9 +365,9 @@ class Knight extends AtlasCharacter {
 
   @override
   ability3() {
-    double energyReq = 50;
-    if (energy > energyReq && !usingAbility) {
-      energy -= energyReq;
+    energyReqKnight = 50;
+    if (energy > energyReqKnight && !usingAbility) {
+      energy -= energyReqKnight;
       gameRef.add(Impact(atlas: this, damage: 30));
       return true;
     }

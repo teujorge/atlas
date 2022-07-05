@@ -187,11 +187,11 @@ class AbilityButton extends HudButton {
   bool onCooldown = false;
   late Timer cooldown;
   late Function abilityFn;
-
+  final int ability;
   AbilityButton({
     image,
     required EdgeInsets margin,
-    required ability,
+    required this.ability,
     required this.game,
   }) : super(margin: margin, image: image) {
     double cooldownTime = 2;
@@ -247,7 +247,7 @@ class AbilityButton extends HudButton {
   void update(double dt) {
     super.update(dt);
     cooldown.update(dt);
-    if (onCooldown) {
+    if (game.atlas.energyReqKnight > game.atlas.energy || onCooldown) {
       background = redBackground;
     } else {
       background = greenBackground;
