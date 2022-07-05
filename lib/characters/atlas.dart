@@ -244,7 +244,7 @@ class Mage extends AtlasCharacter {
 
     // regain mana
     if (energy < 100) {
-      energy += 0.2;
+      energy += 0.1;
     }
   }
 }
