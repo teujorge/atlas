@@ -1,10 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
 
 import '../config.dart';
 import 'character.dart';
 
-class MainMenu extends StatelessWidget {
+class MainMenu extends StatefulWidget {
   const MainMenu({Key? key}) : super(key: key);
+
+  @override
+  State<MainMenu> createState() => _MainMenuState();
+}
+
+class _MainMenuState extends State<MainMenu> with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 3),
+    );
+    _animation = CurvedAnimation(parent: _controller, curve: Curves.ease);
+    _controller.repeat(reverse: true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +43,11 @@ class MainMenu extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 100.0),
+                padding: const EdgeInsets.symmetric(vertical: 40.0),
                 child: BabaText(
                   "Atlas Arena",
                   style: const TextStyle(
-                    fontSize: 50.0,
+                    fontSize: 100.0,
                     shadows: [
                       Shadow(
                         blurRadius: 20.0,
@@ -36,15 +58,21 @@ class MainMenu extends StatelessWidget {
                   ),
                 ),
               ),
-              Button(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => CharacterSelection(),
-                    ),
-                  );
-                },
-                child: BabaText("Play"),
+              FadeTransition(
+                opacity: _animation,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => CharacterSelection(),
+                      ),
+                    );
+                  },
+                  child: BabaText(
+                    "Press to start",
+                    style: TextStyle(fontSize: 70),
+                  ),
+                ),
               ),
             ],
           ),
