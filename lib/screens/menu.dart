@@ -70,7 +70,7 @@ class _MainMenuState extends State<MainMenu> with TickerProviderStateMixin {
                   },
                   child: BabaText(
                     "Press to start",
-                    style: TextStyle(fontSize: 70),
+                    style: const TextStyle(fontSize: 70, color: Colors.white),
                   ),
                 ),
               ),
