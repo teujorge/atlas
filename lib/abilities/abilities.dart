@@ -242,6 +242,7 @@ class Sword extends MeleeAbility {
       position: Vector2(position.x + (size.x / 2), position.y + (size.y / 3)),
     ));
   }
+
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
@@ -249,7 +250,7 @@ class Sword extends MeleeAbility {
       if (gameRef.atlas.energy + gameRef.atlas.energyGain > 100) {
         gameRef.atlas.energy = 100;
       } else {
-        gameRef.atlas.energy += gameRef.atlas.energyGain;
+        gameRef.atlas.energy += gameRef.atlas.energyGain * 4;
       }
     }
   }
