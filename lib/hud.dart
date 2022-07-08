@@ -22,9 +22,11 @@ class Hud extends Component {
   late final CharName character;
 
   // 3 ability buttons locations (margins)
-  final abilityMargin1 = const EdgeInsets.only(bottom: 75, right: 25);
-  final abilityMargin2 = const EdgeInsets.only(bottom: 25, right: 75);
+  final abilityMargin1 = const EdgeInsets.only(bottom: 125, right: 25);
+  final abilityMargin2 = const EdgeInsets.only(bottom: 25, right: 125);
   final abilityMargin3 = const EdgeInsets.only(bottom: 75, right: 75);
+
+  late Color energyColor;
 
   Hud({
     super.children,
@@ -46,6 +48,8 @@ class Hud extends Component {
       ),
       margin: const EdgeInsets.only(left: 40, bottom: 40),
     );
+    // change ability button colors
+    energyColor = const Color.fromARGB(255, 6, 54, 158);
   }
 
   @override
@@ -65,7 +69,7 @@ class Hud extends Component {
         Rect.fromLTWH(0, 50, game.atlas.energy * 2, 50),
         Radius.circular(game.atlas.energy),
       ),
-      Paint()..color = Color.fromARGB(255, 14, 90, 253),
+      Paint()..color = energyColor,
     );
   }
 
@@ -82,12 +86,22 @@ class Hud extends Component {
       scoreTextComponent.text = 'Score: ${game.atlas.kills.value}';
     });
 
+    // change ability button colors
+    if (game.atlas is Mage) {
+      energyColor = Colors.purple;
+    }
+    if (game.atlas is Knight) {
+      energyColor = Colors.orange;
+    }
+    if (game.atlas is Archer) {
+      energyColor = Colors.yellow;
+    }
     // add abilities buttons
     add(
       // ability 1
       AbilityButton(
         game: game,
-        ability: 1,
+        abilityWhich: 1,
         margin: abilityMargin1,
       ),
     );
@@ -95,7 +109,7 @@ class Hud extends Component {
       // ability 2
       AbilityButton(
         game: game,
-        ability: 2,
+        abilityWhich: 2,
         margin: abilityMargin2,
       ),
     );
@@ -103,7 +117,7 @@ class Hud extends Component {
       // ability 3
       AbilityButton(
         game: game,
-        ability: 3,
+        abilityWhich: 3,
         margin: abilityMargin3,
       ),
     );
@@ -125,9 +139,11 @@ class Hud extends Component {
 }
 
 class HudButton extends HudMarginComponent with Tappable {
-  final Paint redBackground = Paint()
+  final Paint outlinePaintColor = Paint()
+    ..color = const Color.fromARGB(255, 0, 0, 0);
+  final Paint disableBackground = Paint()
     ..color = const Color.fromARGB(150, 255, 5, 5);
-  final Paint greenBackground = Paint()
+  final Paint ableBackground = Paint()
     ..color = const Color.fromARGB(150, 80, 255, 5);
   Paint background = Paint()..color = const Color.fromARGB(150, 80, 255, 5);
   ui.Image? image;
@@ -148,6 +164,26 @@ class HudButton extends HudMarginComponent with Tappable {
     } else {
       canvas.drawRect(size.toRect(), background);
     }
+    canvas.drawLine(
+      const Offset(0, 0),
+      Offset(0, size.y),
+      outlinePaintColor,
+    );
+    canvas.drawLine(
+      const Offset(0, 0),
+      Offset(size.y, 0),
+      outlinePaintColor,
+    );
+    canvas.drawLine(
+      Offset(0, size.y),
+      Offset(size.y, size.y),
+      outlinePaintColor,
+    );
+    canvas.drawLine(
+      Offset(size.y, 0),
+      Offset(size.y, size.y),
+      outlinePaintColor,
+    );
   }
 }
 
@@ -159,11 +195,6 @@ class PauseButton extends HudButton {
   @override
   void render(Canvas canvas) {
     super.render(canvas);
-    if (gameRef.paused) {
-      canvas.drawLine(const Offset(-20, 0), const Offset(20, 0), redBackground);
-    } else {
-      canvas.drawLine(const Offset(0, -20), const Offset(0, 20), redBackground);
-    }
   }
 
   @override
@@ -184,31 +215,37 @@ class PauseButton extends HudButton {
 // https://medium.com/flutteropen/canvas-tutorial-01-how-to-use-the-canvas-in-the-flutter-8aade29ddc9
 class AbilityButton extends HudButton {
   AtlasGame game;
-  bool onCooldown = false;
   late Timer cooldown;
+  bool onCooldown = false;
   late Function abilityFn;
-  final int ability;
+  final int abilityWhich;
+  late final double abilityEnergy;
+
   AbilityButton({
     image,
-    required EdgeInsets margin,
-    required this.ability,
     required this.game,
+    required EdgeInsets margin,
+    required this.abilityWhich,
   }) : super(margin: margin, image: image) {
     double cooldownTime = 2;
-    switch (ability) {
+    switch (abilityWhich) {
       case 1:
         cooldownTime = game.atlas.abilityCooldown1;
+        abilityEnergy = game.atlas.abilityEnergy1;
         abilityFn = game.atlas.ability1;
         break;
       case 2:
         cooldownTime = game.atlas.abilityCooldown2;
+        abilityEnergy = game.atlas.abilityEnergy2;
         abilityFn = game.atlas.ability2;
         break;
       case 3:
         cooldownTime = game.atlas.abilityCooldown3;
+        abilityEnergy = game.atlas.abilityEnergy3;
         abilityFn = game.atlas.ability3;
         break;
     }
+
     cooldown = Timer(
       cooldownTime,
       onTick: () {
@@ -241,16 +278,27 @@ class AbilityButton extends HudButton {
       Vector2(size.x - cooldown.progress * size.x, 5).toRect(),
       Paint()..color = const Color.fromARGB(255, 255, 255, 255),
     );
+    // canvas.drawCircle(
+    //   Offset(size.x / 2, size.y / 2),
+    //   25,
+    //   background,
+    // );
   }
 
   @override
   void update(double dt) {
     super.update(dt);
     cooldown.update(dt);
-    if (game.atlas.energyReqKnight > game.atlas.energy || onCooldown) {
-      background = redBackground;
+
+    bool notEnoughEnergy = false;
+    if (abilityEnergy > game.atlas.energy) {
+      notEnoughEnergy = true;
+    }
+
+    if (onCooldown || notEnoughEnergy) {
+      background = disableBackground;
     } else {
-      background = greenBackground;
+      background = ableBackground;
     }
   }
 }
