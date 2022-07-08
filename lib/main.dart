@@ -59,17 +59,18 @@ class AtlasGame extends FlameGame
   late Vector2 doorPosition;
 
   AtlasGame(this.context, CharName charName) {
-    debugMode = true;
+    // debugMode = true;
 
+    // tell if game (while running) has been minimized or closed
+    WidgetsBinding.instance.addObserver(this);
+
+    // head up display
     hud = Hud(
       game: this,
       priority: 1,
       context: context,
       character: charName,
     );
-
-    // tell if game (while running) has been minimized or closed
-    WidgetsBinding.instance.addObserver(this);
 
     // create selected atlas character
     switch (charName) {
