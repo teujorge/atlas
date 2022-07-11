@@ -3,7 +3,10 @@ import 'package:flame/palette.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
+import 'dart:async';
+import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'main.dart';
@@ -86,16 +89,27 @@ class Hud extends Component {
       scoreTextComponent.text = 'Score: ${game.atlas.kills.value}';
     });
 
+    // ability image paths
+    List<String> imagePaths = [];
+
     // change ability button colors
     if (game.atlas is Mage) {
       energyColor = Colors.purple;
-    }
-    if (game.atlas is Knight) {
+      imagePaths.add("assets/images/abilities/fireball.gif");
+      imagePaths.add("assets/images/abilities/beam.gif");
+      imagePaths.add("assets/images/abilities/beam.gif");
+    } else if (game.atlas is Knight) {
       energyColor = Colors.orange;
-    }
-    if (game.atlas is Archer) {
+      imagePaths.add("assets/images/abilities/sword.gif");
+      imagePaths.add("assets/images/abilities/whirlwind.gif");
+      imagePaths.add("assets/images/abilities/impact.gif");
+    } else if (game.atlas is Archer) {
       energyColor = Colors.yellow;
+      imagePaths.add("assets/images/abilities/arrow.gif");
+      imagePaths.add("assets/images/abilities/cluster.gif");
+      imagePaths.add("assets/images/abilities/green_hit.gif");
     }
+
     // add abilities buttons
     add(
       // ability 1
@@ -103,6 +117,7 @@ class Hud extends Component {
         game: game,
         abilityWhich: 1,
         margin: abilityMargin1,
+        image: imagePaths[0],
       ),
     );
     add(
@@ -111,6 +126,7 @@ class Hud extends Component {
         game: game,
         abilityWhich: 2,
         margin: abilityMargin2,
+        image: imagePaths[1],
       ),
     );
     add(
@@ -119,6 +135,7 @@ class Hud extends Component {
         game: game,
         abilityWhich: 3,
         margin: abilityMargin3,
+        image: imagePaths[2],
       ),
     );
 
@@ -129,7 +146,6 @@ class Hud extends Component {
     add(
       PauseButton(
         margin: const EdgeInsets.only(top: 20, right: 20),
-        // image: Image.asset('collectables/potion.png'),
         context: context,
       ),
     );
@@ -147,23 +163,48 @@ class HudButton extends HudMarginComponent with Tappable {
     ..color = const Color.fromARGB(150, 80, 255, 5);
   Paint background = Paint()..color = const Color.fromARGB(150, 80, 255, 5);
   ui.Image? image;
+  String? imagePath;
 
   HudButton({
     required EdgeInsets margin,
-    this.image,
+    this.imagePath,
   }) : super(
           margin: margin,
           size: Vector2.all(50),
-        ) {}
+        );
+
+  Future<ui.Image> loadImage(Uint8List img) {
+    final Completer<ui.Image> completer = Completer();
+    ui.decodeImageFromList(img, (ui.Image img) {
+      return completer.complete(img);
+    });
+    return completer.future;
+  }
+
+  Future<ui.Image> initImage(String path) async {
+    final ByteData data = await rootBundle.load(path);
+    return await loadImage(Uint8List.view(data.buffer));
+  }
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    if (imagePath != null) {
+      image = await initImage(imagePath!);
+    }
+  }
 
   @override
   void render(Canvas canvas) {
     super.render(canvas);
+
+    // background
+    canvas.drawRect(size.toRect(), background);
+    // image
     if (image != null) {
       canvas.drawImage(image!, const Offset(0, 0), background);
-    } else {
-      canvas.drawRect(size.toRect(), background);
     }
+    // outline
     canvas.drawLine(
       const Offset(0, 0),
       Offset(0, size.y),
@@ -189,12 +230,22 @@ class HudButton extends HudMarginComponent with Tappable {
 
 class PauseButton extends HudButton {
   BuildContext context;
+  final TextPainter textPainter = TextPainter(textDirection: TextDirection.rtl);
+
   PauseButton({required EdgeInsets margin, required this.context, image})
-      : super(margin: margin, image: image);
+      : super(margin: margin, imagePath: image) {
+    IconData icon = Icons.settings_rounded;
+    textPainter.text = TextSpan(
+      text: String.fromCharCode(icon.codePoint),
+      style: TextStyle(fontSize: 50.0, fontFamily: icon.fontFamily),
+    );
+    textPainter.layout();
+  }
 
   @override
   void render(Canvas canvas) {
     super.render(canvas);
+    textPainter.paint(canvas, Offset.zero);
   }
 
   @override
@@ -226,7 +277,7 @@ class AbilityButton extends HudButton {
     required this.game,
     required EdgeInsets margin,
     required this.abilityWhich,
-  }) : super(margin: margin, image: image) {
+  }) : super(margin: margin, imagePath: image) {
     double cooldownTime = 2;
     switch (abilityWhich) {
       case 1:
@@ -274,10 +325,12 @@ class AbilityButton extends HudButton {
   void render(Canvas canvas) {
     super.render(canvas);
     // cooldown progress
-    canvas.drawRect(
-      Vector2(size.x - cooldown.progress * size.x, 5).toRect(),
-      Paint()..color = const Color.fromARGB(255, 255, 255, 255),
-    );
+    if (onCooldown) {
+      canvas.drawRect(
+        Vector2(size.x - cooldown.progress * size.x, 5).toRect(),
+        Paint()..color = const Color.fromARGB(255, 255, 255, 255),
+      );
+    }
     // canvas.drawCircle(
     //   Offset(size.x / 2, size.y / 2),
     //   25,
