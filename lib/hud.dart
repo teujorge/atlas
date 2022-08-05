@@ -183,7 +183,7 @@ class HudButton extends HudMarginComponent with Tappable {
 
   Future<ui.Image> initImage(String path) async {
     final ByteData data = await rootBundle.load(path);
-    return await loadImage(Uint8List.view(data.buffer));
+    return loadImage(Uint8List.view(data.buffer));
   }
 
   @override

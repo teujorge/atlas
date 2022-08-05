@@ -46,7 +46,6 @@ class AtlasGame extends FlameGame
   BuildContext context;
 
   // arena
-
   late Timer clock;
   late double mapWidth;
   late double mapHeight;
