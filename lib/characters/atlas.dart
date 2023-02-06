@@ -2,6 +2,8 @@ import 'package:Atlas/collectables/collectables.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../main.dart';
 import '../loaders.dart';
@@ -14,6 +16,7 @@ abstract class AtlasCharacter extends SpriteAnimationComponent
   double health = 100;
   double energy = 100;
   double energyGain = 0.1;
+
   // char movement
   final double animationSpeed = .3;
   final double characterSize = 60;
@@ -25,6 +28,7 @@ abstract class AtlasCharacter extends SpriteAnimationComponent
   late SpriteAnimation idleAnimation;
   final JoystickComponent joystick;
   List<JoystickDirection> collisionDirections = [];
+  JoystickDirection directionWASD = JoystickDirection.idle;
 
   // ability cooldown timers
   double abilityCooldown1 = 1;
@@ -47,51 +51,143 @@ abstract class AtlasCharacter extends SpriteAnimationComponent
     );
   }
 
+  KeyEventResult moveWithWASD(Set<LogicalKeyboardKey> keysPressed) {
+    // calculate vector from WASD keys
+    Vector2 directionFromKeys = Vector2(0, 0);
+    if (keysPressed.contains(LogicalKeyboardKey.keyW)) {
+      directionFromKeys.y--;
+    }
+    if (keysPressed.contains(LogicalKeyboardKey.keyA)) {
+      directionFromKeys.x--;
+    }
+    if (keysPressed.contains(LogicalKeyboardKey.keyS)) {
+      directionFromKeys.y++;
+    }
+    if (keysPressed.contains(LogicalKeyboardKey.keyD)) {
+      directionFromKeys.x++;
+    }
+
+    // key is not WASD; ignore
+    if (directionFromKeys == Vector2(0, 0)) {
+      directionWASD = JoystickDirection.idle;
+      return KeyEventResult.ignored;
+    }
+    // go up
+    else if (directionFromKeys == Vector2(0, -1)) {
+      directionWASD = JoystickDirection.up;
+    }
+    // go up-right
+    else if (directionFromKeys == Vector2(1, -1)) {
+      directionWASD = JoystickDirection.upRight;
+    }
+    // go right
+    else if (directionFromKeys == Vector2(1, 0)) {
+      directionWASD = JoystickDirection.right;
+    }
+    // go down-right
+    else if (directionFromKeys == Vector2(1, 1)) {
+      directionWASD = JoystickDirection.downRight;
+    }
+    // go down
+    else if (directionFromKeys == Vector2(0, 1)) {
+      directionWASD = JoystickDirection.down;
+    }
+    // go down-left
+    else if (directionFromKeys == Vector2(-1, 1)) {
+      directionWASD = JoystickDirection.downLeft;
+    }
+    // go left
+    else if (directionFromKeys == Vector2(-1, 0)) {
+      directionWASD = JoystickDirection.left;
+    }
+    // go up-left
+    else if (directionFromKeys == Vector2(-1, -1)) {
+      directionWASD = JoystickDirection.upLeft;
+    }
+
+    // no keys down
+    if (keysPressed.isEmpty) {
+      directionWASD = JoystickDirection.idle;
+      return KeyEventResult.ignored;
+    }
+
+    return KeyEventResult.handled;
+  }
+
   @override
   void update(double dt) {
     super.update(dt);
 
-    // update caharacter location based on walk
-    switch (joystick.direction) {
+    bool usingJoystick = directionWASD == JoystickDirection.idle;
+
+    JoystickDirection directionInput;
+    double movementX = 1;
+    double movementY = 1;
+
+    // use joystick input
+    if (usingJoystick) {
+      directionInput = joystick.direction;
+      movementX = joystick.relativeDelta.x;
+      movementY = joystick.relativeDelta.y;
+    }
+
+    // use WASD input
+    else {
+      directionInput = directionWASD;
+    }
+
+    // update character location based on walk
+    switch (directionInput) {
       case JoystickDirection.idle:
         animation = idleAnimation;
         break;
 
       case JoystickDirection.up:
+        if (!usingJoystick) movementY = -1;
+
         animation = upAnimation;
         if (y > size.y / 2) {
           if (!collisionDirections.contains(JoystickDirection.up)) {
-            y += dt * characterSpeed * joystick.relativeDelta.y;
+            y += dt * characterSpeed * movementY;
           }
         }
         break;
 
       case JoystickDirection.upLeft:
+        if (!usingJoystick) {
+          movementX = -.707;
+          movementY = -.707;
+        }
+
         animation = leftAnimation;
         if (y > height / 2) {
           if (!collisionDirections.contains(JoystickDirection.up)) {
-            y += dt * characterSpeed * joystick.relativeDelta.y;
+            y += dt * characterSpeed * movementY;
           }
         }
         if (x > width / 2) {
           if (!collisionDirections.contains(JoystickDirection.left)) {
-            x += dt * characterSpeed * joystick.relativeDelta.x;
+            x += dt * characterSpeed * movementX;
           }
         }
 
         break;
 
       case JoystickDirection.upRight:
-        animation = rightAnimation;
+        if (!usingJoystick) {
+          movementX = .707;
+          movementY = -.707;
+        }
 
+        animation = rightAnimation;
         if (y > height / 2) {
           if (!collisionDirections.contains(JoystickDirection.up)) {
-            y += dt * characterSpeed * joystick.relativeDelta.y;
+            y += dt * characterSpeed * movementY;
           }
         }
         if (x < gameRef.mapWidth - width / 2) {
           if (!collisionDirections.contains(JoystickDirection.right)) {
-            x += dt * characterSpeed * joystick.relativeDelta.x;
+            x += dt * characterSpeed * movementX;
           }
         }
 
@@ -101,44 +197,56 @@ abstract class AtlasCharacter extends SpriteAnimationComponent
         animation = downAnimation;
         if (y < gameRef.mapHeight - height / 2) {
           if (!collisionDirections.contains(JoystickDirection.down)) {
-            y += dt * characterSpeed * joystick.relativeDelta.y;
+            y += dt * characterSpeed * movementY;
           }
         }
         break;
 
       case JoystickDirection.downLeft:
+        if (!usingJoystick) {
+          movementX = -.707;
+          movementY = .707;
+        }
+
         animation = leftAnimation;
         if (y < gameRef.mapHeight - height / 2) {
           if (!collisionDirections.contains(JoystickDirection.down)) {
-            y += dt * characterSpeed * joystick.relativeDelta.y;
+            y += dt * characterSpeed * movementY;
           }
         }
         if (x > width / 2) {
           if (!collisionDirections.contains(JoystickDirection.left)) {
-            x += dt * characterSpeed * joystick.relativeDelta.x;
+            x += dt * characterSpeed * movementX;
           }
         }
         break;
 
       case JoystickDirection.downRight:
+        if (!usingJoystick) {
+          movementX = .707;
+          movementY = .707;
+        }
+
         animation = rightAnimation;
         if (y < gameRef.mapHeight - height / 2) {
           if (!collisionDirections.contains(JoystickDirection.down)) {
-            y += dt * characterSpeed * joystick.relativeDelta.y;
+            y += dt * characterSpeed * movementY;
           }
         }
         if (x < gameRef.mapWidth - width / 2) {
           if (!collisionDirections.contains(JoystickDirection.right)) {
-            x += dt * characterSpeed * joystick.relativeDelta.x;
+            x += dt * characterSpeed * movementX;
           }
         }
         break;
 
       case JoystickDirection.left:
+        if (!usingJoystick) movementX = -1;
+
         animation = leftAnimation;
         if (x > width / 2) {
           if (!collisionDirections.contains(JoystickDirection.left)) {
-            x += dt * characterSpeed * joystick.relativeDelta.x;
+            x += dt * characterSpeed * movementX;
           }
         }
         break;
@@ -147,7 +255,7 @@ abstract class AtlasCharacter extends SpriteAnimationComponent
         animation = rightAnimation;
         if (x < gameRef.mapWidth - width / 2) {
           if (!collisionDirections.contains(JoystickDirection.right)) {
-            x += dt * characterSpeed * joystick.relativeDelta.x;
+            x += dt * characterSpeed * movementX;
           }
         }
         break;

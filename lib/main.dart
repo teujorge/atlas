@@ -2,6 +2,7 @@ import 'package:Atlas/collectables/collectables.dart';
 import 'package:flame/game.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/components.dart';
+import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flame/extensions.dart';
@@ -36,6 +37,7 @@ void main() async {
 
 class AtlasGame extends FlameGame
     with
+        KeyboardEvents,
         HasCollisionDetection,
         HasDraggables,
         HasTappables,
@@ -98,7 +100,7 @@ class AtlasGame extends FlameGame
   Future<void> onLoad() async {
     await super.onLoad();
 
-    // create tiles/colison
+    // create tiles/collison
     final homeMap = await TiledComponent.load(
       "arena.tmx",
       Vector2.all(10),
@@ -157,5 +159,13 @@ class AtlasGame extends FlameGame
         ),
       );
     }
+  }
+
+  @override
+  KeyEventResult onKeyEvent(
+    RawKeyEvent event,
+    Set<LogicalKeyboardKey> keysPressed,
+  ) {
+    return atlas.moveWithWASD(keysPressed);
   }
 }

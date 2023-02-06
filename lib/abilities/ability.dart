@@ -22,20 +22,31 @@ abstract class Ability extends SpriteAnimationComponent
   }) {
     size = Vector2.all(64);
     anchor = Anchor.center;
-    angle = joystickAngle();
-    // direction = joystickDirToVector();
 
-    if (atlas.joystick.delta.length == 0) {
-      direction = Vector2(0, 1);
-    } else {
-      direction = atlas.joystick.delta / atlas.joystick.delta.length;
+    bool usingJoystick = atlas.directionWASD == JoystickDirection.idle;
+
+    // use joystick input
+    if (usingJoystick) {
+      angle = joystickAngle();
+      if (atlas.joystick.delta.length == 0) {
+        direction = Vector2(0, 1);
+      } else {
+        direction = atlas.joystick.delta / atlas.joystick.delta.length;
+      }
     }
+    // use WASD input
+    else {
+      direction = joystickDirToVector(atlas.directionWASD);
+      angle = joystickAngle();
+    }
+
+    print(direction);
   }
 
   // translate joystick direction to normal vector
-  Vector2 joystickDirToVector() {
+  Vector2 joystickDirToVector(JoystickDirection direction) {
     Vector2 abilityVector;
-    switch (atlas.joystick.direction) {
+    switch (direction) {
       case JoystickDirection.up:
         abilityVector = Vector2(0.0, -1.0);
         break;
@@ -68,32 +79,44 @@ abstract class Ability extends SpriteAnimationComponent
   }
 
   double joystickAngle() {
+    bool usingJoystick = atlas.directionWASD == JoystickDirection.idle;
+    Vector2 delta;
+
+    // use joystick input
+    if (usingJoystick) {
+      delta = atlas.joystick.delta;
+    }
+    // use WASD input
+    else {
+      delta = joystickDirToVector(atlas.directionWASD);
+    }
+
     double abilityAngle = 0;
     // check edge case angles
-    if (atlas.joystick.delta.y == 0) {
-      if (atlas.joystick.delta.x == 0) {
+    if (delta.y == 0) {
+      if (delta.x == 0) {
         abilityAngle = radians(0);
-      } else if (atlas.joystick.delta.x > 0) {
+      } else if (delta.x > 0) {
         abilityAngle = radians(270);
-      } else if (atlas.joystick.delta.x < 0) {
+      } else if (delta.x < 0) {
         abilityAngle = radians(90);
       }
-    } else if (atlas.joystick.delta.x == 0) {
-      if (atlas.joystick.delta.y > 0) {
+    } else if (delta.x == 0) {
+      if (delta.y > 0) {
         abilityAngle = radians(0);
-      } else if (atlas.joystick.delta.y < 0) {
+      } else if (delta.y < 0) {
         abilityAngle = radians(180);
       }
     } else {
-      double rads = atan(atlas.joystick.delta.x / atlas.joystick.delta.y);
-      if (atlas.joystick.delta.x > 0) {
-        if (atlas.joystick.delta.y > 0) {
+      double rads = atan(delta.x / delta.y);
+      if (delta.x > 0) {
+        if (delta.y > 0) {
           abilityAngle = -rads;
         } else {
           abilityAngle = radians(180) - rads;
         }
       } else {
-        if (atlas.joystick.delta.y > 0) {
+        if (delta.y > 0) {
           abilityAngle = -rads;
         } else {
           abilityAngle = radians(180) - rads;
