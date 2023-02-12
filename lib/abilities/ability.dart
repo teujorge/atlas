@@ -40,7 +40,7 @@ abstract class Ability extends SpriteAnimationComponent
       angle = joystickAngle();
     }
 
-    print(direction);
+    // print(direction);
   }
 
   // translate joystick direction to normal vector
@@ -229,18 +229,43 @@ abstract class ThrownAbility extends Ability {
   }
 }
 
-// dash ability
-abstract class DashAbility extends Ability {
-  late final Vector2 newPosition = angleToVector() * 200;
-  final double moveSpeed = 200;
+// move ability
+abstract class MoveAbility extends Ability {
+  late final Vector2 newPosition;
+  late double moveSpeed;
 
-  DashAbility({
+  MoveAbility({
     required super.atlas,
     super.animationStep,
-  });
+    double distance = 200,
+    double speed = 2000,
+  }) {
+    newPosition = atlas.position + (angleToVector() * distance);
+    moveSpeed = speed;
+
+    // move speed constraints
+    if (moveSpeed < 0) {
+      moveSpeed = 0;
+    } else if (moveSpeed > 200) {
+      moveSpeed = 200;
+    }
+  }
 
   @override
   void update(double dt) {
     super.update(dt);
+
+    Vector2 moveToHere = newPosition - atlas.position;
+
+    // finalize move
+    if (moveSpeed == 0 || moveToHere.length < 10) {
+      atlas.position = newPosition;
+      gameRef.remove(this);
+    }
+    // move
+    else {
+      atlas.position =
+          atlas.position + ((moveToHere / moveToHere.length) * moveSpeed * dt);
+    }
   }
 }

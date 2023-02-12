@@ -33,27 +33,6 @@ class Fireball extends ThrownAbility {
   }
 }
 
-// throw ball of ice
-class Iceball extends ThrownAbility {
-  Iceball({
-    required super.atlas,
-    super.animationStep,
-    super.damage,
-  }) {
-    add(CircleHitbox());
-  }
-
-  @override
-  Future<void>? onLoad() async {
-    await super.onLoad();
-    animation = await createAnimation(
-      gameRef,
-      "abilities/iceball.png",
-      animationStep,
-    );
-  }
-}
-
 // beam of arcane
 class Beam extends MeleeAbility {
   Beam({
@@ -88,34 +67,19 @@ class Beam extends MeleeAbility {
   }
 }
 
-// // Archer Abilities // //
-
-class Arrow extends ThrownAbility {
-  Arrow({
+class Teleport extends MoveAbility {
+  Teleport({
     required super.atlas,
     super.animationStep,
-    super.damage,
-  }) {
-    add(RectangleHitbox(
-      anchor: Anchor.topCenter,
-      size: Vector2(size.x / 5, size.y / 2),
-      position: Vector2(position.x + (size.x / 2), position.y),
-    ));
-  }
-
-  @override
-  Future<void>? onLoad() async {
-    await super.onLoad();
-    animation = await createAnimation(
-      gameRef,
-      "abilities/arrow.png",
-      animationStep,
-    );
-  }
+    super.distance = 250,
+    super.speed = 0,
+  });
 }
 
-class Cluster extends ThrownAbility {
-  Cluster({
+// // Archer Abilities // //
+
+class ArrowCluster extends ThrownAbility {
+  ArrowCluster({
     required super.atlas,
     super.animationStep,
     super.damage,
@@ -128,14 +92,14 @@ class Cluster extends ThrownAbility {
     await super.onLoad();
     animation = await createAnimation(
       gameRef,
-      "abilities/cluster.png",
+      "abilities/arrow_cluster.png",
       animationStep,
     );
   }
 }
 
-class GreenHit extends MeleeAbility {
-  GreenHit({
+class RapierStab extends MeleeAbility {
+  RapierStab({
     required super.atlas,
     super.animationStep,
     super.damage,
@@ -155,10 +119,18 @@ class GreenHit extends MeleeAbility {
     await super.onLoad();
     animation = await createAnimation(
       gameRef,
-      "abilities/green_hit.png",
+      "abilities/rapier_stab.png",
       animationStep,
     );
   }
+}
+
+class Dash extends MoveAbility {
+  Dash({
+    required super.atlas,
+    super.animationStep,
+    super.distance,
+  });
 }
 
 // // Knight Abilities // //
@@ -263,24 +235,5 @@ class Sword extends MeleeAbility {
       "abilities/sword.png",
       animationStep,
     );
-  }
-}
-
-class Teleport extends DashAbility {
-  Teleport({
-    required super.atlas,
-    super.animationStep,
-  });
-  @override
-  Future<void>? onLoad() async {
-    await super.onLoad();
-    atlas.position = atlas.position + newPosition;
-  }
-
-  @override
-  void update(double dt) {
-    // TODO: implement update
-    super.update(dt);
-    gameRef.remove(this);
   }
 }
