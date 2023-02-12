@@ -1,3 +1,11 @@
 {
-    "cmake.configureOnOpen": false
+    "cmake.configureOnOpen": false,
+    "cSpell.words": [
+        "Draggables",
+        "Iceball",
+        "LTRB",
+        "Necro",
+        "Skelet",
+        "Tappables"
+    ]
 }
