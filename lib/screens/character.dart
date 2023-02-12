@@ -1,3 +1,4 @@
+import 'package:Atlas/characters/atlas.dart';
 import 'package:Atlas/config.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -5,95 +6,53 @@ import 'package:flutter/material.dart';
 import '../screens/options.dart';
 import 'play.dart';
 
+List<Widget> showAbilitySet(
+    String title, List<String> abilityHeaders, List<String> abilityImagePaths) {
+  List<Widget> abilitySet = [BabaText(title)];
+
+  for (int i = 0;
+      i < abilityHeaders.length && i < abilityImagePaths.length;
+      i++) {
+    abilitySet.add(Row(
+      children: [
+        SizedBox(
+          width: 75,
+          child: BabaText(
+            abilityHeaders[i],
+          ),
+        ),
+        Image.asset(
+          width: 50,
+          height: 30,
+          abilityImagePaths[i],
+        )
+      ],
+    ));
+  }
+
+  return abilitySet;
+}
+
 class CharacterSelection extends StatefulWidget {
   CharacterSelection({Key? key}) : super(key: key);
 
   final List<String> characters = ["mage", "archer", "knight"];
   final List<List<Widget>> abilityInfo = [
-    // mage abilities
-    [
-      BabaText("Mage Abilities"),
-      Row(
-        children: [
-          BabaText("Fireball"),
-          Image.asset(
-            'assets/images/abilities/fireball.gif',
-          ),
-        ],
-      ),
-      Row(
-        children: [
-          BabaText("Iceball"),
-          Image.asset(
-            'assets/images/abilities/iceball.gif',
-          ),
-        ],
-      ),
-      Row(
-        children: [
-          BabaText("Arcane Beam"),
-          Image.asset(
-            'assets/images/abilities/beam.gif',
-          ),
-        ],
-      ),
-    ],
-    // elf abilities
-    [
-      BabaText("Elf Abilities"),
-      Row(
-        children: [
-          BabaText("Arrow"),
-          Image.asset(
-            'assets/images/abilities/arrow.gif',
-          ),
-        ],
-      ),
-      Row(
-        children: [
-          BabaText("Cluster"),
-          Image.asset(
-            'assets/images/abilities/cluster.gif',
-          ),
-        ],
-      ),
-      Row(
-        children: [
-          BabaText("Green Hit"),
-          Image.asset(
-            'assets/images/abilities/green_hit.gif',
-          ),
-        ],
-      ),
-    ],
-    // knight abilities
-    [
-      BabaText("Knight Abilities"),
-      Row(
-        children: [
-          BabaText("Sword"),
-          Image.asset(
-            'assets/images/abilities/sword.gif',
-          ),
-        ],
-      ),
-      Row(
-        children: [
-          BabaText("Impact"),
-          Image.asset(
-            'assets/images/abilities/impact.gif',
-          ),
-        ],
-      ),
-      Row(
-        children: [
-          BabaText("Whirlwind"),
-          Image.asset(
-            'assets/images/abilities/whirlwind.gif',
-          ),
-        ],
-      ),
-    ],
+    showAbilitySet(
+      "Mage Abilities",
+      Mage.abilityHeaders,
+      Mage.abilityImagePaths,
+    ),
+    showAbilitySet(
+      "Elf Abilities",
+      Archer.abilityHeaders,
+      Archer.abilityImagePaths,
+    ),
+    showAbilitySet(
+      "Knight Abilities",
+      Knight.abilityHeaders,
+      Knight.abilityImagePaths,
+    )
   ];
 
   @override

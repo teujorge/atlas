@@ -1,8 +1,8 @@
-import 'dart:math';
-import 'dart:ui';
+// import 'dart:ui';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+
 import '../characters/atlas.dart';
 import '../main.dart';
 
@@ -13,10 +13,10 @@ class ItemsCollectables extends SpriteComponent
     add(RectangleHitbox());
   }
 
-  @override
-  void render(Canvas canvas) {
-    super.render(canvas);
-  }
+  // @override
+  // void render(Canvas canvas) {
+  //   super.render(canvas);
+  // }
 
   @override
   Future<void>? onLoad() async {
@@ -24,10 +24,10 @@ class ItemsCollectables extends SpriteComponent
     size = Vector2(50, 50);
   }
 
-  @override
-  void update(double dt) {
-    super.update(dt);
-  }
+  // @override
+  // void update(double dt) {
+  //   super.update(dt);
+  // }
 }
 
 class HealthPotion extends ItemsCollectables {
