@@ -1,4 +1,3 @@
-import 'package:Atlas/collectables/collectables.dart';
 import 'package:flame/game.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/components.dart';
@@ -100,7 +99,7 @@ class AtlasGame extends FlameGame
   Future<void> onLoad() async {
     await super.onLoad();
 
-    // create tiles/collison
+    // create tiles/collision
     final homeMap = await TiledComponent.load(
       "arena.tmx",
       Vector2.all(10),

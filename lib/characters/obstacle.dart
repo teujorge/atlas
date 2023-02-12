@@ -79,7 +79,7 @@ class Obstacle extends PositionComponent
         }
         _hasCollided = true;
         gameRef.atlas.collisionDirections += _atlasCollisionDirections;
-        print("collision :${gameRef.atlas.collisionDirections}");
+        // print("collision :${gameRef.atlas.collisionDirections}");
       }
     }
   }

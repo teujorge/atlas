@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import '../config.dart';
 import 'character.dart';
@@ -28,7 +26,7 @@ class _MainMenuState extends State<MainMenu> with TickerProviderStateMixin {
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 3),
+      duration: const Duration(seconds: 3),
     );
     _animation = CurvedAnimation(parent: _controller, curve: Curves.ease);
     _controller.repeat(reverse: true);

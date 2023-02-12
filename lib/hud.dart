@@ -95,19 +95,19 @@ class Hud extends Component {
     // change ability button colors
     if (game.atlas is Mage) {
       energyColor = Colors.purple;
-      imagePaths.add("assets/images/abilities/fireball.gif");
-      imagePaths.add("assets/images/abilities/beam.gif");
-      imagePaths.add("assets/images/abilities/beam.gif");
+      imagePaths.add(Mage.abilityImagePaths[0]);
+      imagePaths.add(Mage.abilityImagePaths[1]);
+      imagePaths.add(Mage.abilityImagePaths[2]);
     } else if (game.atlas is Knight) {
       energyColor = Colors.orange;
-      imagePaths.add("assets/images/abilities/sword.gif");
-      imagePaths.add("assets/images/abilities/whirlwind.gif");
-      imagePaths.add("assets/images/abilities/impact.gif");
+      imagePaths.add(Knight.abilityImagePaths[0]);
+      imagePaths.add(Knight.abilityImagePaths[1]);
+      imagePaths.add(Knight.abilityImagePaths[2]);
     } else if (game.atlas is Archer) {
       energyColor = Colors.yellow;
-      imagePaths.add("assets/images/abilities/arrow.gif");
-      imagePaths.add("assets/images/abilities/cluster.gif");
-      imagePaths.add("assets/images/abilities/green_hit.gif");
+      imagePaths.add(Archer.abilityImagePaths[0]);
+      imagePaths.add(Archer.abilityImagePaths[1]);
+      imagePaths.add(Archer.abilityImagePaths[2]);
     }
 
     // add abilities buttons

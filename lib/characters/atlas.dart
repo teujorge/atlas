@@ -1,7 +1,5 @@
-import 'package:Atlas/collectables/collectables.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -289,6 +287,18 @@ class Mage extends AtlasCharacter {
     abilityEnergy3 = 60;
   }
 
+  // to display in character selection
+  static const abilityHeaders = [
+    "Fireball",
+    "Arcane Beam",
+    "Teleport",
+  ];
+  static const abilityImagePaths = [
+    "assets/images/abilities/fireball.gif",
+    "assets/images/abilities/beam.gif",
+    "assets/images/abilities/iceball.gif",
+  ];
+
   @override
   bool ability1() {
     if (energy > abilityEnergy1 && !usingAbility) {
@@ -303,7 +313,7 @@ class Mage extends AtlasCharacter {
   bool ability2() {
     if (energy > abilityEnergy2 && !usingAbility) {
       energy -= abilityEnergy2;
-      gameRef.add(Teleport(atlas: this));
+      gameRef.add(Beam(atlas: this, damage: 5));
       return true;
     }
     return false;
@@ -313,7 +323,7 @@ class Mage extends AtlasCharacter {
   bool ability3() {
     if (energy > abilityEnergy3 && !usingAbility) {
       energy -= abilityEnergy3;
-      gameRef.add(Beam(atlas: this, damage: 5));
+      gameRef.add(Teleport(atlas: this));
       return true;
     }
     return false;
@@ -373,11 +383,23 @@ class Archer extends AtlasCharacter {
     abilityEnergy3 = 20;
   }
 
+  // to display in character selection
+  static const abilityHeaders = [
+    "Arrow Cluster",
+    "Rapier Stab",
+    "Dash",
+  ];
+  static const abilityImagePaths = [
+    "assets/images/abilities/arrow_cluster.gif",
+    "assets/images/abilities/rapier_stab.gif",
+    "assets/images/abilities/arrow.gif",
+  ];
+
   @override
   ability1() {
-    if (energy > abilityEnergy1 && !usingAbility) {
-      energy -= abilityEnergy1;
-      gameRef.add(Arrow(atlas: this, damage: 1));
+    if (energy > abilityEnergy2 && !usingAbility) {
+      energy -= abilityEnergy2;
+      gameRef.add(ArrowCluster(atlas: this, damage: 1));
       return true;
     }
     return false;
@@ -385,9 +407,9 @@ class Archer extends AtlasCharacter {
 
   @override
   ability2() {
-    if (energy > abilityEnergy2 && !usingAbility) {
-      energy -= abilityEnergy2;
-      gameRef.add(Cluster(atlas: this, damage: 1));
+    if (energy > abilityEnergy3 && !usingAbility) {
+      energy -= abilityEnergy3;
+      gameRef.add(RapierStab(atlas: this, damage: 1));
       return true;
     }
     return false;
@@ -395,9 +417,9 @@ class Archer extends AtlasCharacter {
 
   @override
   ability3() {
-    if (energy > abilityEnergy3 && !usingAbility) {
-      energy -= abilityEnergy3;
-      gameRef.add(GreenHit(atlas: this, damage: 1));
+    if (energy > abilityEnergy1 && !usingAbility) {
+      energy -= abilityEnergy1;
+      gameRef.add(Dash(atlas: this));
       return true;
     }
     return false;
@@ -456,6 +478,18 @@ class Knight extends AtlasCharacter {
     abilityEnergy2 = 3;
     abilityEnergy3 = 10;
   }
+
+  // to display in character selection
+  static const abilityHeaders = [
+    "Sword",
+    "Impact",
+    "Whirlwind",
+  ];
+  static const abilityImagePaths = [
+    "assets/images/abilities/sword.gif",
+    "assets/images/abilities/impact.gif",
+    "assets/images/abilities/whirlwind.gif",
+  ];
 
   @override
   ability1() {
