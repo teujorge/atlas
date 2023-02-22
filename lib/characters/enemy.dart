@@ -28,7 +28,7 @@ class EnemyCharacter extends SpriteAnimationComponent
   Vector2 getRandomSpawnVector() {
     Vector2 randomVector = Vector2(
       Random().nextDouble() * gameRef.mapWidth,
-      Random().nextDouble() * gameRef.mapHeight * 0.1 + gameRef.mapHeight * .8,
+      Random().nextDouble() * gameRef.mapHeight * 0.1 + gameRef.mapHeight,
     );
     return randomVector;
   }
