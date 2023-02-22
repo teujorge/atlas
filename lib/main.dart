@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flame/game.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/components.dart';
@@ -95,6 +97,22 @@ class AtlasGame extends FlameGame
     }
   }
 
+  void scaleGame() {
+    double zoomLevelX = 1;
+    double zoomLevelY = 1;
+
+    if (canvasSize.x > mapWidth) {
+      zoomLevelX = canvasSize.x / mapWidth;
+    }
+    if (canvasSize.y > mapHeight) {
+      zoomLevelY = canvasSize.y / mapWidth;
+    }
+
+    if (zoomLevelX > 1 || zoomLevelY > 1) {
+      camera.zoom = max(zoomLevelX, zoomLevelY);
+    }
+  }
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -144,6 +162,7 @@ class AtlasGame extends FlameGame
   void update(double dt) {
     super.update(dt);
     clock.update(dt);
+    scaleGame();
   }
 
   @override
