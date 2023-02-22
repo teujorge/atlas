@@ -26,6 +26,7 @@ void main() async {
   ]);
 
   Flame.device.fullScreen();
+
   runApp(
     MaterialApp(
       theme: ThemeData(fontFamily: 'BABA'),
@@ -105,11 +106,12 @@ class AtlasGame extends FlameGame
       zoomLevelX = canvasSize.x / mapWidth;
     }
     if (canvasSize.y > mapHeight) {
-      zoomLevelY = canvasSize.y / mapWidth;
+      zoomLevelY = canvasSize.y / mapHeight;
     }
 
     if (zoomLevelX > 1 || zoomLevelY > 1) {
-      camera.zoom = max(zoomLevelX, zoomLevelY);
+      double zoomLevel = min(zoomLevelX, zoomLevelY);
+      camera.zoom = zoomLevel;
     }
   }
 
