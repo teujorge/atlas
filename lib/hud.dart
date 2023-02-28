@@ -77,7 +77,7 @@ class Hud extends Component {
   }
 
   @override
-  Future<void>? onLoad() {
+  Future<void>? onLoad() async {
     super.onLoad();
     // score
     final scoreTextComponent = TextComponent(
@@ -149,8 +149,6 @@ class Hud extends Component {
         context: context,
       ),
     );
-
-    return super.onLoad();
   }
 }
 
