@@ -126,7 +126,9 @@ class EnemyCharacter extends SpriteAnimationComponent
 }
 
 class Skelet extends EnemyCharacter {
-  Skelet();
+  Skelet() {
+    health = maxHealth = 125;
+  }
 
   @override
   Future<void>? onLoad() async {
