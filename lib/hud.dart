@@ -114,7 +114,7 @@ class Hud extends Component {
     add(
       // ability 1
       AbilityButton(
-        game: game,
+        atlasGame: game,
         abilityWhich: 1,
         margin: abilityMargin1,
         image: imagePaths[0],
@@ -123,7 +123,7 @@ class Hud extends Component {
     add(
       // ability 2
       AbilityButton(
-        game: game,
+        atlasGame: game,
         abilityWhich: 2,
         margin: abilityMargin2,
         image: imagePaths[1],
@@ -132,7 +132,7 @@ class Hud extends Component {
     add(
       // ability 3
       AbilityButton(
-        game: game,
+        atlasGame: game,
         abilityWhich: 3,
         margin: abilityMargin3,
         image: imagePaths[2],
@@ -263,7 +263,7 @@ class PauseButton extends HudButton {
 
 // https://medium.com/flutteropen/canvas-tutorial-01-how-to-use-the-canvas-in-the-flutter-8aade29ddc9
 class AbilityButton extends HudButton {
-  AtlasGame game;
+  AtlasGame atlasGame;
   late Timer cooldown;
   bool onCooldown = false;
   late Function abilityFn;
@@ -272,26 +272,26 @@ class AbilityButton extends HudButton {
 
   AbilityButton({
     image,
-    required this.game,
+    required this.atlasGame,
     required EdgeInsets margin,
     required this.abilityWhich,
   }) : super(margin: margin, imagePath: image) {
     double cooldownTime = 2;
     switch (abilityWhich) {
       case 1:
-        cooldownTime = game.atlas.abilityCooldown1;
-        abilityEnergy = game.atlas.abilityEnergy1;
-        abilityFn = game.atlas.ability1;
+        cooldownTime = atlasGame.atlas.abilityCooldown1;
+        abilityEnergy = atlasGame.atlas.abilityEnergy1;
+        abilityFn = atlasGame.atlas.ability1;
         break;
       case 2:
-        cooldownTime = game.atlas.abilityCooldown2;
-        abilityEnergy = game.atlas.abilityEnergy2;
-        abilityFn = game.atlas.ability2;
+        cooldownTime = atlasGame.atlas.abilityCooldown2;
+        abilityEnergy = atlasGame.atlas.abilityEnergy2;
+        abilityFn = atlasGame.atlas.ability2;
         break;
       case 3:
-        cooldownTime = game.atlas.abilityCooldown3;
-        abilityEnergy = game.atlas.abilityEnergy3;
-        abilityFn = game.atlas.ability3;
+        cooldownTime = atlasGame.atlas.abilityCooldown3;
+        abilityEnergy = atlasGame.atlas.abilityEnergy3;
+        abilityFn = atlasGame.atlas.ability3;
         break;
     }
 
@@ -342,7 +342,7 @@ class AbilityButton extends HudButton {
     cooldown.update(dt);
 
     bool notEnoughEnergy = false;
-    if (abilityEnergy > game.atlas.energy) {
+    if (abilityEnergy > atlasGame.atlas.energy) {
       notEnoughEnergy = true;
     }
 
