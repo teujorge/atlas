@@ -58,19 +58,24 @@ class Hud extends Component {
   @override
   void render(Canvas canvas) {
     super.render(canvas);
+
+    // greater than zero health/energy
+    final double atlasHealth = game.atlas.health > 0 ? game.atlas.health : 0;
+    final double atlasEnergy = game.atlas.energy > 0 ? game.atlas.energy : 0;
+
     // atlas health bar
     canvas.drawRRect(
       RRect.fromRectAndRadius(
-        Rect.fromLTWH(0, 0, game.atlas.health * 2, 50),
-        Radius.circular(game.atlas.health),
+        Rect.fromLTWH(0, 0, atlasHealth * 2, 50),
+        Radius.circular(atlasHealth),
       ),
       Paint()..color = const Color.fromARGB(255, 255, 10, 10),
     );
     // atlas energy bar
     canvas.drawRRect(
       RRect.fromRectAndRadius(
-        Rect.fromLTWH(0, 50, game.atlas.energy * 2, 50),
-        Radius.circular(game.atlas.energy),
+        Rect.fromLTWH(0, 50, atlasEnergy * 2, 50),
+        Radius.circular(atlasEnergy),
       ),
       Paint()..color = energyColor,
     );
