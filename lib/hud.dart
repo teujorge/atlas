@@ -149,6 +149,8 @@ class Hud extends Component {
         context: context,
       ),
     );
+
+    return super.onLoad();
   }
 }
 
