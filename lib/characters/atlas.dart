@@ -35,6 +35,9 @@ abstract class AtlasCharacter extends SpriteAnimationComponent
   double abilityEnergy1 = 10;
   double abilityEnergy2 = 10;
   double abilityEnergy3 = 10;
+  double abilityDamage1 = 10;
+  double abilityDamage2 = 10;
+  double abilityDamage3 = 10;
   bool usingAbility = false;
 
   AtlasCharacter({required position, required this.joystick})
@@ -285,6 +288,9 @@ class Mage extends AtlasCharacter {
     abilityEnergy1 = 30;
     abilityEnergy2 = 30;
     abilityEnergy3 = 60;
+    abilityDamage1 = 20;
+    abilityDamage2 = 5;
+    abilityDamage3 = 0;
   }
 
   // to display in character selection
@@ -303,7 +309,7 @@ class Mage extends AtlasCharacter {
   bool ability1() {
     if (energy > abilityEnergy1 && !usingAbility) {
       energy -= abilityEnergy1;
-      gameRef.add(Fireball(atlas: this, damage: 20));
+      gameRef.add(Fireball(atlas: this, damage: abilityDamage1));
       return true;
     }
     return false;
@@ -313,7 +319,7 @@ class Mage extends AtlasCharacter {
   bool ability2() {
     if (energy > abilityEnergy2 && !usingAbility) {
       energy -= abilityEnergy2;
-      gameRef.add(Beam(atlas: this, damage: 5));
+      gameRef.add(Beam(atlas: this, damage: abilityDamage2));
       return true;
     }
     return false;
@@ -381,6 +387,9 @@ class Archer extends AtlasCharacter {
     abilityEnergy1 = 20;
     abilityEnergy2 = 20;
     abilityEnergy3 = 20;
+    abilityDamage1 = 10;
+    abilityDamage2 = 20;
+    abilityDamage3 = 0;
   }
 
   // to display in character selection
@@ -399,7 +408,7 @@ class Archer extends AtlasCharacter {
   ability1() {
     if (energy > abilityEnergy2 && !usingAbility) {
       energy -= abilityEnergy2;
-      gameRef.add(ArrowCluster(atlas: this, damage: 1));
+      gameRef.add(ArrowCluster(atlas: this, damage: abilityDamage1));
       return true;
     }
     return false;
@@ -409,7 +418,7 @@ class Archer extends AtlasCharacter {
   ability2() {
     if (energy > abilityEnergy3 && !usingAbility) {
       energy -= abilityEnergy3;
-      gameRef.add(RapierStab(atlas: this, damage: 1));
+      gameRef.add(RapierStab(atlas: this, damage: abilityDamage2));
       return true;
     }
     return false;
@@ -477,6 +486,9 @@ class Knight extends AtlasCharacter {
     abilityEnergy1 = -30;
     abilityEnergy2 = 3;
     abilityEnergy3 = 10;
+    abilityDamage1 = 10;
+    abilityDamage2 = 30;
+    abilityDamage3 = 10;
   }
 
   // to display in character selection
@@ -494,7 +506,7 @@ class Knight extends AtlasCharacter {
   @override
   ability1() {
     if (!usingAbility) {
-      gameRef.add(Sword(atlas: this, damage: 10));
+      gameRef.add(Sword(atlas: this, damage: abilityDamage1));
       return true;
     }
     return false;
@@ -504,7 +516,7 @@ class Knight extends AtlasCharacter {
   ability2() {
     if (energy > abilityEnergy2 && !usingAbility) {
       energy -= abilityEnergy2;
-      gameRef.add(Whirlwind(atlas: this, damage: 10));
+      gameRef.add(Impact(atlas: this, damage: abilityDamage2));
       return true;
     }
     return false;
@@ -514,7 +526,7 @@ class Knight extends AtlasCharacter {
   ability3() {
     if (energy > abilityEnergy2 && !usingAbility) {
       energy -= abilityEnergy2;
-      gameRef.add(Impact(atlas: this, damage: 30));
+      gameRef.add(Whirlwind(atlas: this, damage: abilityDamage3));
       return true;
     }
     return false;
