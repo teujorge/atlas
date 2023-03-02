@@ -389,13 +389,8 @@ class Archer extends AtlasCharacter {
     abilityEnergy3 = 20;
     abilityDamage1 = 5;
     abilityDamage2 = 30;
-    abilityDamage3 = 0;
   }
 
-  // to display in character selection
-  static const abilityHeaders = [
-    "Arrow Cluster",
-    "Rapier Stab",
     "Dash",
   ];
   static const abilityImagePaths = [
@@ -409,10 +404,6 @@ class Archer extends AtlasCharacter {
     if (energy > abilityEnergy1 && !usingAbility) {
       energy -= abilityEnergy1;
       gameRef.add(ArrowCluster(atlas: this, damage: abilityDamage1));
-      return true;
-    }
-    return false;
-  }
 
   @override
   ability2() {
@@ -487,15 +478,8 @@ class Knight extends AtlasCharacter {
     abilityEnergy2 = 30;
     abilityEnergy3 = 20;
     abilityDamage1 = 5;
-    abilityDamage2 = 30;
     abilityDamage3 = 10;
   }
-
-  // to display in character selection
-  static const abilityHeaders = [
-    "Sword",
-    "Impact",
-    "Whirlwind",
   ];
   static const abilityImagePaths = [
     "assets/images/abilities/sword.gif",
@@ -526,13 +510,8 @@ class Knight extends AtlasCharacter {
   ability3() {
     if (energy > abilityEnergy3 && !usingAbility) {
       energy -= abilityEnergy3;
-      gameRef.add(Whirlwind(atlas: this, damage: abilityDamage3));
       return true;
     }
-    return false;
-  }
-
-  @override
   Future<void>? onLoad() async {
     await super.onLoad();
     idleAnimation = await createAnimation(
