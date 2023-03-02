@@ -282,13 +282,13 @@ class Mage extends AtlasCharacter {
     required super.position,
     required super.joystick,
   }) {
-    abilityCooldown1 = 1.5;
-    abilityCooldown2 = 5;
+    abilityCooldown1 = 0.5;
+    abilityCooldown2 = 20;
     abilityCooldown3 = 5;
-    abilityEnergy1 = 30;
-    abilityEnergy2 = 30;
-    abilityEnergy3 = 60;
-    abilityDamage1 = 20;
+    abilityEnergy1 = 5;
+    abilityEnergy2 = 70;
+    abilityEnergy3 = 30;
+    abilityDamage1 = 5;
     abilityDamage2 = 5;
     abilityDamage3 = 0;
   }
@@ -381,14 +381,14 @@ class Archer extends AtlasCharacter {
     required super.position,
     required super.joystick,
   }) {
-    abilityCooldown1 = 1;
-    abilityCooldown2 = 1;
+    abilityCooldown1 = 0.5;
+    abilityCooldown2 = 10;
     abilityCooldown3 = 1;
-    abilityEnergy1 = 20;
-    abilityEnergy2 = 20;
+    abilityEnergy1 = 5;
+    abilityEnergy2 = 60;
     abilityEnergy3 = 20;
-    abilityDamage1 = 10;
-    abilityDamage2 = 20;
+    abilityDamage1 = 5;
+    abilityDamage2 = 30;
     abilityDamage3 = 0;
   }
 
@@ -406,8 +406,8 @@ class Archer extends AtlasCharacter {
 
   @override
   ability1() {
-    if (energy > abilityEnergy2 && !usingAbility) {
-      energy -= abilityEnergy2;
+    if (energy > abilityEnergy1 && !usingAbility) {
+      energy -= abilityEnergy1;
       gameRef.add(ArrowCluster(atlas: this, damage: abilityDamage1));
       return true;
     }
@@ -416,8 +416,8 @@ class Archer extends AtlasCharacter {
 
   @override
   ability2() {
-    if (energy > abilityEnergy3 && !usingAbility) {
-      energy -= abilityEnergy3;
+    if (energy > abilityEnergy2 && !usingAbility) {
+      energy -= abilityEnergy2;
       gameRef.add(RapierStab(atlas: this, damage: abilityDamage2));
       return true;
     }
@@ -426,8 +426,8 @@ class Archer extends AtlasCharacter {
 
   @override
   ability3() {
-    if (energy > abilityEnergy1 && !usingAbility) {
-      energy -= abilityEnergy1;
+    if (energy > abilityEnergy3 && !usingAbility) {
+      energy -= abilityEnergy3;
       gameRef.add(Dash(atlas: this));
       return true;
     }
@@ -481,12 +481,12 @@ class Knight extends AtlasCharacter {
     required super.joystick,
   }) {
     abilityCooldown1 = 0.5;
-    abilityCooldown2 = 3;
+    abilityCooldown2 = 15;
     abilityCooldown3 = 10;
-    abilityEnergy1 = -30;
-    abilityEnergy2 = 3;
-    abilityEnergy3 = 10;
-    abilityDamage1 = 10;
+    abilityEnergy1 = -5;
+    abilityEnergy2 = 30;
+    abilityEnergy3 = 20;
+    abilityDamage1 = 5;
     abilityDamage2 = 30;
     abilityDamage3 = 10;
   }
@@ -524,8 +524,8 @@ class Knight extends AtlasCharacter {
 
   @override
   ability3() {
-    if (energy > abilityEnergy2 && !usingAbility) {
-      energy -= abilityEnergy2;
+    if (energy > abilityEnergy3 && !usingAbility) {
+      energy -= abilityEnergy3;
       gameRef.add(Whirlwind(atlas: this, damage: abilityDamage3));
       return true;
     }
