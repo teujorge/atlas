@@ -18,10 +18,10 @@ class Hud extends Component {
 // game and app
   late final BuildContext context;
   final AtlasGame game;
+  late TextComponent waveTextComponent;
 
   // movement and slected character
   late final JoystickComponent joystick;
-
   late final CharName character;
 
   // 3 ability buttons locations (margins)
@@ -93,6 +93,13 @@ class Hud extends Component {
     game.atlas.kills.addListener(() {
       scoreTextComponent.text = 'Score: ${game.atlas.kills.value}';
     });
+
+// wave
+    waveTextComponent = TextComponent(
+      text: 'Wave 0',
+      position: Vector2(game.mapWidth - 225, 40),
+    );
+    add(waveTextComponent);
 
     // ability image paths
     List<String> imagePaths = [];
