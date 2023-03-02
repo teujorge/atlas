@@ -50,7 +50,7 @@ class AtlasGame extends FlameGame
   BuildContext context;
 
   // arena
-  late Timer clock;
+  late Timer waveClock;
   late double mapWidth;
   late double mapHeight;
 
@@ -60,6 +60,20 @@ class AtlasGame extends FlameGame
   // door
   double health = 100;
   late Vector2 doorPosition;
+
+  // wave mechanics
+  bool waveInterim = true; // is in interim
+  bool waveInterimHook = false;
+  double currentInterimTime = 0;
+  final double waveInterimTime = 10; // time (s) for interim between waves
+  final double spawnerTime = 1;
+
+  int currentWave = 0; // current wave number
+  final int minWaveSpawnSkelet = 5; // min wave before skelet spawn
+  final int minWaveSpawnNecro = 10; // min wave before encro spawn
+
+  int enemiesCount = 0; // current enemies count
+  final int waveEnemiesCountMulti = 10; // enemies multiplier for waves
 
   AtlasGame(this.context, CharName charName) {
     // debugMode = true;
@@ -115,6 +129,49 @@ class AtlasGame extends FlameGame
     }
   }
 
+  void waveMechanics() {
+    if (waveInterim) {
+      interim();
+    } else {
+      spawner();
+    }
+  }
+
+  void spawner() {
+    print("enemiesCount: $enemiesCount");
+
+    final int enemiesLimit = currentWave * waveEnemiesCountMulti;
+    if (enemiesCount > enemiesLimit) {
+      print("ENEMY LIMIT REACHED, BEGIN INTERIM");
+      enemiesCount = 0;
+      currentInterimTime = 0;
+      waveInterim = true;
+    }
+
+    if (currentWave >= minWaveSpawnSkelet) {
+      add(Skelet());
+      enemiesCount++;
+    }
+    if (currentWave >= minWaveSpawnNecro) {
+      add(Necro());
+      enemiesCount++;
+    }
+    add(Goblin());
+    enemiesCount++;
+  }
+
+  void interim() {
+    if (currentInterimTime >= waveInterimTime) {
+      print("END INTERIM");
+      currentWave++;
+      waveInterim = false;
+      hud.waveTextComponent.text = "Wave $currentWave";
+    }
+
+    currentInterimTime++;
+    print(currentInterimTime);
+  }
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
@@ -143,16 +200,14 @@ class AtlasGame extends FlameGame
       ),
     );
 
-    clock = Timer(
-      2,
+    waveClock = Timer(
+      spawnerTime,
       repeat: true,
       onTick: () {
-        add(Skelet());
-        add(Necro());
-        add(Goblin());
+        waveMechanics();
       },
     );
-    clock.start();
+    waveClock.start();
 
     add(homeMap);
     addObstacles(homeMap, this);
@@ -163,7 +218,7 @@ class AtlasGame extends FlameGame
   @override
   void update(double dt) {
     super.update(dt);
-    clock.update(dt);
+    waveClock.update(dt);
     scaleGame();
   }
 
