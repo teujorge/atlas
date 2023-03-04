@@ -46,38 +46,58 @@ class _MainMenuState extends State<MainMenu> with TickerProviderStateMixin {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 40.0),
-                child: BabaText(
-                  "Atlas Arena",
-                  style: const TextStyle(
-                    fontSize: 100.0,
-                    shadows: [
-                      Shadow(
-                        blurRadius: 20.0,
-                        color: Color.fromARGB(199, 255, 255, 255),
-                        offset: Offset(0, 0),
-                      ),
-                    ],
-                  ),
+              Container(
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(110, 0, 0, 0),
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
                 ),
-              ),
-              FadeTransition(
-                opacity: _animation,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => CharacterSelection(),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 40.0),
+                      child: BabaText(
+                        "Atlas Arena",
+                        style: const TextStyle(
+                          fontSize: 100.0,
+                          shadows: [
+                            Shadow(
+                              blurRadius: 20.0,
+                              color: Color.fromARGB(199, 255, 255, 255),
+                              offset: Offset(0, 0),
+                            ),
+                          ],
+                        ),
                       ),
-                    );
-                  },
-                  child: BabaText(
-                    "Press to start",
-                    style: const TextStyle(fontSize: 70, color: Colors.white),
-                  ),
+                    ),
+                    FadeTransition(
+                      opacity: _animation,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => CharacterSelection(),
+                            ),
+                          );
+                        },
+                        child: BabaText(
+                          "Press to start",
+                          style: const TextStyle(
+                              fontSize: 70, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
+              )
             ],
           ),
         ),
