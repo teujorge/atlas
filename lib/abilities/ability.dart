@@ -3,6 +3,7 @@ import 'package:flame/components.dart';
 
 import 'dart:math';
 
+import '../loaders.dart';
 import '../main.dart';
 import '../characters/enemy.dart';
 import '../characters/atlas.dart';
@@ -14,6 +15,7 @@ abstract class Ability extends SpriteAnimationComponent
   double animationStep;
   AtlasCharacter atlas;
   late Vector2 direction;
+  late String? animationFile;
 
   Ability({
     required this.atlas,
@@ -136,6 +138,14 @@ abstract class Ability extends SpriteAnimationComponent
   Future<void>? onLoad() async {
     await super.onLoad();
     position = gameRef.atlas.position;
+
+    if (animationFile != null) {
+      animation = await createAnimation(
+        gameRef,
+        animationFile!,
+        animationStep,
+      );
+    }
   }
 
   @override
@@ -233,56 +243,61 @@ abstract class ThrownAbility extends Ability {
 abstract class MoveAbility extends Ability {
   late final Vector2 newPosition;
   late double moveSpeed;
+  late int moveTimeMs;
 
   MoveAbility({
     required super.atlas,
     super.animationStep,
-    double distance = 200,
-    double speed = 2000,
+    double distance = 300, // px
+    double speed = 750, // px / s
   }) {
+    // movement variables
     newPosition = atlas.position + (angleToVector() * distance);
     moveSpeed = speed;
-    anchor = Anchor.center;
-    angle = 0;
 
     // move speed constraints
-    if (moveSpeed < 0) {
+    if (moveSpeed <= 0) {
       moveSpeed = 0;
-    } else if (moveSpeed > 200) {
-      moveSpeed = 200;
+      moveTimeMs = 500;
+    } else if (moveSpeed >= 2000) {
+      moveSpeed = 2000;
+      moveTimeMs = (1000 * distance / speed).round();
+    } else {
+      moveTimeMs = (1000 * distance / speed).round();
     }
+
+    // sticky animation sprite
+    anchor = Anchor.center;
+    angle = 0;
   }
 
   @override
   Future<void>? onLoad() {
+    // teleport
     if (moveSpeed == 0) {
       atlas.position = newPosition;
-      Future.delayed(const Duration(milliseconds: 500), () {
+      Future.delayed(Duration(milliseconds: moveTimeMs), () {
         gameRef.remove(this);
       });
     }
+
+    // make character faster
+    else {
+      final double normalAtlasSpeed = atlas.characterSpeed;
+      atlas.characterSpeed = moveSpeed;
+
+      Future.delayed(Duration(milliseconds: moveTimeMs), () {
+        atlas.characterSpeed = normalAtlasSpeed;
+        gameRef.remove(this);
+      });
+    }
+
     return super.onLoad();
   }
 
   @override
   void update(double dt) {
     super.update(dt);
-
-    if (moveSpeed > 0) {
-      Vector2 moveToHere = newPosition - atlas.position;
-
-      // finalize move
-      if (moveToHere.length < 10) {
-        atlas.position = newPosition;
-        gameRef.remove(this);
-      }
-      // move
-      else {
-        atlas.position = atlas.position +
-            ((moveToHere / moveToHere.length) * moveSpeed * dt);
-      }
-    }
-
     position = atlas.position;
   }
 }

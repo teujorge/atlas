@@ -16,9 +16,9 @@ abstract class AtlasCharacter extends SpriteAnimationComponent
   double energyGain = 0.1;
 
   // char movement
+  double characterSpeed = 80;
   final double animationSpeed = .3;
   final double characterSize = 80;
-  final double characterSpeed = 80;
   late SpriteAnimation downAnimation;
   late SpriteAnimation leftAnimation;
   late SpriteAnimation upAnimation;
