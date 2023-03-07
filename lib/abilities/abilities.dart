@@ -2,7 +2,6 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
 import 'ability.dart';
-import '../loaders.dart';
 
 // // Mage Abilities // //
 
@@ -13,17 +12,8 @@ class Fireball extends ThrownAbility {
     super.animationStep,
     super.damage,
   }) {
+    animationFile = "abilities/fireball.png";
     add(CircleHitbox());
-  }
-
-  @override
-  Future<void>? onLoad() async {
-    await super.onLoad();
-    animation = await createAnimation(
-      gameRef,
-      "abilities/fireball.png",
-      animationStep,
-    );
   }
 
   @override
@@ -40,6 +30,7 @@ class Beam extends MeleeAbility {
     super.animationStep,
     super.damage,
   }) {
+    animationFile = "abilities/beam.png";
     anchor = Anchor.topCenter;
     meleeCycles *= 50;
     size *= 4;
@@ -55,16 +46,6 @@ class Beam extends MeleeAbility {
     super.update(dt);
     angle = joystickAngle();
   }
-
-  @override
-  Future<void>? onLoad() async {
-    await super.onLoad();
-    animation = await createAnimation(
-      gameRef,
-      "abilities/beam.png",
-      animationStep,
-    );
-  }
 }
 
 class Teleport extends MoveAbility {
@@ -73,15 +54,8 @@ class Teleport extends MoveAbility {
     super.animationStep,
     super.distance = 250,
     super.speed = 0,
-  });
-
-  Future<void>? onLoad() async {
-    await super.onLoad();
-    animation = await createAnimation(
-      gameRef,
-      "abilities/teleport.png",
-      animationStep,
-    );
+  }) {
+    animationFile = "abilities/teleport.png";
   }
 }
 
@@ -93,17 +67,8 @@ class ArrowCluster extends ThrownAbility {
     super.animationStep,
     super.damage,
   }) {
+    animationFile = "abilities/arrow_cluster.png";
     add(RectangleHitbox());
-  }
-
-  @override
-  Future<void>? onLoad() async {
-    await super.onLoad();
-    animation = await createAnimation(
-      gameRef,
-      "abilities/arrow_cluster.png",
-      animationStep,
-    );
   }
 }
 
@@ -114,6 +79,7 @@ class RapierStab extends MeleeAbility {
     super.damage,
     super.meleeCycles,
   }) {
+    animationFile = "abilities/rapier_stab.png";
     anchor = Anchor.topCenter;
     meleeCycles *= 5;
     size *= 2;
@@ -123,15 +89,6 @@ class RapierStab extends MeleeAbility {
       position: Vector2(position.x + (size.x / 2), position.y),
     ));
   }
-  @override
-  Future<void>? onLoad() async {
-    await super.onLoad();
-    animation = await createAnimation(
-      gameRef,
-      "abilities/rapier_stab.png",
-      animationStep,
-    );
-  }
 }
 
 class Dash extends MoveAbility {
@@ -139,15 +96,8 @@ class Dash extends MoveAbility {
     required super.atlas,
     super.animationStep,
     super.distance,
-  });
-
-  Future<void>? onLoad() async {
-    await super.onLoad();
-    animation = await createAnimation(
-      gameRef,
-      "abilities/dash.png",
-      animationStep,
-    );
+  }) {
+    animationFile = "abilities/dash.png";
   }
 }
 
@@ -160,6 +110,7 @@ class Whirlwind extends MeleeAbility {
     super.damage,
     super.meleeCycles,
   }) {
+    animationFile = "abilities/whirlwind.png";
     meleeCycles *= 5;
     size *= 2;
     add(CircleHitbox(
@@ -178,15 +129,6 @@ class Whirlwind extends MeleeAbility {
       position: Vector2(position.x + size.x / 2, position.y + size.y / 2),
     ));
   }
-  @override
-  Future<void>? onLoad() async {
-    await super.onLoad();
-    animation = await createAnimation(
-      gameRef,
-      "abilities/whirlwind.png",
-      animationStep,
-    );
-  }
 }
 
 class Impact extends MeleeAbility {
@@ -196,6 +138,7 @@ class Impact extends MeleeAbility {
     super.damage,
     super.meleeCycles,
   }) {
+    animationFile = "abilities/impact.png";
     anchor = Anchor.topCenter;
     size *= 2;
     meleeCycles *= 4;
@@ -204,15 +147,6 @@ class Impact extends MeleeAbility {
       size: Vector2(size.x / 3, size.y),
       position: Vector2(position.x + (size.x / 2), position.y),
     ));
-  }
-  @override
-  Future<void>? onLoad() async {
-    await super.onLoad();
-    animation = await createAnimation(
-      gameRef,
-      "abilities/impact.png",
-      animationStep,
-    );
   }
 }
 
@@ -223,6 +157,7 @@ class Sword extends MeleeAbility {
     super.damage,
     super.meleeCycles,
   }) {
+    animationFile = "abilities/sword.png";
     anchor = Anchor.topCenter;
     meleeCycles *= 5;
     size *= 2;
@@ -243,15 +178,5 @@ class Sword extends MeleeAbility {
         gameRef.atlas.energy += gameRef.atlas.energyGain * 4;
       }
     }
-  }
-
-  @override
-  Future<void>? onLoad() async {
-    await super.onLoad();
-    animation = await createAnimation(
-      gameRef,
-      "abilities/sword.png",
-      animationStep,
-    );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flame/components.dart';
 
 import 'dart:math';
 
+import '../loaders.dart';
 import '../main.dart';
 import '../characters/enemy.dart';
 import '../characters/atlas.dart';
@@ -14,6 +15,7 @@ abstract class Ability extends SpriteAnimationComponent
   double animationStep;
   AtlasCharacter atlas;
   late Vector2 direction;
+  late String? animationFile;
 
   Ability({
     required this.atlas,
@@ -136,6 +138,14 @@ abstract class Ability extends SpriteAnimationComponent
   Future<void>? onLoad() async {
     await super.onLoad();
     position = gameRef.atlas.position;
+
+    if (animationFile != null) {
+      animation = await createAnimation(
+        gameRef,
+        animationFile!,
+        animationStep,
+      );
+    }
   }
 
   @override
@@ -238,8 +248,8 @@ abstract class MoveAbility extends Ability {
   MoveAbility({
     required super.atlas,
     super.animationStep,
-    double distance = 250, // px
-    double speed = 500, // px / s
+    double distance = 300, // px
+    double speed = 750, // px / s
   }) {
     // movement variables
     newPosition = atlas.position + (angleToVector() * distance);
