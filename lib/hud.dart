@@ -395,11 +395,6 @@ class AbilityButton extends HudButton {
         Paint()..color = const Color.fromARGB(255, 255, 255, 255),
       );
     }
-    // canvas.drawCircle(
-    //   Offset(size.x / 2, size.y / 2),
-    //   25,
-    //   background,
-    // );
   }
 
   @override
