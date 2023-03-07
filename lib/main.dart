@@ -165,7 +165,7 @@ class AtlasGame extends FlameGame
       print("END INTERIM");
       currentWave++;
       waveInterim = false;
-      hud.waveTextComponent.text = "Wave $currentWave";
+      hud.waveTextComponent.text = "Wave: $currentWave";
     }
 
     currentInterimTime++;
