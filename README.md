@@ -1,16 +1,11 @@
-# Atlas Arena
+# Atlas
+[In-Development] Atlas is a thrilling pixel-art game created using Flutter, FlameGame, and Dart, where players take on the role of Atlas, defending their home from endless waves of enemies.
 
-A new Flutter project.
+## Gameplay
+Players can choose to be a Knight, a Mage, or an Archer, each with unique abilities and skills to master. The game features challenging gameplay, with increasingly difficult levels and a variety of enemies to defeat.
 
-## Getting Started
+## Installation
+The game is currently in development and not yet available for installation. Stay tuned for updates on its release.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Contributing
+As the game is still in development, contributions are not currently being accepted. However, if you are interested in contributing in the future, feel free to reach out to us.
