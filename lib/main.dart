@@ -138,11 +138,8 @@ class AtlasGame extends FlameGame
   }
 
   void spawner() {
-    print("enemiesCount: $enemiesCount");
-
     final int enemiesLimit = currentWave * waveEnemiesCountMulti;
     if (enemiesCount > enemiesLimit) {
-      print("ENEMY LIMIT REACHED, BEGIN INTERIM");
       enemiesCount = 0;
       currentInterimTime = 0;
       waveInterim = true;
@@ -162,14 +159,12 @@ class AtlasGame extends FlameGame
 
   void interim() {
     if (currentInterimTime >= waveInterimTime) {
-      print("END INTERIM");
       currentWave++;
       waveInterim = false;
       hud.waveTextComponent.text = "Wave: $currentWave";
     }
 
     currentInterimTime++;
-    print(currentInterimTime);
   }
 
   @override
