@@ -242,6 +242,8 @@ abstract class MoveAbility extends Ability {
   }) {
     newPosition = atlas.position + (angleToVector() * distance);
     moveSpeed = speed;
+    anchor = Anchor.center;
+    angle = 0;
 
     // move speed constraints
     if (moveSpeed < 0) {
@@ -252,20 +254,35 @@ abstract class MoveAbility extends Ability {
   }
 
   @override
+  Future<void>? onLoad() {
+    if (moveSpeed == 0) {
+      atlas.position = newPosition;
+      Future.delayed(const Duration(milliseconds: 500), () {
+        gameRef.remove(this);
+      });
+    }
+    return super.onLoad();
+  }
+
+  @override
   void update(double dt) {
     super.update(dt);
 
-    Vector2 moveToHere = newPosition - atlas.position;
+    if (moveSpeed > 0) {
+      Vector2 moveToHere = newPosition - atlas.position;
 
-    // finalize move
-    if (moveSpeed == 0 || moveToHere.length < 10) {
-      atlas.position = newPosition;
-      gameRef.remove(this);
+      // finalize move
+      if (moveToHere.length < 10) {
+        atlas.position = newPosition;
+        gameRef.remove(this);
+      }
+      // move
+      else {
+        atlas.position = atlas.position +
+            ((moveToHere / moveToHere.length) * moveSpeed * dt);
+      }
     }
-    // move
-    else {
-      atlas.position =
-          atlas.position + ((moveToHere / moveToHere.length) * moveSpeed * dt);
-    }
+
+    position = atlas.position;
   }
 }

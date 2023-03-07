@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
@@ -74,6 +76,15 @@ class Teleport extends MoveAbility {
     super.distance = 250,
     super.speed = 0,
   });
+
+  Future<void>? onLoad() async {
+    await super.onLoad();
+    animation = await createAnimation(
+      gameRef,
+      "abilities/teleport.png",
+      animationStep,
+    );
+  }
 }
 
 // // Archer Abilities // //
@@ -131,6 +142,15 @@ class Dash extends MoveAbility {
     super.animationStep,
     super.distance,
   });
+
+  Future<void>? onLoad() async {
+    await super.onLoad();
+    animation = await createAnimation(
+      gameRef,
+      "abilities/dash.png",
+      animationStep,
+    );
+  }
 }
 
 // // Knight Abilities // //
