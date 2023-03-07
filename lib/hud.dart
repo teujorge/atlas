@@ -20,14 +20,23 @@ class Hud extends Component {
   final AtlasGame game;
   late TextComponent waveTextComponent;
 
-  // movement and slected character
+  // movement and selected character
   late final JoystickComponent joystick;
   late final CharName character;
 
   // 3 ability buttons locations (margins)
-  final abilityMargin1 = const EdgeInsets.only(bottom: 125, right: 25);
-  final abilityMargin2 = const EdgeInsets.only(bottom: 25, right: 125);
-  final abilityMargin3 = const EdgeInsets.only(bottom: 75, right: 75);
+  final abilityMargin1 = const EdgeInsets.only(
+    bottom: 110,
+    right: 20,
+  );
+  final abilityMargin2 = const EdgeInsets.only(
+    bottom: 80,
+    right: 80,
+  );
+  final abilityMargin3 = const EdgeInsets.only(
+    bottom: 20,
+    right: 110,
+  );
 
   late Color energyColor;
 
@@ -49,7 +58,10 @@ class Hud extends Component {
         radius: 75,
         paint: BasicPalette.blue.withAlpha(100).paint(),
       ),
-      margin: const EdgeInsets.only(left: 40, bottom: 40),
+      margin: const EdgeInsets.only(
+        left: 40,
+        bottom: 40,
+      ),
     );
     // change ability button colors
     energyColor = const Color.fromARGB(255, 6, 54, 158);
@@ -59,22 +71,63 @@ class Hud extends Component {
   void render(Canvas canvas) {
     super.render(canvas);
 
+    // dimensions
+    const double rectHeight = 25;
+    const double rectPadding = 5;
+
     // greater than zero health/energy
     final double atlasHealth = game.atlas.health > 0 ? game.atlas.health : 0;
     final double atlasEnergy = game.atlas.energy > 0 ? game.atlas.energy : 0;
 
     // atlas health bar
+    final Vector2 barDoorHealthPosition = Vector2(
+      rectPadding,
+      rectPadding,
+    );
     canvas.drawRRect(
       RRect.fromRectAndRadius(
-        Rect.fromLTWH(0, 0, atlasHealth * 2, 50),
+        Rect.fromLTWH(
+          barDoorHealthPosition.x,
+          barDoorHealthPosition.y,
+          atlasHealth * 1.5,
+          rectHeight,
+        ),
         Radius.circular(atlasHealth),
       ),
-      Paint()..color = const Color.fromARGB(255, 255, 10, 10),
+      Paint()..color = const Color.fromARGB(255, 255, 39, 10),
     );
-    // atlas energy bar
+
+    // atlas health bar
+    final Vector2 barAtlasHealthPosition = Vector2(
+      rectPadding,
+      barDoorHealthPosition.y + rectHeight + rectPadding,
+    );
     canvas.drawRRect(
       RRect.fromRectAndRadius(
-        Rect.fromLTWH(0, 50, atlasEnergy * 2, 50),
+        Rect.fromLTWH(
+          barAtlasHealthPosition.x,
+          barAtlasHealthPosition.y,
+          atlasHealth * 1.5,
+          rectHeight,
+        ),
+        Radius.circular(atlasHealth),
+      ),
+      Paint()..color = const Color.fromARGB(255, 255, 0, 0),
+    );
+
+    // atlas energy bar
+    final Vector2 barAtlasEnergyPosition = Vector2(
+      rectPadding,
+      barAtlasHealthPosition.y + rectHeight + rectPadding,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(
+          barAtlasEnergyPosition.x,
+          barAtlasEnergyPosition.y,
+          atlasEnergy * 1.5,
+          rectHeight,
+        ),
         Radius.circular(atlasEnergy),
       ),
       Paint()..color = energyColor,
@@ -87,7 +140,7 @@ class Hud extends Component {
     // score
     final scoreTextComponent = TextComponent(
       text: 'Score: 0',
-      position: Vector2(game.mapWidth - 225, 10),
+      position: Vector2(10, 100),
     );
     add(scoreTextComponent);
     game.atlas.kills.addListener(() {
@@ -96,8 +149,8 @@ class Hud extends Component {
 
 // wave
     waveTextComponent = TextComponent(
-      text: 'Wave 0',
-      position: Vector2(game.mapWidth - 225, 40),
+      text: 'Wave: 0',
+      position: Vector2(12, 135),
     );
     add(waveTextComponent);
 
@@ -171,7 +224,7 @@ class HudButton extends HudMarginComponent with Tappable {
     ..color = const Color.fromARGB(150, 255, 5, 5);
   final Paint ableBackground = Paint()
     ..color = const Color.fromARGB(150, 80, 255, 5);
-  Paint background = Paint()..color = const Color.fromARGB(150, 80, 255, 5);
+  Paint background = Paint()..color = const Color.fromARGB(100, 255, 255, 255);
   ui.Image? image;
   String? imagePath;
 
@@ -212,7 +265,8 @@ class HudButton extends HudMarginComponent with Tappable {
     canvas.drawRect(size.toRect(), background);
     // image
     if (image != null) {
-      canvas.drawImage(image!, const Offset(0, 0), background);
+      canvas.drawImage(
+          image!, Offset(size.length / 8, size.length / 8), background);
     }
     // outline
     canvas.drawLine(
@@ -341,11 +395,6 @@ class AbilityButton extends HudButton {
         Paint()..color = const Color.fromARGB(255, 255, 255, 255),
       );
     }
-    // canvas.drawCircle(
-    //   Offset(size.x / 2, size.y / 2),
-    //   25,
-    //   background,
-    // );
   }
 
   @override
