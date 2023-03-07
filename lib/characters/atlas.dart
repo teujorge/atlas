@@ -302,7 +302,7 @@ class Mage extends AtlasCharacter {
   static const abilityImagePaths = [
     "assets/images/abilities/fireball.gif",
     "assets/images/abilities/beam.gif",
-    "assets/images/abilities/iceball.gif",
+    "assets/images/abilities/teleport.gif",
   ];
 
   @override
@@ -401,7 +401,7 @@ class Archer extends AtlasCharacter {
   static const abilityImagePaths = [
     "assets/images/abilities/arrow_cluster.gif",
     "assets/images/abilities/rapier_stab.gif",
-    "assets/images/abilities/arrow.gif",
+    "assets/images/abilities/dash.gif",
   ];
 
   @override
