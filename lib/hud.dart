@@ -76,6 +76,7 @@ class Hud extends Component {
     const double rectPadding = 5;
 
     // greater than zero health/energy
+    final double doorHealth = game.door.health > 0 ? game.door.health : 0;
     final double atlasHealth = game.atlas.health > 0 ? game.atlas.health : 0;
     final double atlasEnergy = game.atlas.energy > 0 ? game.atlas.energy : 0;
 
@@ -89,10 +90,10 @@ class Hud extends Component {
         Rect.fromLTWH(
           barDoorHealthPosition.x,
           barDoorHealthPosition.y,
-          atlasHealth * 1.5,
+          doorHealth * 1.5,
           rectHeight,
         ),
-        Radius.circular(atlasHealth),
+        Radius.circular(doorHealth),
       ),
       Paint()..color = const Color.fromARGB(255, 255, 39, 10),
     );
