@@ -38,7 +38,7 @@ class GameOver extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 50.0),
               child: BabaText(
-                "Settings",
+                "Game Over",
                 style: const TextStyle(
                   fontSize: 50.0,
                   shadows: [
