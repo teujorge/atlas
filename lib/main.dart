@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:Atlas/screens/gameOver.dart';
 import 'package:flame/game.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/components.dart';
@@ -48,6 +49,7 @@ class AtlasGame extends FlameGame
   // game set up
   late Hud hud;
   late AtlasCharacter atlas;
+  final CharName charName;
   BuildContext context;
 
   // arena
@@ -73,7 +75,7 @@ class AtlasGame extends FlameGame
   int enemiesCount = 0; // current enemies count
   final int waveEnemiesCountMulti = 10; // enemies multiplier for waves
 
-  AtlasGame(this.context, CharName charName) {
+  AtlasGame(this.context, this.charName) {
     // debugMode = true;
 
     // tell if game (while running) has been minimized or closed
@@ -207,11 +209,25 @@ class AtlasGame extends FlameGame
     add(hud);
   }
 
+  void checkGameOver() {
+    if (atlas.health > 0 && door.health > 0) return;
+
+    pauseEngine();
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => GameOver(
+          character: charName,
+        ),
+      ),
+    );
+  }
+
   @override
   void update(double dt) {
     super.update(dt);
     waveClock.update(dt);
     scaleGame();
+    checkGameOver();
   }
 
   @override
