@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
+import 'characters/door.dart';
 import 'hud.dart';
 import 'loaders.dart';
 import 'screens/menu.dart';
@@ -50,16 +51,13 @@ class AtlasGame extends FlameGame
   BuildContext context;
 
   // arena
+  late DefendDoor door;
   late Timer waveClock;
   late double mapWidth;
   late double mapHeight;
 
   // sound
   late String soundTrackName = "ukulele";
-
-  // door
-  double health = 100;
-  late Vector2 doorPosition;
 
   // wave mechanics
   bool waveInterim = true; // is in interim
@@ -180,9 +178,7 @@ class AtlasGame extends FlameGame
     // map size
     mapWidth = homeMap.tileMap.map.width * 10.0;
     mapHeight = homeMap.tileMap.map.height * 10.0;
-
-    // door position
-    doorPosition = Vector2(mapWidth / 2, 0);
+    door = DefendDoor(mapWidth);
 
     // flame game camera follow character
     camera.followComponent(
@@ -205,6 +201,7 @@ class AtlasGame extends FlameGame
     waveClock.start();
 
     add(homeMap);
+    add(door);
     addObstacles(homeMap, this);
     add(atlas);
     add(hud);

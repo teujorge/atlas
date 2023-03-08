@@ -1,4 +1,5 @@
 import 'package:Atlas/characters/atlas.dart';
+import 'package:Atlas/characters/door.dart';
 import 'package:Atlas/collectables/collectables.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -8,7 +9,6 @@ import 'dart:math';
 
 import '../main.dart';
 import '../loaders.dart';
-import '../abilities/ability.dart';
 
 class EnemyCharacter extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<AtlasGame> {
@@ -71,11 +71,12 @@ class EnemyCharacter extends SpriteAnimationComponent
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
-    if (other is Ability) {
-      // print("my health: $health");
-    }
     if (other is AtlasCharacter) {
       other.position += atlasDirection * 0.01;
+    }
+
+    if (other is DefendDoor) {
+      other.health -= 0.01;
     }
   }
 
@@ -100,9 +101,11 @@ class EnemyCharacter extends SpriteAnimationComponent
       atlasDirection =
           Vector2(gameRef.atlas.x, gameRef.atlas.y) - Vector2(x, y);
       // get door vector
-      Vector2 doorDirection =
-          Vector2(gameRef.doorPosition.x, gameRef.doorPosition.y) -
-              Vector2(x, y);
+      Vector2 doorDirection = Vector2(
+            gameRef.door.position.x,
+            gameRef.door.position.y,
+          ) -
+          Vector2(x, y);
 
       // go to shortest objective
       if (atlasDirection.length < doorDirection.length) {
