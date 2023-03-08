@@ -216,6 +216,7 @@ class AtlasGame extends FlameGame
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => GameOver(
+          score: atlas.kills.value,
           character: charName,
         ),
       ),
