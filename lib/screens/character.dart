@@ -1,5 +1,6 @@
 import 'package:Atlas/characters/atlas.dart';
 import 'package:Atlas/config.dart';
+import 'package:Atlas/loaders.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -62,6 +63,22 @@ class CharacterSelection extends StatefulWidget {
 class CharacterSelectionState extends State<CharacterSelection> {
   int selectedCharacter = 0;
 
+  CharName whichCharacter(int character) {
+    switch (character) {
+      case 0:
+        return CharName.mage;
+
+      case 1:
+        return CharName.archer;
+
+      case 2:
+        return CharName.knight;
+
+      default:
+        return CharName.mage;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,7 +138,7 @@ class CharacterSelectionState extends State<CharacterSelection> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => GamePlay(
-                      character: selectedCharacter,
+                      character: whichCharacter(selectedCharacter),
                     ),
                   ),
                 );

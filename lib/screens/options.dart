@@ -8,6 +8,15 @@ class Options extends StatelessWidget {
   final FlameGame? game;
   const Options({Key? key, this.game}) : super(key: key);
 
+  void goToHomePage(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => const MainMenu(),
+      ),
+      (route) => route.isFirst,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,13 +61,34 @@ class Options extends StatelessWidget {
                   ),
             Button(
               onPressed: () {
-                //navigation to options button
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (context) => const MainMenu(),
-                  ),
-                  (route) => route.isFirst,
-                );
+                if (game != null) {
+                  // warn user of quitting game
+                  showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: BabaText('Quitting Game?'),
+                      content: BabaText('Your progress will be lost!'),
+                      actions: <Widget>[
+                        Button(
+                          onPressed: () => Navigator.pop(context, 'Cancel'),
+                          child: BabaText('Cancel'),
+                        ),
+                        Button(
+                          onPressed: () => {
+                            Navigator.pop(context, 'OK'),
+                            goToHomePage(context),
+                          },
+                          child: BabaText('OK'),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+
+                // go to home
+                else {
+                  goToHomePage(context);
+                }
               },
               child: BabaText("Quit"),
             ),
