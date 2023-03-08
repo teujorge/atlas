@@ -25,7 +25,7 @@ class Options extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 50.0),
+              padding: const EdgeInsets.only(bottom: 50.0),
               child: BabaText(
                 "Settings",
                 style: const TextStyle(
