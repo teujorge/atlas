@@ -76,7 +76,7 @@ class EnemyCharacter extends SpriteAnimationComponent
     }
 
     if (other is DefendDoor) {
-      other.health -= .1;
+      other.health -= 0.01;
     }
   }
 
