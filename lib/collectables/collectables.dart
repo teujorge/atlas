@@ -13,10 +13,19 @@ class ItemsCollectables extends SpriteComponent
     add(RectangleHitbox());
   }
 
-  // @override
-  // void render(Canvas canvas) {
-  //   super.render(canvas);
-  // }
+  void forcePositionWithinMap() {
+    if (x > gameRef.mapWidth - size.x / 2) {
+      x--;
+    } else if (x < size.x / 2) {
+      x++;
+    }
+
+    if (y > gameRef.mapHeight - size.y / 2) {
+      y--;
+    } else if (y < size.y / 2) {
+      y++;
+    }
+  }
 
   @override
   Future<void>? onLoad() async {
@@ -24,10 +33,11 @@ class ItemsCollectables extends SpriteComponent
     size = Vector2(50, 50);
   }
 
-  // @override
-  // void update(double dt) {
-  //   super.update(dt);
-  // }
+  @override
+  void update(double dt) {
+    super.update(dt);
+    forcePositionWithinMap();
+  }
 }
 
 class HealthPotion extends ItemsCollectables {

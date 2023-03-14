@@ -124,6 +124,11 @@ class EnemyCharacter extends SpriteAnimationComponent
       } else if (atlasDirection.x < 0 && direction == Dir.right) {
         flipHorizontallyAroundCenter();
       }
+
+      // force enemy below top of map
+      if (y < size.y / 2) {
+        y++;
+      }
     }
   }
 }

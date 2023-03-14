@@ -8,7 +8,6 @@ class DefendDoor extends PositionComponent {
   late RectangleHitbox hitbox;
 
   DefendDoor(double mapWidth) {
-    debugMode = true;
     anchor = Anchor.topCenter;
     size = Vector2(200, 20);
     position = Vector2(

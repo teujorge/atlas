@@ -115,29 +115,13 @@ abstract class AtlasCharacter extends SpriteAnimationComponent
     return KeyEventResult.handled;
   }
 
-  @override
-  void update(double dt) {
-    super.update(dt);
-
-    bool usingJoystick = directionWASD == JoystickDirection.idle;
-
-    JoystickDirection directionInput;
-    double movementX = 1;
-    double movementY = 1;
-
-    // use joystick input
-    if (usingJoystick) {
-      directionInput = joystick.direction;
-      movementX = joystick.relativeDelta.x;
-      movementY = joystick.relativeDelta.y;
-    }
-
-    // use WASD input
-    else {
-      directionInput = directionWASD;
-    }
-
-    // update character location based on walk
+  void walk({
+    required double dt,
+    required JoystickDirection directionInput,
+    required bool usingJoystick,
+    required double movementY,
+    required double movementX,
+  }) {
     switch (directionInput) {
       case JoystickDirection.idle:
         animation = idleAnimation;
@@ -261,6 +245,54 @@ abstract class AtlasCharacter extends SpriteAnimationComponent
         }
         break;
     }
+  }
+
+  void forceAtlasWithinMap() {
+    if (x > gameRef.mapWidth - size.x / 3) {
+      x -= 2;
+    } else if (x < size.x / 3) {
+      x += 2;
+    }
+
+    if (y > gameRef.mapHeight - size.y / 3) {
+      y -= 2;
+    } else if (y < size.y / 3) {
+      y += 2;
+    }
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+
+    bool usingJoystick = directionWASD == JoystickDirection.idle;
+
+    JoystickDirection directionInput;
+    double movementX = 1;
+    double movementY = 1;
+
+    // use joystick input
+    if (usingJoystick) {
+      directionInput = joystick.direction;
+      movementX = joystick.relativeDelta.x;
+      movementY = joystick.relativeDelta.y;
+    }
+
+    // use WASD input
+    else {
+      directionInput = directionWASD;
+    }
+
+    // update character location based on walk
+    walk(
+      dt: dt,
+      directionInput: directionInput,
+      usingJoystick: usingJoystick,
+      movementX: movementX,
+      movementY: movementY,
+    );
+
+    forceAtlasWithinMap();
   }
 
   // overwritten by children
