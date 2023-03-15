@@ -136,8 +136,7 @@ class Hud extends Component {
   }
 
   @override
-  Future<void>? onLoad() {
-    super.onLoad();
+  FutureOr<void> onLoad() {
     // score
     final scoreTextComponent = TextComponent(
       text: 'Score: 0',
@@ -148,7 +147,7 @@ class Hud extends Component {
       scoreTextComponent.text = 'Score: ${game.atlas.kills.value}';
     });
 
-// wave
+    // wave
     waveTextComponent = TextComponent(
       text: 'Wave: 0',
       position: Vector2(12, 135),
@@ -215,6 +214,8 @@ class Hud extends Component {
         context: context,
       ),
     );
+
+    return super.onLoad();
   }
 }
 

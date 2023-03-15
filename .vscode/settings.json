@@ -1,11 +1,14 @@
 {
     "cmake.configureOnOpen": false,
     "cSpell.words": [
+        "Cupertino",
         "Draggables",
         "Iceball",
         "LTRB",
+        "LTWH",
         "Necro",
         "Skelet",
+        "Tappable",
         "Tappables"
     ]
 }
