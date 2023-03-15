@@ -1,5 +1,4 @@
 import 'package:flame/game.dart';
-import 'package:tiled/tiled.dart';
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
