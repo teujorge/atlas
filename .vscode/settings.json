@@ -4,8 +4,10 @@
         "Draggables",
         "Iceball",
         "LTRB",
+        "LTWH",
         "Necro",
         "Skelet",
+        "Tappable",
         "Tappables"
     ]
 }
