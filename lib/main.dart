@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:Atlas/screens/gameOver.dart';
+import 'package:Atlas/screens/game_over.dart';
 import 'package:flame/game.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/components.dart';
@@ -70,7 +70,7 @@ class AtlasGame extends FlameGame
 
   int currentWave = 0; // current wave number
   final int minWaveSpawnSkelet = 5; // min wave before skelet spawn
-  final int minWaveSpawnNecro = 10; // min wave before encro spawn
+  final int minWaveSpawnNecro = 10; // min wave before necro spawn
 
   int enemiesCount = 0; // current enemies count
   final int waveEnemiesCountMulti = 10; // enemies multiplier for waves
