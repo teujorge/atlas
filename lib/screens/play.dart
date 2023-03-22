@@ -11,6 +11,8 @@ class GamePlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AtlasGame atlasGame = AtlasGame(context, character);
-    return GameWidget(game: atlasGame);
+    return SafeArea(
+      child: GameWidget(game: atlasGame),
+    );
   }
 }
