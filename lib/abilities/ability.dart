@@ -241,6 +241,8 @@ abstract class ThrownAbility extends Ability {
 
 // move ability
 abstract class MoveAbility extends Ability {
+  Vector2 offset = Vector2(0, 0);
+
   late final Vector2 newPosition;
   late double moveSpeed;
   late int moveTimeMs;
@@ -298,6 +300,6 @@ abstract class MoveAbility extends Ability {
   @override
   void update(double dt) {
     super.update(dt);
-    position = atlas.position;
+    position = atlas.position + offset;
   }
 }
