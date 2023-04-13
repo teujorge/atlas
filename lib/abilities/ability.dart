@@ -11,6 +11,8 @@ import '../characters/atlas.dart';
 // general ability
 abstract class Ability extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<AtlasGame> {
+  double dt = 0;
+  double pushSpeed = 1;
   double damage;
   double animationStep;
   AtlasCharacter atlas;
@@ -134,6 +136,11 @@ abstract class Ability extends SpriteAnimationComponent
     return Vector2(-xx, yy);
   }
 
+  void removeAbility() {
+    gameRef.atlas.usingAbility = false;
+    gameRef.remove(this);
+  }
+
   @override
   Future<void>? onLoad() async {
     await super.onLoad();
@@ -153,15 +160,16 @@ abstract class Ability extends SpriteAnimationComponent
     super.onCollision(intersectionPoints, other);
     if (other is EnemyCharacter) {
       // damage
-      other.health -= damage;
+      other.health -= damage * dt;
       // push
-      other.position.add(-other.atlasDirection * 0.005);
+      other.position.add(-other.atlasDirection * pushSpeed * dt);
     }
   }
 
-  void removeAbility() {
-    gameRef.atlas.usingAbility = false;
-    gameRef.remove(this);
+  @override
+  void update(double dt) {
+    this.dt = dt;
+    super.update(dt);
   }
 }
 
