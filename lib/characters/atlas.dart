@@ -320,8 +320,8 @@ class Mage extends AtlasCharacter {
     abilityEnergy1 = 5;
     abilityEnergy2 = 70;
     abilityEnergy3 = 30;
-    abilityDamage1 = 5;
-    abilityDamage2 = 5;
+    abilityDamage1 = 200;
+    abilityDamage2 = 400;
     abilityDamage3 = 0;
   }
 
@@ -419,8 +419,8 @@ class Archer extends AtlasCharacter {
     abilityEnergy1 = 5;
     abilityEnergy2 = 60;
     abilityEnergy3 = 20;
-    abilityDamage1 = 5;
-    abilityDamage2 = 30;
+    abilityDamage1 = 200;
+    abilityDamage2 = 600;
     abilityDamage3 = 0;
   }
 
@@ -518,9 +518,9 @@ class Knight extends AtlasCharacter {
     abilityEnergy1 = -5;
     abilityEnergy2 = 30;
     abilityEnergy3 = 20;
-    abilityDamage1 = 5;
-    abilityDamage2 = 30;
-    abilityDamage3 = 10;
+    abilityDamage1 = 200;
+    abilityDamage2 = 600;
+    abilityDamage3 = 400;
   }
 
   // to display in character selection
