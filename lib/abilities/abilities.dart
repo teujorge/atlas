@@ -5,13 +5,13 @@ import 'ability.dart';
 
 // // Mage Abilities // //
 
-// throw ball of fire
 class Fireball extends ThrownAbility {
   Fireball({
     required super.atlas,
     super.animationStep,
     super.damage,
   }) {
+    pushSpeed = 2;
     animationFile = "abilities/fireball.png";
     add(CircleHitbox());
   }
@@ -23,7 +23,6 @@ class Fireball extends ThrownAbility {
   }
 }
 
-// beam of arcane
 class Beam extends MeleeAbility {
   Beam({
     required super.atlas,
@@ -81,7 +80,7 @@ class RapierStab extends MeleeAbility {
   }) {
     animationFile = "abilities/rapier_stab.png";
     anchor = Anchor.topCenter;
-    meleeCycles *= 5;
+    meleeCycles *= 10;
     size *= 2;
     add(RectangleHitbox(
       anchor: Anchor.topCenter,
