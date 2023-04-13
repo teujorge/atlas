@@ -20,6 +20,22 @@ class Hud extends Component {
   final AtlasGame game;
   late TextComponent waveTextComponent;
 
+  // hud bar positions
+  final double rectHeight = 25;
+  final double rectPadding = 5;
+  late final Vector2 barDoorHealthPosition = Vector2(
+    rectPadding,
+    rectPadding,
+  );
+  late final Vector2 barAtlasHealthPosition = Vector2(
+    rectPadding,
+    barDoorHealthPosition.y + rectHeight + rectPadding,
+  );
+  late final Vector2 barAtlasEnergyPosition = Vector2(
+    rectPadding,
+    barAtlasHealthPosition.y + rectHeight + rectPadding,
+  );
+
   // movement and selected character
   late final JoystickComponent joystick;
   late final CharName character;
@@ -71,20 +87,12 @@ class Hud extends Component {
   void render(Canvas canvas) {
     super.render(canvas);
 
-    // dimensions
-    const double rectHeight = 25;
-    const double rectPadding = 5;
-
     // greater than zero health/energy
     final double doorHealth = game.door.health > 0 ? game.door.health : 0;
     final double atlasHealth = game.atlas.health > 0 ? game.atlas.health : 0;
     final double atlasEnergy = game.atlas.energy > 0 ? game.atlas.energy : 0;
 
-    // atlas health bar
-    final Vector2 barDoorHealthPosition = Vector2(
-      rectPadding,
-      rectPadding,
-    );
+    // door health bar
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         Rect.fromLTWH(
@@ -99,10 +107,6 @@ class Hud extends Component {
     );
 
     // atlas health bar
-    final Vector2 barAtlasHealthPosition = Vector2(
-      rectPadding,
-      barDoorHealthPosition.y + rectHeight + rectPadding,
-    );
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         Rect.fromLTWH(
@@ -117,10 +121,6 @@ class Hud extends Component {
     );
 
     // atlas energy bar
-    final Vector2 barAtlasEnergyPosition = Vector2(
-      rectPadding,
-      barAtlasHealthPosition.y + rectHeight + rectPadding,
-    );
     canvas.drawRRect(
       RRect.fromRectAndRadius(
         Rect.fromLTWH(
@@ -137,6 +137,37 @@ class Hud extends Component {
 
   @override
   FutureOr<void> onLoad() {
+    // health/energy bar labels
+    final barTextStyle = TextStyle(
+      color: BasicPalette.black.color,
+      fontWeight: FontWeight.w500,
+    );
+    final barTextRenderer = TextPaint(style: barTextStyle);
+    add(TextComponent(
+      text: 'Base Health',
+      textRenderer: barTextRenderer,
+      position: Vector2(
+        barDoorHealthPosition.x + 5,
+        barDoorHealthPosition.y + 2,
+      ),
+    ));
+    add(TextComponent(
+      text: 'Atlas Health',
+      textRenderer: barTextRenderer,
+      position: Vector2(
+        barAtlasHealthPosition.x + 5,
+        barAtlasHealthPosition.y + 2,
+      ),
+    ));
+    add(TextComponent(
+      text: 'Atlas Energy',
+      textRenderer: barTextRenderer,
+      position: Vector2(
+        barAtlasEnergyPosition.x + 5,
+        barAtlasEnergyPosition.y + 2,
+      ),
+    ));
+
     // score
     final scoreTextComponent = TextComponent(
       text: 'Score: 0',

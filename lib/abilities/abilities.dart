@@ -99,6 +99,37 @@ class Dash extends MoveAbility {
   }) {
     animationFile = "abilities/dash.png";
   }
+
+  void positionSprite() {
+    JoystickDirection dir = atlas.directionWASD;
+    if (atlas.directionWASD == JoystickDirection.idle) {
+      dir = atlas.joystick.direction;
+    }
+
+    if (dir == JoystickDirection.left ||
+        dir == JoystickDirection.upLeft ||
+        dir == JoystickDirection.downLeft) {
+      angle = 180 * 3.14 / 180;
+      offset = Vector2(0, atlas.height / 2);
+    } else if (dir == JoystickDirection.right ||
+        dir == JoystickDirection.upRight ||
+        dir == JoystickDirection.downRight) {
+      angle = 0;
+      offset = Vector2(0, 0);
+    } else if (dir == JoystickDirection.up) {
+      angle = -90 * 3.14 / 180;
+      offset = Vector2(-atlas.width / 4, atlas.height / 4);
+    } else {
+      angle = 90 * 3.14 / 180;
+      offset = Vector2(atlas.width / 4, -atlas.height / 4);
+    }
+  }
+
+  @override
+  void updateTree(double dt) {
+    positionSprite();
+    super.updateTree(dt);
+  }
 }
 
 // // Knight Abilities // //
