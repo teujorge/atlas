@@ -146,14 +146,14 @@ class AtlasGame extends FlameGame
     }
 
     if (currentWave >= minWaveSpawnSkelet) {
-      add(Skelet());
+      add(Skelet(currentWave));
       enemiesCount++;
     }
     if (currentWave >= minWaveSpawnNecro) {
-      add(Necro());
+      add(Necro(currentWave));
       enemiesCount++;
     }
-    add(Goblin());
+    add(Goblin(currentWave));
     enemiesCount++;
   }
 
@@ -210,7 +210,9 @@ class AtlasGame extends FlameGame
   }
 
   void checkGameOver() {
-    if (atlas.health > 0 && door.health > 0) return;
+    if (atlas.health > 0 && door.health > 0) {
+      return;
+    }
 
     pauseEngine();
     Navigator.of(context).push(

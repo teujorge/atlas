@@ -10,17 +10,21 @@ import 'dart:math';
 import '../main.dart';
 import '../loaders.dart';
 
-class EnemyCharacter extends SpriteAnimationComponent
+abstract class EnemyCharacter extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<AtlasGame> {
   Dir direction = Dir.idle;
   Vector2 atlasDirection = Vector2(0, 0);
   Vector2 moveDirection = Vector2(0, 0);
   double moveSpeed = 25;
   final double animationSpeed = .3;
-  double health = 100;
-  double maxHealth = 100;
 
-  EnemyCharacter() {
+  late final double waveHealthMulti;
+
+  late double health;
+  late final double maxHealth;
+
+  EnemyCharacter(int wave) {
+    waveHealthMulti = (1 + wave / 50);
     anchor = Anchor.center;
     add(RectangleHitbox());
   }
@@ -134,8 +138,8 @@ class EnemyCharacter extends SpriteAnimationComponent
 }
 
 class Skelet extends EnemyCharacter {
-  Skelet() {
-    health = maxHealth = 125;
+  Skelet(super.wave) {
+    health = maxHealth = 125 * waveHealthMulti;
   }
 
   @override
@@ -158,8 +162,8 @@ class Skelet extends EnemyCharacter {
 }
 
 class Necro extends EnemyCharacter {
-  Necro() {
-    health = maxHealth = 200;
+  Necro(super.wave) {
+    health = maxHealth = 200 * waveHealthMulti;
   }
 
   @override
@@ -182,7 +186,9 @@ class Necro extends EnemyCharacter {
 }
 
 class Goblin extends EnemyCharacter {
-  Goblin();
+  Goblin(super.wave) {
+    health = maxHealth = 100 * waveHealthMulti;
+  }
 
   @override
   Future<void>? onLoad() async {
