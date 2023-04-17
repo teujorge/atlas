@@ -13,7 +13,7 @@ abstract class AtlasCharacter extends SpriteAnimationComponent
   final kills = ValueNotifier<int>(0);
   double health = 100;
   double energy = 100;
-  double energyGain = 0.1;
+  double energyGain = 5;
 
   // char movement
   double characterSpeed = 80;
@@ -403,7 +403,7 @@ class Mage extends AtlasCharacter {
 
     // regain mana
     if (energy < 100) {
-      energy += energyGain;
+      energy += energyGain * dt;
     }
   }
 }
@@ -502,7 +502,7 @@ class Archer extends AtlasCharacter {
 
     // regain stamina
     if (energy < 100) {
-      energy += energyGain;
+      energy += energyGain * dt;
     }
   }
 }
@@ -600,7 +600,7 @@ class Knight extends AtlasCharacter {
 
     // loose fury
     if (energy > 0) {
-      energy -= energyGain;
+      energy -= energyGain * dt;
     }
   }
 }

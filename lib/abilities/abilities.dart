@@ -205,7 +205,7 @@ class Sword extends MeleeAbility {
       if (gameRef.atlas.energy + gameRef.atlas.energyGain > 100) {
         gameRef.atlas.energy = 100;
       } else {
-        gameRef.atlas.energy += gameRef.atlas.energyGain * 4;
+        gameRef.atlas.energy += gameRef.atlas.energyGain * gameRef.dt;
       }
     }
   }

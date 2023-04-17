@@ -47,6 +47,7 @@ class AtlasGame extends FlameGame
         HasTappables,
         WidgetsBindingObserver {
   // game set up
+  double dt = 0.1;
   late Hud hud;
   late AtlasCharacter atlas;
   final CharName charName;
@@ -228,6 +229,7 @@ class AtlasGame extends FlameGame
   @override
   void update(double dt) {
     super.update(dt);
+    this.dt = dt;
     waveClock.update(dt);
     scaleGame();
     checkGameOver();

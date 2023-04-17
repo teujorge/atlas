@@ -22,6 +22,9 @@ abstract class EnemyCharacter extends SpriteAnimationComponent
 
   late double health;
   late final double maxHealth;
+  final double damageToDoor = 5;
+  late final double damageToAtlas;
+  final double pushAtlas = 1;
 
   EnemyCharacter(int wave) {
     waveHealthMulti = (1 + wave / 50);
@@ -76,11 +79,12 @@ abstract class EnemyCharacter extends SpriteAnimationComponent
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
     if (other is AtlasCharacter) {
-      other.position += atlasDirection * 0.01;
+      other.position += atlasDirection * pushAtlas * gameRef.dt;
+      other.health -= damageToAtlas * gameRef.dt;
     }
 
     if (other is DefendDoor) {
-      other.health -= 0.01;
+      other.health -= damageToDoor * gameRef.dt;
     }
   }
 
@@ -140,6 +144,7 @@ abstract class EnemyCharacter extends SpriteAnimationComponent
 class Skelet extends EnemyCharacter {
   Skelet(super.wave) {
     health = maxHealth = 125 * waveHealthMulti;
+    damageToAtlas = 10;
   }
 
   @override
@@ -151,19 +156,12 @@ class Skelet extends EnemyCharacter {
       0.15,
     );
   }
-
-  @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    super.onCollision(intersectionPoints, other);
-    if (other is AtlasCharacter) {
-      other.health -= 0.10;
-    }
-  }
 }
 
 class Necro extends EnemyCharacter {
   Necro(super.wave) {
     health = maxHealth = 200 * waveHealthMulti;
+    damageToAtlas = 25;
   }
 
   @override
@@ -175,19 +173,12 @@ class Necro extends EnemyCharacter {
       0.15,
     );
   }
-
-  @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    super.onCollision(intersectionPoints, other);
-    if (other is AtlasCharacter) {
-      other.health -= 0.25;
-    }
-  }
 }
 
 class Goblin extends EnemyCharacter {
   Goblin(super.wave) {
     health = maxHealth = 100 * waveHealthMulti;
+    damageToAtlas = 50;
   }
 
   @override
@@ -198,13 +189,5 @@ class Goblin extends EnemyCharacter {
       "enemies/goblin.png",
       0.15,
     );
-  }
-
-  @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    super.onCollision(intersectionPoints, other);
-    if (other is AtlasCharacter) {
-      other.health -= 0.50;
-    }
   }
 }

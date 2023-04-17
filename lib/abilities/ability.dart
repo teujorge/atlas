@@ -11,7 +11,6 @@ import '../characters/atlas.dart';
 // general ability
 abstract class Ability extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<AtlasGame> {
-  double dt = 0;
   double pushSpeed = 1;
   double damage;
   double animationStep;
@@ -160,16 +159,10 @@ abstract class Ability extends SpriteAnimationComponent
     super.onCollision(intersectionPoints, other);
     if (other is EnemyCharacter) {
       // damage
-      other.health -= damage * dt;
+      other.health -= damage * gameRef.dt;
       // push
-      other.position.add(-other.atlasDirection * pushSpeed * dt);
+      other.position.add(-other.atlasDirection * pushSpeed * gameRef.dt);
     }
-  }
-
-  @override
-  void update(double dt) {
-    this.dt = dt;
-    super.update(dt);
   }
 }
 
